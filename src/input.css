@@ -1,15 +1,15 @@
 @import "tailwindcss";
 
-/* Tailwind CSS v4 Theme Configuration (CSS-first) */
 @theme {
   --font-poppins: 'Poppins', sans-serif;
 
   --bg-hero-section: #450001;
   --btn-primary-color: #D33131;
   --btn-primary-color-hover: #c92b2b;
+
+  --bg-primary: #ffffff;
 }
 
-/* Base styles */
 @layer base {
   body {
     font-family: var(--font-poppins);
@@ -37,7 +37,7 @@
 
 .container-hero {
   background-color: var(--bg-hero-section);
-  @apply text-white h-screen min-h-[640px] w-screen relative flex flex-col items-center justify-between z-20;
+  @apply min-h-screen w-screen relative flex flex-col items-center justify-between z-20;
 }
 
 .container-hero::before,
@@ -74,7 +74,7 @@
 }
 
 .hero-text-container {
-  @apply relative z-10 flex flex-col items-center justify-center text-center max-w-4xl mx-auto px-6 my-auto;
+  @apply relative z-10 flex flex-col items-center justify-center text-center max-w-4xl mx-auto px-6 my-auto mt-10;
 }
 
 
@@ -126,17 +126,109 @@
   display: flex;
   justify-content: center;
   width: 100%;
-  transform: translateY(20%); /* Muncul jelas di view 100vh, bagian bawah tenggelam ke section putih */
+  max-height: 50%;
+  /* transform: translateY(20%); */
   z-index: 30;
   pointer-events: none;
 }
 
 .hero-can-img {
+  position: relative;
+  z-index: 1;
   width: 80vw;
   max-width: 1000px;
-  max-height: 40vh; /* Sangat krusial agar gambar tidak melebihi tinggi layar viewport 100vh */
   object-fit: contain;
-  height: auto;
+  object-position: top;
+  min-height: 50vh;
+  height: 75vh;
+  object-fit: cover;
   filter: drop-shadow(0 25px 35px rgba(0, 0, 0, 0.45));
   user-select: none;
+}
+
+.hero-text-headline {
+  @apply text-3xl sm:text-5xl md:text-6xl font-extrabold tracking-wide text-white leading-tight;
+}
+
+.hero-text-subheadline {
+  @apply mt-6 text-base sm:text-lg text-white/75 max-w-2xl font-normal leading-relaxed;
+}
+
+/* About Section */
+#about {
+  position: relative;
+  z-index: 40;
+}
+
+.about-floating-banner {
+  min-width: 65vw;
+  max-width: 65vw;
+  height: 10vh;
+  background-color: var(--bg-primary);
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: -10vh;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  border-radius: 2rem 2rem 0rem 0rem;
+}
+
+.tomat-sarden {
+  position: absolute;
+  width: 35vw;
+  bottom: -35%;
+  left: 0;
+  object-fit: contain;
+  filter: drop-shadow(0 20px 30px rgba(0, 0, 0, 0.5));
+  z-index: 0;
+  pointer-events: none;
+  user-select: none;
+}
+
+.sarden-sarden {
+  position: absolute;
+  right: 0;
+  bottom: -60%;
+  width: 40vw;
+  object-fit: contain;
+  pointer-events: none;
+  user-select: none;
+}
+
+.bulat-berputar {
+  position: absolute;
+  width: 100vw;
+  height: 100vw;
+  bottom: -50vw;
+  z-index: -100;
+  border-radius: 50%;
+  border: dashed 5px rgba(255, 255, 255, 0.1);
+}
+
+.bulat-berputar::after {
+  content: "";
+  position: absolute;
+  width: 100vw;
+  height: 100vw;
+  scale: 120%;
+  bottom: 0vw;
+  z-index: -100;
+  border-radius: 50%;
+  border: dashed 5px rgba(255, 255, 255, 0.1);
+}
+
+.bulat-berputar::before {
+  content: "";
+  position: absolute;
+  width: 100vw;
+  height: 100vw;
+  scale: 140%;
+  bottom: 0vw;
+  z-index: -100;
+  border-radius: 50%;
+  border: dashed 5px rgba(255, 255, 255, 0.1);
 }
