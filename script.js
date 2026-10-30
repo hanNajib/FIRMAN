@@ -215,3 +215,91 @@ function initSliders() {
 }
 
 initSliders();
+
+// ==========================================================================
+// Gallery 3D Fan Carousel Interaction
+// ==========================================================================
+function initGalleryFanCarousel() {
+    const container = $("#galleryFanContainer");
+    const prevBtn = $("#galleryPrevBtn");
+    const nextBtn = $("#galleryNextBtn");
+
+    if (!container) return;
+
+    const cards = Array.from(container.querySelectorAll(".gallery-card"));
+    const total = cards.length;
+    if (total === 0) return;
+
+    let currentIndex = 2; // Foto tengah sebagai foto utama awal
+
+    function updateCardStates() {
+        cards.forEach((card, i) => {
+            let diff = (i - currentIndex) % total;
+            // Normalisasi agar loop modular simetris (-2, -1, 0, 1, 2)
+            if (diff > total / 2) diff -= total;
+            if (diff < -total / 2) diff += total;
+
+            if (diff === 0) {
+                card.setAttribute("data-state", "active");
+            } else if (diff === -1) {
+                card.setAttribute("data-state", "prev-1");
+            } else if (diff === 1) {
+                card.setAttribute("data-state", "next-1");
+            } else if (diff === -2) {
+                card.setAttribute("data-state", "prev-2");
+            } else if (diff === 2) {
+                card.setAttribute("data-state", "next-2");
+            } else {
+                card.setAttribute("data-state", "hidden");
+            }
+        });
+
+        // Trigger recalc tinggi body virtual scroll
+        setBodyHeight();
+    }
+
+    function nextSlide() {
+        currentIndex = (currentIndex + 1) % total;
+        updateCardStates();
+    }
+
+    function prevSlide() {
+        currentIndex = (currentIndex - 1 + total) % total;
+        updateCardStates();
+    }
+
+    if (nextBtn) nextBtn.addEventListener("click", nextSlide);
+    if (prevBtn) prevBtn.addEventListener("click", prevSlide);
+
+    // Klik langsung pada kartu samping untuk menjadikannya aktif
+    cards.forEach((card, index) => {
+        card.addEventListener("click", () => {
+            if (currentIndex !== index) {
+                currentIndex = index;
+                updateCardStates();
+            }
+        });
+    });
+
+    // Touch swipe gesture support untuk HP
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    container.addEventListener("touchstart", (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+
+    container.addEventListener("touchend", (e) => {
+        touchEndX = e.changedTouches[0].screenX;
+        if (touchStartX - touchEndX > 45) {
+            nextSlide();
+        } else if (touchEndX - touchStartX > 45) {
+            prevSlide();
+        }
+    }, { passive: true });
+
+    updateCardStates();
+}
+
+window.addEventListener("DOMContentLoaded", initGalleryFanCarousel);
+initGalleryFanCarousel();

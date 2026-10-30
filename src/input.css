@@ -828,3 +828,259 @@
     margin-top: 36px;
   }
 }
+
+/* ==========================================================================
+   Gallery Section (Fan Cards Carousel & Dashed Rings)
+   ========================================================================== */
+.gallery-section {
+  position: relative;
+  overflow: hidden;
+  padding-top: 100px;
+  padding-bottom: 100px;
+  background-color: #ffffff;
+}
+
+.gallery-bg-circles {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.circle-ring {
+  position: absolute;
+  border-radius: 9999px;
+  border: 1.5px dashed rgba(211, 49, 49, 0.22);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.circle-ring-1 {
+  width: min(480px, 80vw);
+  height: min(480px, 80vw);
+}
+
+.circle-ring-2 {
+  width: min(820px, 130vw);
+  height: min(820px, 130vw);
+}
+
+.circle-ring-3 {
+  width: min(1200px, 180vw);
+  height: min(1200px, 180vw);
+}
+
+.gallery-stage-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 1100px;
+  margin: 30px auto 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 440px;
+  z-index: 5;
+}
+
+.gallery-nav-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 9999px;
+  background-color: var(--color-primary, #D33131);
+  color: #ffffff;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(211, 49, 49, 0.28);
+  transition: transform 0.2s ease, background-color 0.2s ease;
+  z-index: 20;
+  flex-shrink: 0;
+}
+
+.gallery-nav-btn:hover {
+  background-color: var(--color-primary-hover, #c92b2b);
+  transform: scale(1.08);
+}
+
+.gallery-nav-btn:active {
+  transform: scale(0.95);
+}
+
+.gallery-nav-btn img {
+  width: 22px;
+  height: 22px;
+  filter: brightness(0) invert(1);
+}
+
+.gallery-fan-container {
+  position: relative;
+  width: 320px;
+  height: 420px;
+  margin: 0 auto;
+  perspective: 1000px;
+  user-select: none;
+}
+
+.gallery-card {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /* border-radius: 2px; */
+  cursor: pointer;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+              opacity 0.4s ease,
+              filter 0.4s ease,
+              box-shadow 0.4s ease;
+  will-change: transform, opacity;
+}
+
+.gallery-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 2px;
+  border: 5px solid #ffffff;
+  overflow: hidden;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.12);
+  background-color: #f0f0f0;
+}
+
+.gallery-card-inner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  pointer-events: none;
+}
+
+/* Fan positioning states based on active index */
+.gallery-card[data-state="active"] {
+  transform: translate3d(0, 0, 0) scale(1.08) rotate(0deg);
+  z-index: 10;
+  opacity: 1;
+  filter: brightness(1);
+}
+
+.gallery-card[data-state="active"] .gallery-card-inner {
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.18);
+  border-width: 6px;
+}
+
+.gallery-card[data-state="prev-1"] {
+  transform: translate3d(-95px, 10px, -50px) scale(0.92) rotate(-8deg);
+  z-index: 8;
+  opacity: 0.9;
+  filter: brightness(0.9);
+}
+
+.gallery-card[data-state="next-1"] {
+  transform: translate3d(95px, 10px, -50px) scale(0.92) rotate(8deg);
+  z-index: 8;
+  opacity: 0.9;
+  filter: brightness(0.9);
+}
+
+.gallery-card[data-state="prev-2"] {
+  transform: translate3d(-175px, 25px, -100px) scale(0.82) rotate(-16deg);
+  z-index: 6;
+  opacity: 0.65;
+  filter: brightness(0.8);
+}
+
+.gallery-card[data-state="next-2"] {
+  transform: translate3d(175px, 25px, -100px) scale(0.82) rotate(16deg);
+  z-index: 6;
+  opacity: 0.65;
+  filter: brightness(0.8);
+}
+
+.gallery-card[data-state="hidden"] {
+  transform: translate3d(0, 40px, -150px) scale(0.65) rotate(0deg);
+  z-index: 1;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.gallery-content-bottom {
+  position: relative;
+  z-index: 5;
+  margin-top: 36px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.gallery-desc {
+  max-width: 580px;
+  margin: 0 auto 24px auto;
+  font-family: var(--font-poppins), sans-serif;
+  font-size: 13px;
+  line-height: 1.65;
+  color: #666666;
+  text-align: center;
+}
+
+.gallery-cta {
+  display: flex;
+  justify-content: center;
+}
+
+@media (max-width: 768px) {
+  .gallery-section {
+    padding-top: 60px;
+    padding-bottom: 60px;
+  }
+
+  .gallery-stage-wrapper {
+    min-height: 380px;
+  }
+
+  .gallery-fan-container {
+    width: 240px;
+    height: 320px;
+  }
+
+  .gallery-nav-btn {
+    width: 40px;
+    height: 40px;
+  }
+
+  .gallery-nav-btn img {
+    width: 18px;
+    height: 18px;
+  }
+
+  .gallery-card[data-state="prev-1"] {
+    transform: translate3d(-60px, 8px, -40px) scale(0.9) rotate(-7deg);
+  }
+
+  .gallery-card[data-state="next-1"] {
+    transform: translate3d(60px, 8px, -40px) scale(0.9) rotate(7deg);
+  }
+
+  .gallery-card[data-state="prev-2"] {
+    transform: translate3d(-110px, 18px, -80px) scale(0.8) rotate(-13deg);
+  }
+
+  .gallery-card[data-state="next-2"] {
+    transform: translate3d(110px, 18px, -80px) scale(0.8) rotate(13deg);
+  }
+
+  .gallery-desc {
+    padding: 0 16px;
+    font-size: 12px;
+  }
+}

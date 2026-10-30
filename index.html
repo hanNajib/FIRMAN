@@ -292,10 +292,72 @@
         </div>
       </section>
 
-    <section id="gallery">
-      <div class="title-section start">
+    <section id="gallery" class="gallery-section">
+      <!-- Background Dashed Radial Circles -->
+      <div class="gallery-bg-circles" aria-hidden="true">
+        <div class="circle-ring circle-ring-1"></div>
+        <div class="circle-ring circle-ring-2"></div>
+        <div class="circle-ring circle-ring-3"></div>
+      </div>
+
+      <div class="title-section">
         <span>Melihat Lebih Dekat Proses</span>
         <h2>Dibalik <span>Setiap Kaleng</span></h2>
+      </div>
+
+      <!-- Fan Carousel Stage -->
+      <div class="gallery-stage-wrapper">
+        <button class="gallery-nav-btn gallery-prev" id="galleryPrevBtn" aria-label="Foto Sebelumnya">
+          <img src="assets/icons/chevron-left.svg" alt="Previous">
+        </button>
+
+        <div class="gallery-fan-container" id="galleryFanContainer">
+          <div class="gallery-card" data-index="0">
+            <div class="gallery-card-inner">
+              <img src="assets/images/foto-tefa-1.jpg" alt="Proses Produksi Tefa 1">
+            </div>
+          </div>
+          <div class="gallery-card" data-index="1">
+            <div class="gallery-card-inner">
+              <img src="assets/images/foto-tefa-2.jpg" alt="Proses Produksi Tefa 2">
+            </div>
+          </div>
+          <div class="gallery-card" data-index="2">
+            <div class="gallery-card-inner">
+              <img src="assets/images/foto-tefa-3.jpg" alt="Proses Produksi Tefa 3">
+            </div>
+          </div>
+          <div class="gallery-card" data-index="3">
+            <div class="gallery-card-inner">
+              <img src="assets/images/fototefapengalengansardensipmantapjiwajosjis.png" alt="Proses Produksi Tefa 4">
+            </div>
+          </div>
+          <div class="gallery-card" data-index="4">
+            <div class="gallery-card-inner">
+              <img src="assets/images/foto-tefa-1.jpg" alt="Proses Produksi Tefa 5">
+            </div>
+          </div>
+        </div>
+
+        <button class="gallery-nav-btn gallery-next" id="galleryNextBtn" aria-label="Foto Berikutnya">
+          <img src="assets/icons/chevron-right.svg" alt="Next">
+        </button>
+      </div>
+
+      <!-- Description & CTA -->
+      <div class="gallery-content-bottom">
+        <p class="gallery-desc">
+          Jelajahi berbagai momen, aktivitas produksi, dan proses pengolahan ikan kaleng FIRMAN yang mencerminkan komitmen kami dalam menghadirkan produk berkualitas bagi masyarakat.
+        </p>
+
+        <div class="gallery-cta">
+          <a href="#gallery" class="btn-more-products">
+            <div class="circle-btn-icon">
+              <img src="assets/icons/arrow-right.svg" alt="Arrow Right" class="w-4.5 h-4.5">
+            </div>
+            <span>Lihat Foto Lainnya</span>
+          </a>
+        </div>
       </div>
     </section>
 
