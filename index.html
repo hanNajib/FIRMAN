@@ -17,6 +17,27 @@
 
 <body>
 
+  <nav class="main-navbar" id="navbar">
+    <div class="text-2xl font-extrabold tracking-wider uppercase text-white">
+      <img src="assets/logo.svg" alt="Logo" class="h-16">
+    </div>
+
+    <ul class="nav-items">
+      <li><a href="#hero-section" class="nav-item">Beranda</a></li>
+      <li><a href="#about" class="nav-item">Tentang</a></li>
+      <li><a href="#products" class="nav-item">Produk</a></li>
+      <li><a href="#process" class="nav-item">Galeri</a></li>
+      <li><a href="#news" class="nav-item">Berita</a></li>
+      <li><a href="#contact" class="nav-item">Kontak</a></li>
+    </ul>
+
+    <div>
+      <a href="#contact" class="btn-primary">
+        Get Started
+      </a>
+    </div>
+  </nav>
+
   <div class="viewport">
     <div class="content">
 
@@ -26,26 +47,7 @@
         <div class="hero-screen-intro">
           <div class="bulat-berputar" id="bulatBerputar"></div>
           <div class="hero-foto-pabrik"></div>
-          <nav class=" z-10 sticky flex items-center justify-between px-6 sm:px-12 md:px-16 py-6 w-full">
-            <div class="text-2xl font-extrabold tracking-wider uppercase text-white">
-              <img src="assets/logo.svg" alt="" class="h-16">
-            </div>
 
-            <ul class="nav-items">
-              <li><a href="#hero-section" class="nav-item">Beranda</a></li>
-              <li><a href="#about" class="nav-item">Tentang</a></li>
-              <li><a href="#products" class="nav-item">Produk</a></li>
-              <li><a href="#process" class="nav-item">Galeri</a></li>
-              <li><a href="#news" class="nav-item">Berita</a></li>
-              <li><a href="#contact" class="nav-item">Kontak</a></li>
-            </ul>
-
-            <div>
-              <a href="#contact" class="btn-primary">
-                Get Started
-              </a>
-            </div>
-          </nav>
 
           <div class="hero-text-container">
             <h1 class="hero-text-headline">
@@ -168,14 +170,56 @@
               </article>
             </div>
 
-            <a href="#products" class="about-detail-button">
-              <span class="about-detail-icon">
-                <i data-lucide="arrow-right"></i>
-              </span>
-              <span>Detail Selengkapnya</span>
-            </a>
+            <div class="about-cta-wrapper mt-7">
+              <button class="btn-slider" id="aboutSlideBtn" data-target="#products"
+                aria-label="Slide untuk detail selengkapnya">
+                <div class="circle">
+                  <svg class="circle-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                  </svg>
+                </div>
+                <span class="btn-slider-text">Detail Selengkapnya</span>
+              </button>
+            </div>
           </div>
         </div>
+      </section>
+
+      <marquee class="running-separator" behavior="scroll" direction="left" scrollamount="8" onmouseover="this.stop();"
+        onmouseout="this.start();">
+        <img src="assets/images/foto-tefa-1.jpg" alt="Tefa 1" class="running-img">
+        <img src="assets/images/foto-tefa-2.jpg" alt="Tefa 2" class="running-img">
+        <img src="assets/images/foto-tefa-3.jpg" alt="Tefa 3" class="running-img">
+        <img src="assets/images/foto-tefa-1.jpg" alt="Tefa 4" class="running-img">
+        <img src="assets/images/foto-tefa-2.jpg" alt="Tefa 5" class="running-img">
+        <img src="assets/images/foto-tefa-3.jpg" alt="Tefa 6" class="running-img">
+      </marquee>
+
+      <section id="products">
+        <div class="title-section">
+          <span>Nikmati dan Rasakan Setiap</span>
+          <h2>Produk <span>Unggulan Kami</span></h2>
+        </div>
+      </section>
+
+      <section id="gallery">
+        <div class="title-section">
+          <span>Melihat Lebih Dekat Proses</span>
+          <h2>Dibalik <span>Setiap Kaleng</span></h2>
+        </div>
+      </section>
+
+      <section id="article">
+        <div class="justify-items-start title-section ">
+          <span>Informasi terbaru dan resmi hanya di</span>
+          <h2>Artikel <span>Tefa Fish Canning</span></h2>
+        </div>
+      </section>
+
+      <section id="faq">
+
       </section>
 
 

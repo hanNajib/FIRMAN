@@ -2,6 +2,7 @@ const $ = (el) => document.querySelector(el);
 const $$ = (el) => document.querySelectorAll(el);
 
 const content = $(".content");
+const navbar = $("#navbar");
 
 function setBodyHeight() {
     if (content) {
@@ -9,12 +10,12 @@ function setBodyHeight() {
     }
 }
 setBodyHeight();
-window.addEventListener('resize', setBodyHeight);
-window.addEventListener('load', setBodyHeight);
+window.addEventListener("resize", setBodyHeight);
+window.addEventListener("load", setBodyHeight);
 
 let currentY = 0;
 let targetY = 0;
-let ease = 0.08;
+const ease = 0.08;
 
 function smoothScroll() {
     targetY = window.scrollY;
@@ -24,18 +25,28 @@ function smoothScroll() {
         content.style.transform = `translate3d(0, -${currentY}px, 0)`;
     }
 
+    if (navbar) {
+        // Gunakan currentY (posisi smooth scroll riil) agar sinkron mulus dengan konten dan tidak kaku/menghentak
+        if (currentY > 35) {
+            navbar.classList.add("nav-blur");
+            navbar.classList.add("scrolled");
+        } else if (currentY < 15) {
+            navbar.classList.remove("nav-blur");
+            navbar.classList.remove("scrolled");
+        }
+    }
+
     requestAnimationFrame(smoothScroll);
 }
 
 requestAnimationFrame(smoothScroll);
 
-// Slider Button Interaction (Drag & Click)
-function initSlider() {
-    const btn = $("#slideBtn");
-    const thumb = btn?.querySelector(".circle");
-    const text = btn?.querySelector(".btn-slider-text");
+// Slider Button Interaction (Drag & Click) untuk semua .btn-slider
+function setupSliderButton(btn) {
+    const thumb = btn.querySelector(".circle");
+    const text = btn.querySelector(".btn-slider-text");
 
-    if (!btn || !thumb) return;
+    if (!thumb) return;
 
     let isDragging = false;
     let startX = 0;
@@ -46,7 +57,6 @@ function initSlider() {
     function updateMetrics() {
         const btnWidth = btn.offsetWidth;
         const thumbWidth = thumb.offsetWidth || 48;
-        // 6px padding kiri + 6px padding kanan = 12px
         maxSlide = Math.max(0, btnWidth - thumbWidth - 12);
         btn.style.setProperty("--slide-distance", `${maxSlide}px`);
     }
@@ -105,15 +115,32 @@ function initSlider() {
         thumb.style.transform = "";
         if (text) text.style.opacity = "";
 
-        // Scroll halus ke section berikutnya (hero-showcase / about) setelah animasi slide selesai
         setTimeout(() => {
-            const showcaseSection = $("#hero-showcase") || $("#about");
-            if (showcaseSection) {
-                const targetPos = showcaseSection.offsetTop || window.innerHeight;
+            const targetAttr = btn.getAttribute("data-target") || btn.getAttribute("href");
+            const targetEl = targetAttr ? $(targetAttr) : null;
+
+            if (targetEl) {
                 window.scrollTo({
-                    top: targetPos,
+                    top: targetEl.offsetTop,
                     behavior: "smooth"
                 });
+            } else if (btn.id === "slideBtn") {
+                const showcaseSection = $("#hero-showcase") || $("#about");
+                if (showcaseSection) {
+                    const targetPos = showcaseSection.offsetTop || window.innerHeight;
+                    window.scrollTo({
+                        top: targetPos,
+                        behavior: "smooth"
+                    });
+                }
+            } else {
+                const nextSection = btn.closest("section")?.nextElementSibling;
+                if (nextSection) {
+                    window.scrollTo({
+                        top: nextSection.offsetTop,
+                        behavior: "smooth"
+                    });
+                }
             }
         }, 380);
     }
@@ -124,7 +151,6 @@ function initSlider() {
         if (text) text.style.opacity = "";
     }
 
-    // Toggle saat diklik biasa (bukan drag)
     btn.addEventListener("click", () => {
         if (wasDragged) return;
         if (btn.classList.contains("active")) {
@@ -134,48 +160,58 @@ function initSlider() {
         }
     });
 
-    // Mouse Drag
-    btn.addEventListener("mousedown", (e) => {
-        startDrag(e.clientX);
-    });
-
+    // Mouse Events
+    btn.addEventListener("mousedown", (e) => startDrag(e.clientX));
     window.addEventListener("mousemove", (e) => {
         if (isDragging) moveDrag(e.clientX);
     });
-
     window.addEventListener("mouseup", () => {
         if (isDragging) endDrag();
     });
 
-    // Touch Drag (Mobile)
-    btn.addEventListener("touchstart", (e) => {
-        if (e.touches.length === 1) {
-            startDrag(e.touches[0].clientX);
-        }
-    }, { passive: true });
+    // Touch Events (Mobile)
+    btn.addEventListener(
+        "touchstart",
+        (e) => {
+            if (e.touches.length === 1) startDrag(e.touches[0].clientX);
+        },
+        { passive: true }
+    );
 
-    window.addEventListener("touchmove", (e) => {
-        if (isDragging && e.touches.length === 1) {
-            moveDrag(e.touches[0].clientX);
-        }
-    }, { passive: true });
+    window.addEventListener(
+        "touchmove",
+        (e) => {
+            if (isDragging && e.touches.length === 1) moveDrag(e.touches[0].clientX);
+        },
+        { passive: true }
+    );
 
     window.addEventListener("touchend", () => {
         if (isDragging) endDrag();
     });
 
-    // Reset otomatis ketika user scroll kembali ke puncak halaman
-    let hasScrolledDown = false;
-    window.addEventListener("scroll", () => {
-        if (window.scrollY > 200) {
-            hasScrolledDown = true;
-        } else if (hasScrolledDown && window.scrollY < 40) {
-            hasScrolledDown = false;
-            reset();
-        }
-    }, { passive: true });
+    // Reset otomatis saat scroll kembali ke atas
+    window.addEventListener(
+        "scroll",
+        () => {
+            if (btn.id === "slideBtn") {
+                if (window.scrollY < 40 && btn.classList.contains("active")) {
+                    reset();
+                }
+            } else if (btn.id === "aboutSlideBtn") {
+                const aboutSection = $("#about");
+                if (aboutSection && window.scrollY < aboutSection.offsetTop - 120 && btn.classList.contains("active")) {
+                    reset();
+                }
+            }
+        },
+        { passive: true }
+    );
 }
 
-initSlider();
+function initSliders() {
+    const allSliders = $$(".btn-slider");
+    allSliders.forEach((btn) => setupSliderButton(btn));
+}
 
-
+initSliders();
