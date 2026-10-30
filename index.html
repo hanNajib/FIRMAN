@@ -23,74 +23,161 @@
 
 
       <section id="hero-section" class="container-hero">
-        <nav class="relative z-10 flex items-center justify-between px-6 sm:px-12 md:px-16 py-6 w-full">
-          <div class="text-2xl font-extrabold tracking-wider uppercase text-white">
-            Firman
+        <div class="hero-screen-intro">
+          <div class="bulat-berputar" id="bulatBerputar"></div>
+          <div class="hero-foto-pabrik"></div>
+          <nav class=" z-10 sticky flex items-center justify-between px-6 sm:px-12 md:px-16 py-6 w-full">
+            <div class="text-2xl font-extrabold tracking-wider uppercase text-white">
+              <img src="assets/logo.svg" alt="" class="h-16">
+            </div>
+
+            <ul class="nav-items">
+              <li><a href="#hero-section" class="nav-item">Beranda</a></li>
+              <li><a href="#about" class="nav-item">Tentang</a></li>
+              <li><a href="#products" class="nav-item">Produk</a></li>
+              <li><a href="#process" class="nav-item">Galeri</a></li>
+              <li><a href="#news" class="nav-item">Berita</a></li>
+              <li><a href="#contact" class="nav-item">Kontak</a></li>
+            </ul>
+
+            <div>
+              <a href="#contact" class="btn-primary">
+                Get Started
+              </a>
+            </div>
+          </nav>
+
+          <div class="hero-text-container">
+            <h1 class="hero-text-headline">
+              Sarden Enak &amp; Lezat <br> Hanya di Tefa Canning<br> POLIJE
+            </h1>
+            <p class="hero-text-subheadline">
+              Lorem ipsum dolor sit amet consecteur adipising alit. Lorem ipsum dolor sit amet consecteur adipising alit
+            </p>
+
+            <div class="hero-cta-wrapper mt-8">
+              <button class="btn-slider" id="slideBtn" aria-label="Slide to explore products">
+                <div class="circle">
+                  <svg class="circle-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                  </svg>
+                </div>
+                <span class="btn-slider-text">Jelajahi Produk Kami</span>
+              </button>
+            </div>
           </div>
 
 
+        </div>
 
-          <ul class="nav-items">
-            <li><a href="#home" class="nav-item">Home</a></li>
-            <li><a href="#about" class="nav-item">About</a></li>
-            <li><a href="#products" class="nav-item">Products</a></li>
-            <li><a href="#process" class="nav-item">Process</a></li>
-            <li><a href="#contact" class="nav-item">Contact</a></li>
-          </ul>
+        <div id="hero-showcase" class="hero-showcase-section">
+          <div class="hero-kaleng-glow"></div>
 
-          <div>
-            <a href="#contact" class="btn-primary">
-              Get Started
+          <div class="hero-kaleng-container">
+            <img src="assets/images/tomat.png" alt="Tomat Segar Sarden" class="tomat-sarden" id="tomatImg">
+            <div class="kaleng-sarden">
+              <div class="bayangan-kaleng"></div>
+              <img src="assets/images/kalengsardenpolijesippengensardenpakenasitambahsambelmakanpakekerupuk.png"
+                alt="Kaleng Sarden Tefa Canning Polije" class="kaleng-item kaleng-samping kaleng-kiri" id="kalengKiri">
+              <img src="assets/images/kalengsardenpolijesippengensardenpakenasitambahsambelmakanpakekerupuk.png"
+                alt="Kaleng Sarden Tefa Canning Polije" class="kaleng-item kaleng-tengah" id="kalengTengah">
+              <img src="assets/images/kalengsardenpolijesippengensardenpakenasitambahsambelmakanpakekerupuk.png"
+                alt="Kaleng Sarden Tefa Canning Polije" class="kaleng-item kaleng-samping kaleng-kanan"
+                id="kalengKanan">
+            </div>
+            <img src="assets/images/sarden.png" alt="Ikan Sarden Pilihan" class="sarden-sarden" id="sardenImg">
+          </div>
+
+        </div>
+      </section>
+
+
+      <section id="about" class="about-section">
+        <div class="about-floating-banner">
+          <div class="about-trust-item">
+            <i data-lucide="badge-check"></i>
+            <span>100% Halal</span>
+          </div>
+
+          <div class="about-trust-item">
+            <i data-lucide="check-check"></i>
+            <span>Bahan Berkualitas</span>
+          </div>
+
+          <div class="about-trust-item">
+            <i data-lucide="clipboard-check"></i>
+            <span>Produksi Higienis</span>
+          </div>
+        </div>
+
+        <div class="about-content">
+          <div class="about-gallery">
+            <div class="about-photo about-photo-main">
+              <img src="assets/images/foto-tefa-1.jpg" alt="Kegiatan dan produk Fish Canning POLIJE" loading="lazy" />
+            </div>
+
+            <div class="about-photo about-photo-tall">
+              <img src="assets/images/foto-tefa-2.jpg" alt="Proses pengolahan ikan" loading="lazy" />
+            </div>
+
+            <div class="about-photo about-photo-small">
+              <img src="assets/images/foto-tefa-3.jpg" alt="Proses pengalengan sarden" loading="lazy" />
+            </div>
+          </div>
+
+          <!-- Kolom kanan: informasi -->
+          <div class="about-information">
+            <span class="about-eyebrow">Fish Canning Polije</span>
+
+            <h2>
+              Menghadirkan Produk Ikan Berkualitas
+              untuk <span>Masyarakat.</span>
+            </h2>
+
+            <p class="about-description">
+              Fish Canning Polije menghadirkan produk ikan kaleng
+              berkualitas melalui proses produksi yang terjaga, bahan
+              baku pilihan, dan pengolahan yang higienis. Kami berkomitmen
+              menyediakan produk yang lezat, praktis, dan terpercaya
+              untuk memenuhi kebutuhan masyarakat.
+            </p>
+
+            <div class="about-feature-grid">
+              <article class="about-feature">
+                <div class="about-feature-heading">
+                  <i data-lucide="shield-check"></i>
+                  <h3>Kualitas Produk</h3>
+                </div>
+                <p>
+                  Mengutamakan mutu dan kualitas dalam setiap proses
+                  produksi mulai dari seleksi ikan hingga pengalengan.
+                </p>
+              </article>
+
+              <article class="about-feature">
+                <div class="about-feature-heading">
+                  <i data-lucide="list-checks"></i>
+                  <h3>Proses Terencana</h3>
+                </div>
+                <p>
+                  Mendukung proses pengolahan dan pengelolaan produksi
+                  yang terorganisasi, terpantau, serta presisi.
+                </p>
+              </article>
+            </div>
+
+            <a href="#products" class="about-detail-button">
+              <span class="about-detail-icon">
+                <i data-lucide="arrow-right"></i>
+              </span>
+              <span>Detail Selengkapnya</span>
             </a>
           </div>
-        </nav>
-
-        <div class="hero-text-container">
-          <h1 class="hero-text-headline">
-            Sarden Enak &amp; Lezat <br> Hanya di Tefa Canning<br> POLIJE
-          </h1>
-          <p class="hero-text-subheadline">
-            Lorem ipsum dolor sit amet consecteur adipising alit. Lorem ipsum dolor sit amet consecteur adipising alit
-          </p>
-
-          <button class="btn-slider mt-4" id="slideBtn">
-            <div class="circle">
-              <span>&rarr;</span>
-            </div>
-          </button>
-        </div>
-
-
-
-        <div class="hero-can-container">
-          <img src="assets/images/tomat.png" alt="Tomat Sarden Coy" class="tomat-sarden">
-          <img src="assets/images/KalengSarden.png" alt="Kaleng Sarden Tefa Canning Polije" class="hero-can-img">
-          <img src="assets/images/sarden.png" alt="Sarden na Sarden Coy" class="sarden-sarden">
-        </div>
-        <div class="bulat-berputar"></div>
-      </section>
-
-      <!-- Section Baru: ABOUT -->
-      <section id="about"
-        class="w-full bg-white text-slate-800 pt-36 sm:pt-48 pb-24 px-6 sm:px-12 md:px-16 min-h-screen relative z-40">
-        <div class="about-floating-banner">
-          rawr
-        </div>
-        <div class="max-w-7xl mx-auto">
-          <div class="text-center max-w-3xl mx-auto">
-            <span class="text-xs font-bold tracking-widest text-[#D33131] uppercase">
-              Tefa Canning Polije
-            </span>
-            <h2 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-slate-900 tracking-tight mt-3">
-              Kualitas Terbaik dari Bahan Pilihan
-            </h2>
-            <p class="mt-4 text-base sm:text-lg text-slate-600 leading-relaxed font-normal">
-              Proses pengalengan modern berstandar industri dengan pengawasan mutu ketat untuk menghasilkan cita rasa
-              sarden yang lezat, higienis, dan kaya nutrisi.
-            </p>
-          </div>
         </div>
       </section>
+
 
     </div>
   </div>
