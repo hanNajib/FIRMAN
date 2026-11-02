@@ -283,17 +283,19 @@
         </div>
 
         <div class="products-cta">
-          <a href="#products" class="btn-more-products">
-            <div class="circle-btn-icon">
-              <img src="assets/icons/arrow-right.svg" alt="Arrow Right" class="w-4.5 h-4.5">
+          <button class="btn-slider btn-slider-action" data-target="#gallery" aria-label="Lihat Produk Lainnya">
+            <div class="circle">
+              <svg class="circle-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
             </div>
-            <span>Lihat Produk Lainnya</span>
-          </a>
+            <span class="btn-slider-text">Lihat Produk Lainnya</span>
+          </button>
         </div>
       </section>
 
     <section id="gallery" class="gallery-section">
-      <!-- Background Dashed Radial Circles -->
       <div class="gallery-bg-circles" aria-hidden="true">
         <div class="circle-ring circle-ring-1"></div>
         <div class="circle-ring circle-ring-2"></div>
@@ -305,7 +307,6 @@
         <h2>Dibalik <span>Setiap Kaleng</span></h2>
       </div>
 
-      <!-- Fan Carousel Stage -->
       <div class="gallery-stage-wrapper">
         <button class="gallery-nav-btn gallery-prev" id="galleryPrevBtn" aria-label="Foto Sebelumnya">
           <img src="assets/icons/chevron-left.svg" alt="Previous">
@@ -344,36 +345,225 @@
         </button>
       </div>
 
-      <!-- Description & CTA -->
       <div class="gallery-content-bottom">
         <p class="gallery-desc">
           Jelajahi berbagai momen, aktivitas produksi, dan proses pengolahan ikan kaleng FIRMAN yang mencerminkan komitmen kami dalam menghadirkan produk berkualitas bagi masyarakat.
         </p>
 
         <div class="gallery-cta">
-          <a href="#gallery" class="btn-more-products">
-            <div class="circle-btn-icon">
-              <img src="assets/icons/arrow-right.svg" alt="Arrow Right" class="w-4.5 h-4.5">
+          <button class="btn-slider btn-slider-action" data-target="#article" aria-label="Lihat Foto Lainnya">
+            <div class="circle">
+              <svg class="circle-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
             </div>
-            <span>Lihat Foto Lainnya</span>
-          </a>
+            <span class="btn-slider-text">Lihat Foto Lainnya</span>
+          </button>
         </div>
       </div>
     </section>
 
-    <section id="article">
-      <div class="justify-items-start title-section ">
+    <section id="article" class="article-section">
+      <div class="title-section start">
         <span>Informasi terbaru dan resmi hanya di</span>
         <h2>Artikel <span>Tefa Fish Canning</span></h2>
       </div>
+
+      <div class="article-top-row">
+        <article class="article-featured-card">
+          <img src="assets/images/foto-tefa-2.jpg" alt="Mengintip Proses Produksi Ikan Kaleng di TEFA Canning POLIJE" class="featured-img">
+          <div class="featured-overlay">
+            <h3 class="featured-title">Mengintip Proses Produksi Ikan Kaleng di TEFA Canning POLIJE</h3>
+            <span class="featured-date">30 Agustus 2035</span>
+          </div>
+        </article>
+
+        <div class="article-recent-col">
+          <h3 class="recent-heading">Artikel Terbaru</h3>
+          <div class="recent-list">
+            <a href="#article" class="recent-item">
+              <div class="recent-thumb-wrap">
+                <img src="assets/images/foto-tefa-1.jpg" alt="FIRMAN Hadirkan Produk Ikan Kaleng Berkualitas untuk Masyarakat" class="recent-thumb">
+              </div>
+              <div class="recent-info">
+                <h4 class="recent-item-title">FIRMAN Hadirkan Produk Ikan Kaleng Berkualitas untuk Masyarakat</h4>
+                <span class="recent-item-date">20 Juli 2026</span>
+              </div>
+            </a>
+
+            <a href="#article" class="recent-item">
+              <div class="recent-thumb-wrap">
+                <img src="assets/images/foto-tefa-3.jpg" alt="Mengintip Proses Produksi Ikan Kaleng di TEFA Canning POLIJE" class="recent-thumb">
+              </div>
+              <div class="recent-info">
+                <h4 class="recent-item-title">Mengintip Proses Produksi Ikan Kaleng di TEFA Canning POLIJE</h4>
+                <span class="recent-item-date">19 Maret 2026</span>
+              </div>
+            </a>
+
+            <a href="#article" class="recent-item">
+              <div class="recent-thumb-wrap">
+                <img src="assets/images/foto-tefa-2.jpg" alt="FIRMAN Terus Berinovasi dalam Pengolahan Produk Perikanan" class="recent-thumb">
+              </div>
+              <div class="recent-info">
+                <h4 class="recent-item-title">FIRMAN Terus Berinovasi dalam Pengolahan Produk Perikanan</h4>
+                <span class="recent-item-date">2 Februari 2026</span>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="article-bottom-section">
+        <h3 class="bottom-heading">Baca Juga</h3>
+        <div class="article-cards-grid">
+          <article class="article-card">
+            <div class="article-card-thumb">
+              <img src="assets/images/foto-tefa-1.jpg" alt="FIRMAN Hadirkan Produk Ikan Kaleng Berkualitas">
+            </div>
+            <div class="article-card-body">
+              <h4 class="article-card-title">FIRMAN Hadirkan Produk Ikan Kaleng Berkualitas</h4>
+              <p class="article-card-desc">FIRMAN terus berupaya menghadirkan produk ikan kaleng yang berkualitas.</p>
+              <span class="article-card-date">1 Februari 2026</span>
+            </div>
+          </article>
+
+          <article class="article-card">
+            <div class="article-card-thumb">
+              <img src="assets/images/foto-tefa-3.jpg" alt="Bahan Baku Ikan, Langkah Awal Menjaga Kualitas Produk">
+            </div>
+            <div class="article-card-body">
+              <h4 class="article-card-title">Bahan Baku Ikan, Langkah Awal Menjaga Kualitas Produk</h4>
+              <p class="article-card-desc">Pemilihan bahan baku menjadi salah satu tahap penting dalam produksi ikan kaleng.</p>
+              <span class="article-card-date">2 Februari 2026</span>
+            </div>
+          </article>
+
+          <article class="article-card">
+            <div class="article-card-thumb">
+              <img src="assets/images/fototefapengalengansardensipmantapjiwajosjis.png" alt="Mengenal TEFA Canning, Pusat Pengolahan Ikan Kaleng POLIJE">
+            </div>
+            <div class="article-card-body">
+              <h4 class="article-card-title">Mengenal TEFA Canning, Pusat Pengolahan Ikan Kaleng POLIJE</h4>
+              <p class="article-card-desc">Teaching Factory (TEFA) Canning POLIJE merupakan fasilitas pembelajaran dan produksi</p>
+              <span class="article-card-date">3 Februari 2026</span>
+            </div>
+          </article>
+        </div>
+
+        <div class="article-cta">
+          <button class="btn-slider btn-slider-action" data-target="#faq" aria-label="Artikel Lainnya">
+            <div class="circle">
+              <svg class="circle-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </div>
+            <span class="btn-slider-text">Artikel Lainnya</span>
+          </button>
+        </div>
+      </div>
     </section>
 
-    <section id="faq">
+    <section id="faq" class="faq-section">
+      <div class="faq-header">
+        <span class="faq-eyebrow">Punya Pertanyaan atau Kerja Sama?</span>
+        <h2 class="faq-heading">Segera <span>Hubungi Kami</span></h2>
+      </div>
 
+      <div class="faq-grid">
+        <div class="faq-col-left">
+          <h3 class="faq-subheading">Frequently Asked<br>Questions</h3>
+          
+          <div class="faq-accordion-list">
+            <div class="faq-item">
+              <button class="faq-question-btn" aria-expanded="false">
+                <span>Apakah produk ikan kaleng TEFA POLIJE aman dikonsumsi?</span>
+                <span class="faq-arrow">&gt;</span>
+              </button>
+              <div class="faq-answer">
+                <p>Sangat aman. Seluruh produk diolah menggunakan standar industri pengalengan modern dengan pengawasan mutu ketat, tanpa bahan pengawet berbahaya dan kaya nutrisi alami.</p>
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-question-btn" aria-expanded="false">
+                <span>Di mana saja produk TEFA Fish Canning bisa dibeli?</span>
+                <span class="faq-arrow">&gt;</span>
+              </button>
+              <div class="faq-answer">
+                <p>Produk tersedia di outlet resmi Teaching Factory Politeknik Negeri Jember, koperasi mitra, serta dapat dipesan secara online melalui kontak layanan kami.</p>
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-question-btn" aria-expanded="false">
+                <span>Apakah menerima kerja sama pemesanan jumlah besar?</span>
+                <span class="faq-arrow">&gt;</span>
+              </button>
+              <div class="faq-answer">
+                <p>Ya, kami melayani kerja sama pengadaan grosir, distributor, instansi, maupun kemitraan maklon pengolahan hasil perikanan.</p>
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-question-btn" aria-expanded="false">
+                <span>Berapa masa simpan produk sarden kaleng ini?</span>
+                <span class="faq-arrow">&gt;</span>
+              </button>
+              <div class="faq-answer">
+                <p>Melalui proses sterilisasi retort bertekanan tinggi, produk dapat bertahan hingga 2-3 tahun dalam suhu ruangan sebelum kemasan dibuka.</p>
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-question-btn" aria-expanded="false">
+                <span>Bagaimana cara mengajukan kunjungan edukasi industri?</span>
+                <span class="faq-arrow">&gt;</span>
+              </button>
+              <div class="faq-answer">
+                <p>Anda dapat mengirimkan surat permohonan kunjungan atau mengisi formulir kontak di samping dengan rincian jadwal serta jumlah peserta.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-col-right">
+          <div class="faq-form-card">
+            <form id="faqContactForm" class="faq-form" onsubmit="event.preventDefault();">
+              <div class="form-group">
+                <label for="contactName" class="form-label">Name</label>
+                <input type="text" id="contactName" name="name" class="form-input" placeholder="Your Name" required>
+              </div>
+
+              <div class="form-group">
+                <label for="contactEmail" class="form-label">Email</label>
+                <input type="email" id="contactEmail" name="email" class="form-input" placeholder="Email" required>
+              </div>
+
+              <div class="form-group">
+                <label for="contactMessage" class="form-label">Message</label>
+                <textarea id="contactMessage" name="message" rows="5" class="form-textarea" placeholder="Message" required></textarea>
+              </div>
+
+              <div class="form-submit-wrap">
+                <button type="submit" class="btn-slider btn-slider-action form-submit-btn" aria-label="Kirim Pesan">
+                  <div class="circle">
+                    <svg class="circle-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                      <line x1="5" y1="12" x2="19" y2="12"></line>
+                      <polyline points="12 5 19 12 12 19"></polyline>
+                    </svg>
+                  </div>
+                  <span class="btn-slider-text">Kirim</span>
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
     </section>
 
-
-  </div>
   </div>
   <script src="./script.js"></script>
 </body>

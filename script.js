@@ -26,7 +26,6 @@ function smoothScroll() {
     }
 
     if (navbar) {
-        // Gunakan currentY (posisi smooth scroll riil) agar sinkron mulus dengan konten dan tidak kaku/menghentak
         if (currentY > 35) {
             navbar.classList.add("nav-blur");
             navbar.classList.add("scrolled");
@@ -41,7 +40,7 @@ function smoothScroll() {
 
 requestAnimationFrame(smoothScroll);
 
-// Slider Button Interaction (Drag & Click) untuk semua .btn-slider
+// handle tombol slider
 function setupSliderButton(btn) {
     const thumb = btn.querySelector(".circle");
     const text = btn.querySelector(".btn-slider-text");
@@ -160,7 +159,6 @@ function setupSliderButton(btn) {
         }
     });
 
-    // Mouse Events
     btn.addEventListener("mousedown", (e) => startDrag(e.clientX));
     window.addEventListener("mousemove", (e) => {
         if (isDragging) moveDrag(e.clientX);
@@ -169,7 +167,6 @@ function setupSliderButton(btn) {
         if (isDragging) endDrag();
     });
 
-    // Touch Events (Mobile)
     btn.addEventListener(
         "touchstart",
         (e) => {
@@ -190,18 +187,20 @@ function setupSliderButton(btn) {
         if (isDragging) endDrag();
     });
 
-    // Reset otomatis saat scroll kembali ke atas
+    // reset kalo di-scroll balik ke atas
     window.addEventListener(
         "scroll",
         () => {
-            if (btn.id === "slideBtn") {
-                if (window.scrollY < 40 && btn.classList.contains("active")) {
-                    reset();
-                }
-            } else if (btn.id === "aboutSlideBtn") {
-                const aboutSection = $("#about");
-                if (aboutSection && window.scrollY < aboutSection.offsetTop - 120 && btn.classList.contains("active")) {
-                    reset();
+            if (btn.classList.contains("active")) {
+                const section = btn.closest("section");
+
+                if (btn.id === "slideBtn") {
+                    if (window.scrollY < 40) reset();
+                } else if (section) {
+                    const sectionTop = section.offsetTop;
+                    if (window.scrollY < sectionTop - 150) {
+                        reset();
+                    }
                 }
             }
         },
@@ -216,9 +215,7 @@ function initSliders() {
 
 initSliders();
 
-// ==========================================================================
-// Gallery 3D Fan Carousel Interaction
-// ==========================================================================
+// carousel foto galeri
 function initGalleryFanCarousel() {
     const container = $("#galleryFanContainer");
     const prevBtn = $("#galleryPrevBtn");
@@ -230,12 +227,11 @@ function initGalleryFanCarousel() {
     const total = cards.length;
     if (total === 0) return;
 
-    let currentIndex = 2; // Foto tengah sebagai foto utama awal
+    let currentIndex = 2;
 
     function updateCardStates() {
         cards.forEach((card, i) => {
             let diff = (i - currentIndex) % total;
-            // Normalisasi agar loop modular simetris (-2, -1, 0, 1, 2)
             if (diff > total / 2) diff -= total;
             if (diff < -total / 2) diff += total;
 
@@ -254,7 +250,6 @@ function initGalleryFanCarousel() {
             }
         });
 
-        // Trigger recalc tinggi body virtual scroll
         setBodyHeight();
     }
 
@@ -271,7 +266,6 @@ function initGalleryFanCarousel() {
     if (nextBtn) nextBtn.addEventListener("click", nextSlide);
     if (prevBtn) prevBtn.addEventListener("click", prevSlide);
 
-    // Klik langsung pada kartu samping untuk menjadikannya aktif
     cards.forEach((card, index) => {
         card.addEventListener("click", () => {
             if (currentIndex !== index) {
@@ -281,7 +275,6 @@ function initGalleryFanCarousel() {
         });
     });
 
-    // Touch swipe gesture support untuk HP
     let touchStartX = 0;
     let touchEndX = 0;
 
@@ -303,3 +296,40 @@ function initGalleryFanCarousel() {
 
 window.addEventListener("DOMContentLoaded", initGalleryFanCarousel);
 initGalleryFanCarousel();
+
+// accordion faq
+function initFaqAccordion() {
+    const container = $("#faq") || document;
+
+    container.addEventListener("click", (e) => {
+        const questionBtn = e.target.closest(".faq-question-btn");
+        if (!questionBtn) return;
+
+        const currentItem = questionBtn.closest(".faq-item");
+        if (!currentItem) return;
+
+        const isAlreadyActive = currentItem.classList.contains("active");
+
+        const allItems = container.querySelectorAll(".faq-item");
+        allItems.forEach((item) => {
+            item.classList.remove("active");
+            const btn = item.querySelector(".faq-question-btn");
+            if (btn) btn.setAttribute("aria-expanded", "false");
+        });
+
+        if (!isAlreadyActive) {
+            currentItem.classList.add("active");
+            questionBtn.setAttribute("aria-expanded", "true");
+        }
+
+        setBodyHeight();
+        setTimeout(setBodyHeight, 100);
+        setTimeout(setBodyHeight, 260);
+    });
+}
+
+if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initFaqAccordion);
+} else {
+    initFaqAccordion();
+}
