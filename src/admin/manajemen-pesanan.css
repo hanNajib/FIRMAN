@@ -1,0 +1,398 @@
+:root {
+    --p:#D33131;
+    --pd:#B22626;
+    --a:#FFEA2E;
+    --bg:#F6F6F6;
+    --tx:#1d1d21;
+    --m:#6a6a74;
+    --bd:#e7e7eb
+}
+
+* {
+    box-sizing:border-box;
+    margin:0
+}
+
+body {
+    background:var(--bg);
+    color:var(--tx);
+    font:14px/1.5 'Plus Jakarta Sans','Segoe UI',system-ui,-apple-system,Arial,sans-serif
+}
+
+a:focus-visible,input:focus,select:focus{
+    outline:2px solid var(--p);
+    outline-offset:2px
+}
+
+/* Layout */
+.app{
+    display:grid;
+    grid-template-columns:250px minmax(0,1fr);
+    min-height:100vh
+}
+
+.side{
+    background:#fff;
+    border-right:1px solid var(--bd);
+    padding:22px 14px;
+    display:flex;
+    flex-direction:column;
+    gap:4px
+}
+
+.main {
+    padding:30px 34px 40px;
+    min-width:0
+}
+
+/* Sidebar */
+.logo {
+    display:flex;
+    align-items:center;
+    gap:11px;
+    padding:2px 8px 22px
+}
+
+.logo-mark {
+    width:40px;
+    height:40px;
+    border-radius:12px;
+    background:var(--p);
+    display:grid;
+    place-items:center
+}
+
+.logo b {
+    display:block;
+    font-size:18px;
+    line-height:1.15
+}
+
+.logo small {
+    color:var(--m);
+    font-size:12px
+}
+.menu{
+    display:flex;
+    flex-direction:column;
+    gap:4px
+}
+.menu a{
+    display:flex;
+    align-items:center;
+    gap:11px;
+    padding:11px 12px;
+    border-radius:11px;
+    color:var(--m);
+    font-weight:600;
+    text-decoration:none
+}
+.menu a:hover{
+    background:#fafafa
+}
+.menu a.active{
+    background:var(--p);
+    color:#fff
+}
+.menu a.active::after{
+    content:'';
+    margin-left:auto;
+    width:8px;
+    height:8px;
+    border-radius:50%;
+    background:var(--a)
+}
+
+.user {
+    margin-top:auto;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:12px;
+    border:1px solid var(--bd);
+    border-radius:12px
+}
+
+.avatar {
+    width:36px;
+    height:36px;
+    border-radius:50%;
+    background:var(--a);
+    color:#3d3500;
+    display:grid;
+    place-items:center;
+    font-weight:800
+}
+
+.user small {
+    display:block;
+    color:var(--m);
+    font-size:12px
+}
+
+/* Header */
+.head {
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:16px;
+    flex-wrap:wrap;
+    margin-bottom:22px
+}
+
+h1{
+    font-size:24px;
+    font-weight:800;
+    letter-spacing:-.01em
+}
+
+.head p{
+    color:var(--m)
+}
+
+.btn{
+    display:inline-flex;
+    align-items:center;
+    gap:7px;
+    padding:10px 16px;
+    border-radius:10px;
+    background:var(--p);
+    color:#fff;
+    font-weight:700;
+    text-decoration:none
+}
+
+.btn:hover{
+    background:var(--pd)
+}
+
+/* Stat cards */
+.stats {
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(190px,1fr));
+    gap:14px;
+    margin-bottom:18px
+}
+
+.card {
+    background:#fff;
+    border:1px solid var(--bd);
+    border-radius:14px;
+    padding:16px 18px
+}
+
+.card small{
+    display:block;
+    color:var(--m);
+    font-weight:600
+}
+
+.card strong{
+    display:block;
+    font-size:26px;
+    font-weight:800;
+    line-height:1.3
+}
+
+.card.primary{
+    background:var(--p);
+    border-color:var(--p)
+}
+
+.card.primary small{
+    color:#ffd9d9
+}
+
+.card.primary strong{
+    color:var(--a)
+}
+
+/* Table panel */
+.panel {
+    background:#fff;
+    border:1px solid var(--bd);
+    border-radius:14px;
+    overflow:hidden
+}
+
+.toolbar {
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    padding:14px 16px;
+    border-bottom:1px solid var(--bd)
+}
+
+input, select {
+    padding:10px 12px;
+    border:1px solid var(--bd);
+    border-radius:10px;
+    background:var(--bg);
+    font:inherit;
+    color:inherit
+}
+
+input {
+    flex:1;
+    min-width:200px;
+    max-width:360px
+}
+
+.table-wrap {
+    overflow-x:auto
+}
+
+table {
+    width:100%;
+    border-collapse:collapse;
+    min-width:820px
+}
+
+th {
+    text-align:left;
+    font-size:12.5px;
+    font-weight:700;
+    color:var(--m);
+    padding:11px 16px;
+    background:#fafafa;
+    white-space:nowrap
+}
+
+td {
+    padding:13px 16px;
+    border-top:1px solid var(--bd);
+    vertical-align:middle
+}
+
+tbody tr:hover {
+    background:#fafafa
+}
+
+th.actions, td.actions {
+    text-align:right;
+    white-space:nowrap
+}
+
+.foot {
+    padding:12px 16px;
+    border-top:1px solid var(--bd);
+    color:var(--m);
+    font-size:13px
+}
+
+/* Badges, progress, row buttons */
+.badge {
+    display:inline-block;
+    padding:3px 11px;
+    border-radius:99px;
+    font-size:12px;
+    font-weight:700;
+    white-space:nowrap
+}
+
+.badge.green {
+    background:#dcf4e6;
+    color:#157a43
+}
+
+.badge.yellow {
+    background:var(--a);
+    color:#3d3500
+}
+
+.badge.red{
+    background:#fde2e2;
+    color:#b32222
+}
+
+.badge.gray{
+    background:#e8eaf1;
+    color:#464d66
+}
+
+.badge.blue{
+    background:#dfeaff;
+    color:#2655ad
+}
+
+.progress{
+    height:6px;
+    min-width:120px;
+    margin-bottom:4px;
+    background:var(--bd);
+    border-radius:9px;
+    overflow:hidden
+}
+
+.progress i{
+    display:block;
+    height:100%;
+    background:var(--p);
+    border-radius:9px
+}
+
+td small{
+    color:var(--m)
+}
+
+.mini {
+    display:inline-block;
+    padding:6px 12px;
+    border:1px solid var(--bd);
+    border-radius:8px;
+    background:#fff;
+    color:var(--m);
+    font-size:13px;
+    font-weight:600;
+    text-decoration:none
+}
+
+.mini:hover{
+    color:var(--p);
+    border-color:var(--p)
+}
+
+.mini.danger{
+    color:var(--p)
+}
+
+@media(max-width:860px){
+    .app {
+        grid-template-columns:1fr
+    }
+
+    .side {
+        flex-direction:row;
+        flex-wrap:wrap;
+        align-items:center;
+        border-right:0;
+        border-bottom:1px solid var(--bd);
+        padding:14px
+    }
+
+    .logo {
+        padding-bottom:0
+    }
+
+    .menu {
+        flex-direction:row;
+        overflow-x:auto
+    }
+
+    .menu a {
+        white-space:nowrap
+    }
+
+    .menu a.active::after {
+        display:none
+    }
+
+    .user {
+        display:none
+    }
+
+    .main {
+        padding:22px 16px 32px
+    }
+
+}

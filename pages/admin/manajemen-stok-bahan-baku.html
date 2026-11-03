@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="id">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Manajemen Stok Bahan Baku – Firman</title>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap">
+        <link rel="stylesheet" href="../../src/admin/manajemen-stok-bahan-baku.css">
+    </head>
+    <body>
+        <div class="app">
+
+        <aside class="side">
+            <div class="logo">
+                <div class="logo-mark">
+                    <svg width="24" height="24" viewBox="0 0 26 26" aria-hidden="true">
+                        <ellipse cx="11" cy="13" rx="8" ry="5.5" fill="#FFEA2E"/>
+                        <path d="M17 13l7-6v12z" fill="#FFEA2E"/>
+                        <circle cx="7.5" cy="11.5" r="1.2" fill="#D33131"/>
+                    </svg>
+                </div>
+                <div>
+                    <b>Firman</b><small>Fish canning resources management</small>
+                </div>
+            </div>
+            <nav class="menu" aria-label="Menu utama">
+                <a href="manajemen-pesanan.html">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4zM3 6h18M16 10a4 4 0 0 1-8 0"/>
+                    </svg>
+                    Manajemen Pesanan
+                </a>
+                <a href="manajemen-stok-bahan-baku.html" class="active" aria-current="page">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 8 12 3 3 8v8l9 5 9-5zM3 8l9 5 9-5M12 13v8"/></svg>
+                    Manajemen Stok Bahan Baku
+                </a>
+                <a href="manajemen-produksi.html">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 20V9l6 4V9l6 4V4h4v16zM2 20h20"/></svg>
+                    Manajemen Produksi
+                </a>
+            </nav>
+            <div class="user">
+                <div class="avatar">A</div>
+                <div>
+                    <b>Admin Firman</b>
+                    <small>Administrator</small>
+                </div>
+            </div>
+        </aside>
+
+        <main class="main">
+            <header class="head">
+                <div>
+                    <h1>Manajemen Stok Bahan Baku</h1>
+                    <p>Awasi persediaan bahan baku dan batas stok minimum.</p>
+                </div>
+                <a class="btn" href="#">+ Tambah bahan baku</a>
+            </header>
+
+            <section class="stats" aria-label="Ringkasan">
+                <div class="card primary">
+                    <small>Perlu dipesan ulang</small><strong>3</strong>
+                </div>
+                <div class="card">
+                    <small>Total bahan</small><strong>6</strong>
+                </div>
+                <div class="card">
+                    <small>Stok habis</small><strong>1</strong>
+                </div>
+                <div class="card">
+                    <small>Nilai persediaan</small><strong>Rp 67.735.000</strong>
+                </div>
+            </section>
+
+            <section class="panel">
+            <div class="toolbar">
+                <input type="search" placeholder="Cari bahan baku…" aria-label="Cari data">
+                <select aria-label="Filter status">
+                    <option>Semua status</option>
+                    <option>Aman</option>
+                    <option>Menipis</option>
+                    <option>Habis</option>
+                </select>
+            </div>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Kode</th>
+                            <th>Nama bahan</th>
+                            <th>Kategori</th>
+                            <th>Stok</th>
+                            <th>Stok minimum</th>
+                            <th>Harga satuan</th>
+                            <th>Supplier</th>
+                            <th>Status</th>
+                            <th class="actions">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><b>BHN-001</b></td>
+                            <td>Ikan Lemuru Segar</td>
+                            <td>Ikan</td><td>850 kg</td>
+                            <td>500 kg</td><td>Rp 14.000 / kg</td>
+                            <td>KUD Mina Samudra</td>
+                            <td>
+                                <span class="badge green">Aman</span>
+                            </td>
+                            <td class="actions">
+                                <a class="mini" href="#">Ubah</a> 
+                                <a class="mini danger" href="#">Hapus</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><b>BHN-002</b></td>
+                            <td>Ikan Tuna Loin Beku</td>
+                            <td>Ikan</td>
+                            <td>320 kg</td>
+                            <td>400 kg</td>
+                            <td>Rp 52.000 / kg</td>
+                            <td>PT Samudra Beku</td>
+                            <td>
+                                <span class="badge yellow">Menipis</span>
+                            </td>
+                            <td class="actions">
+                                <a class="mini" href="#">Ubah</a> 
+                                <a class="mini danger" href="#">Hapus</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><b>BHN-003</b></td>
+                            <td>Kaleng Kosong 155 g</td>
+                            <td>Kemasan</td>
+                            <td>18.000 pcs</td>
+                            <td>20.000 pcs</td>
+                            <td>Rp 1.800 / pcs</td>
+                            <td>PT Kemasan Logam</td>
+                            <td>
+                                <span class="badge yellow">Menipis</span>
+                            </td>
+                            <td class="actions">
+                                <a class="mini" href="#">Ubah</a> 
+                                <a class="mini danger" href="#">Hapus</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><b>BHN-004</b></td>
+                            <td>Saus Tomat Pekat</td>
+                            <td>Bahan tambahan</td>
+                            <td>0 kg</td>
+                            <td>150 kg</ td>
+                            <td>Rp 22.000 / kg</td>
+                            <td td>CV Tomat Prima</td>
+                            <td>
+                                <span class="badge red">Habis</span>
+                            </td>
+                            <td class="actions">
+                                <a class="mini" href="#">Ubah</a> 
+                                <a class="mini danger" href="#">Hapus</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><b>BHN-005</b></td>
+                            <td>Garam Industri</td>
+                            <td>Bahan tambahan</td>
+                            <td>260 kg</td>
+                            <td>100 kg</td>
+                            <td>Rp 4.500 / kg</td>
+                            <td>PT Garam Nusantara</td>
+                            <td>
+                                <span class="badge green">Aman</span>
+                            </td>
+                            <td class="actions">
+                                <a class="mini" href="#">Ubah</a> 
+                                <a class="mini danger" href="#">Hapus</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><b>BHN-006</b></td>
+                            <td>Ikan Lemuru Segar</td>
+                            <td>Ikan</td>
+                            <td>850 kg</td>
+                            <td>500 kg</td>
+                            <td>Rp 14.000 / kg</td>
+                            <td>KUD Mina Samudra</td>
+                            <td>
+                                <span class="badge green">Aman</span>
+                            </td>
+                            <td class="actions">
+                                <a class="mini" href="#">Ubah</a> 
+                                <a class="mini danger" href="#">Hapus</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="foot">Menampilkan 6 dari 6 data</div>
+            </section>
+        </main>
+
+        </div>
+    </body>
+</html>
