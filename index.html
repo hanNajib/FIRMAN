@@ -18,30 +18,72 @@
 <body>
 
   <nav class="main-navbar" id="navbar">
-    <div class="text-2xl font-extrabold tracking-wider uppercase text-white">
-      <img src="assets/logo.svg" alt="Logo" class="h-16">
-    </div>
+    <a href="#hero-section" class="flex items-center text-white no-underline">
+      <img src="assets/logo.svg" alt="Firman Logo" class="h-16">
+    </a>
 
     <ul class="nav-items">
       <li><a href="#hero-section" class="nav-item">Beranda</a></li>
       <li><a href="#about" class="nav-item">Tentang</a></li>
       <li><a href="#products" class="nav-item">Produk</a></li>
-      <li><a href="#process" class="nav-item">Galeri</a></li>
-      <li><a href="#news" class="nav-item">Berita</a></li>
-      <li><a href="#contact" class="nav-item">Kontak</a></li>
+      <li><a href="#gallery" class="nav-item">Galeri</a></li>
+      <li><a href="#article" class="nav-item">Artikel</a></li>
+      <li><a href="#faq" class="nav-item">FAQ</a></li>
+      <li><a href="page/contact.html" class="nav-item">Kontak</a></li>
     </ul>
 
-    <div>
-      <a href="#contact" class="btn-primary">
+    <div class="nav-actions">
+      <a href="#faq" class="btn-primary">
         Get Started
       </a>
     </div>
+
+    <!-- Tombol burger menu mobile -->
+    <button class="nav-toggle-btn" id="navToggleBtn" aria-label="Buka menu navigasi" aria-expanded="false">
+      <svg class="icon-menu" viewBox="0 0 24 24" fill="none">
+        <line x1="3" y1="6" x2="21" y2="6"></line>
+        <line x1="3" y1="12" x2="21" y2="12"></line>
+        <line x1="3" y1="18" x2="21" y2="18"></line>
+      </svg>
+      <svg class="icon-close" viewBox="0 0 24 24" fill="none">
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
+    </button>
   </nav>
+
+  <!-- Backdrop & Drawer navigasi mobile -->
+  <div class="mobile-nav-backdrop" id="mobileNavBackdrop"></div>
+  <aside class="mobile-nav-menu" id="mobileNavMenu" aria-label="Menu navigasi mobile">
+    <div class="mobile-nav-header">
+      <span class="text-sm font-bold text-gray-500 uppercase tracking-wider">Menu</span>
+      <button class="nav-toggle-btn is-active" id="mobileNavCloseBtn" aria-label="Tutup menu navigasi">
+        <svg viewBox="0 0 24 24" fill="none">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+
+    <ul class="mobile-nav-links">
+      <li><a href="#hero-section" class="mobile-nav-link"><span>Beranda</span><span>&gt;</span></a></li>
+      <li><a href="#about" class="mobile-nav-link"><span>Tentang</span><span>&gt;</span></a></li>
+      <li><a href="#products" class="mobile-nav-link"><span>Produk</span><span>&gt;</span></a></li>
+      <li><a href="#gallery" class="mobile-nav-link"><span>Galeri</span><span>&gt;</span></a></li>
+      <li><a href="#article" class="mobile-nav-link"><span>Artikel</span><span>&gt;</span></a></li>
+      <li><a href="#faq" class="mobile-nav-link"><span>FAQ</span><span>&gt;</span></a></li>
+      <li><a href="page/contact.html" class="mobile-nav-link"><span>Kontak</span><span>&gt;</span></a></li>
+    </ul>
+
+    <div class="mobile-nav-footer">
+      <a href="#faq" class="btn-primary mobile-nav-cta">
+        Get Started
+      </a>
+    </div>
+  </aside>
 
   <div class="viewport">
     <div class="content">
-
-
 
       <section id="hero-section" class="container-hero">
         <div class="hero-screen-intro">
@@ -99,17 +141,27 @@
       <section id="about" class="about-section">
         <div class="about-floating-banner">
           <div class="about-trust-item">
-            <i data-lucide="badge-check"></i>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"/>
+              <path d="m9 12 2 2 4-4"/>
+            </svg>
             <span>100% Halal</span>
           </div>
 
           <div class="about-trust-item">
-            <i data-lucide="check-check"></i>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M18 6 7 17l-5-5"/>
+              <path d="m22 10-7.5 7.5L13 16"/>
+            </svg>
             <span>Bahan Berkualitas</span>
           </div>
 
           <div class="about-trust-item">
-            <i data-lucide="clipboard-check"></i>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect width="8" height="4" x="8" y="2" rx="1" ry="1"/>
+              <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/>
+              <path d="m9 14 2 2 4-4"/>
+            </svg>
             <span>Produksi Higienis</span>
           </div>
         </div>
@@ -149,7 +201,10 @@
             <div class="about-feature-grid">
               <article class="about-feature">
                 <div class="about-feature-heading">
-                  <i data-lucide="shield-check"></i>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/>
+                    <path d="m9 12 2 2 4-4"/>
+                  </svg>
                   <h3>Kualitas Produk</h3>
                 </div>
                 <p>
@@ -160,7 +215,13 @@
 
               <article class="about-feature">
                 <div class="about-feature-heading">
-                  <i data-lucide="list-checks"></i>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="m3 17 2 2 4-4"/>
+                    <path d="m3 7 2 2 4-4"/>
+                    <path d="M13 6h8"/>
+                    <path d="M13 12h8"/>
+                    <path d="M13 18h8"/>
+                  </svg>
                   <h3>Proses Terencana</h3>
                 </div>
                 <p>
@@ -216,7 +277,7 @@
               <p class="product-desc">Sehat, lezat dan bergizi, sppg mending beli sarden disini</p>
               <div class="product-bottom">
                 <span class="product-price">Rp 20.000</span>
-                <a href="#contact" class="product-action-btn" aria-label="Lihat detail Sarden SIP Saus Tomat">
+                <a href="#faq" class="product-action-btn" aria-label="Lihat detail Sarden SIP Saus Tomat">
                   <img src="assets/icons/arrow-up-right.svg" alt="Arrow" class="w-3.5 h-3.5 invert brightness-0">
                 </a>
               </div>
@@ -236,7 +297,7 @@
               </p>
               <div class="product-bottom">
                 <span class="product-price">Rp 20.000</span>
-                <a href="#contact" class="product-action-btn" aria-label="Lihat detail Sarden SIP Asin">
+                <a href="#faq" class="product-action-btn" aria-label="Lihat detail Sarden SIP Asin">
                   <img src="assets/icons/arrow-up-right.svg" alt="Arrow" class="w-3.5 h-3.5 invert brightness-0">
                 </a>
               </div>
@@ -255,7 +316,7 @@
               <p class="product-desc">Ikan sarden dengan saus cabai bercita rasa pedas yang menggugah selera.</p>
               <div class="product-bottom">
                 <span class="product-price">Rp 20.000</span>
-                <a href="#contact" class="product-action-btn" aria-label="Lihat detail Sarden SIP Saus Cabai">
+                <a href="#faq" class="product-action-btn" aria-label="Lihat detail Sarden SIP Saus Cabai">
                   <img src="assets/icons/arrow-up-right.svg" alt="Arrow" class="w-3.5 h-3.5 invert brightness-0">
                 </a>
               </div>
@@ -274,7 +335,7 @@
               <p class="product-desc">Olahan sarden dengan saus tartar yang menghadirkan variasi rasa berbeda.</p>
               <div class="product-bottom">
                 <span class="product-price">Rp 20.000</span>
-                <a href="#contact" class="product-action-btn" aria-label="Lihat detail Sarden SIP Saus Tartar">
+                <a href="#faq" class="product-action-btn" aria-label="Lihat detail Sarden SIP Saus Tartar">
                   <img src="assets/icons/arrow-up-right.svg" alt="Arrow" class="w-3.5 h-3.5 invert brightness-0">
                 </a>
               </div>
@@ -563,6 +624,54 @@
         </div>
       </div>
     </section>
+    <footer class="site-footer">
+      <div class="site-footer-main">
+        <section class="site-footer-brand">
+          <a href="" class="site-footer-logo">
+            <img src="assets/logo-footer.svg" alt="" />
+            <span>
+              <strong>Firman</strong>
+              <small>Fish Canning Resource Management</small>
+            </span>
+          </a>
+
+          <p class="site-footer-description">
+            TEFA Fish Canning POLIJE bergerak di bidang pengolahan dan
+            pengalengan ikan. Menghadirkan produk sarden berkualitas yang
+            praktis, higienis, dan siap dikonsumsi dengan mengutamakan mutu
+            serta keamanan pangan.
+          </p>
+
+          <div class="site-footer-partners"></div>
+        </section>
+        <nav class="site-footer-nav" aria-label="Navigation footer">
+          <a href="#hero-section">Beranda</a>
+          <a href="#about">Tentang Kami</a>
+          <a href="#products">Produk</a>
+          <a href="#gallery">Galeri</a>
+          <a href="#news">Berita</a>
+          <a href="#contact">Kontak</a>
+        </nav>
+        <section class="site-footer-location">
+          <div class="site-footer-map">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3075.2339382492587!2d113.723894911879!3d-8.155884807876651!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd695f2c7074ec7%3A0x40c147ea5d0ce7c8!2sUnit%20Pengalengan%20Ikan%20Politeknik%20Negeri%20Jember!5e1!3m2!1sen!2sid!4v1793345514545!5m2!1sen!2sid"
+              title="Peta Unit Pengalengan Ikan Politeknik Negeri Jember"
+              loading="lazy"
+              referrerpolicy="strict-origin-when-cross-origin"
+              allowfullscreen
+            ></iframe>
+          </div>
+          <address class="site-footer-address">
+            RPVG+PQJ, Jl. Tawang Mangu, Lingkungan Panji, Tegalgede, Kec.
+            Sumbersari, Kabupaten Jember, Jawa Timur 68124
+            <br />
+            Politeknik Negeri Jember
+          </address>
+        </section>
+      </div>
+      <div class="site-footer-bottom">&copy; 2026 Tefa Pengalengan</div>
+    </footer>
 
   </div>
   <script src="./script.js"></script>

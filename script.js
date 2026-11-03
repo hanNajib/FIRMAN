@@ -40,6 +40,66 @@ function smoothScroll() {
 
 requestAnimationFrame(smoothScroll);
 
+// mobile navbar menu toggle
+function initMobileNavbar() {
+    const toggleBtn = $("#navToggleBtn");
+    const closeBtn = $("#mobileNavCloseBtn");
+    const menu = $("#mobileNavMenu");
+    const backdrop = $("#mobileNavBackdrop");
+
+    if (!toggleBtn || !menu || !backdrop) return;
+
+    function openMenu() {
+        toggleBtn.classList.add("is-active");
+        toggleBtn.setAttribute("aria-expanded", "true");
+        menu.classList.add("is-open");
+        backdrop.classList.add("is-open");
+        document.body.style.overflowY = "hidden";
+    }
+
+    function closeMenu() {
+        toggleBtn.classList.remove("is-active");
+        toggleBtn.setAttribute("aria-expanded", "false");
+        menu.classList.remove("is-open");
+        backdrop.classList.remove("is-open");
+        document.body.style.overflowY = "";
+    }
+
+    toggleBtn.addEventListener("click", () => {
+        const isOpen = menu.classList.contains("is-open");
+        if (isOpen) closeMenu();
+        else openMenu();
+    });
+
+    if (closeBtn) closeBtn.addEventListener("click", closeMenu);
+    backdrop.addEventListener("click", closeMenu);
+
+    const mobileLinks = menu.querySelectorAll(".mobile-nav-link, .mobile-nav-cta");
+    mobileLinks.forEach((link) => {
+        link.addEventListener("click", () => {
+            closeMenu();
+        });
+    });
+
+    window.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && menu.classList.contains("is-open")) {
+            closeMenu();
+        }
+    });
+
+    window.addEventListener("resize", () => {
+        if (window.innerWidth >= 768 && menu.classList.contains("is-open")) {
+            closeMenu();
+        }
+    });
+}
+
+if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initMobileNavbar);
+} else {
+    initMobileNavbar();
+}
+
 // handle tombol slider
 function setupSliderButton(btn) {
     const thumb = btn.querySelector(".circle");
