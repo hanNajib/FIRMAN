@@ -18,7 +18,7 @@
  <div class="bulat-berputar login-rings" aria-hidden="true"></div>
 
     <section class="card-login">
-      <form class="login-form" action="#" method="post">
+      <form class="login-form" id="loginForm">
         <header class="header-login">
           <div class="login-brand">
             <img src="/assets/logo.svg" alt="" />
@@ -67,14 +67,18 @@
           </div>
         </div>
 
-        <button class="login-submit" type="submit">
-          <span class="login-arrow" aria-hidden="true">
+        <a
+          id="loginDashboardLink"
+          class="btn-slider login-submit"
+          href="/page/admin/manajemen-pesanan.html"
+        >
+          <span class="circle login-arrow" aria-hidden="true">
             <svg viewBox="0 0 24 24">
               <path d="M5 12h14M12 5l7 7-7 7" />
             </svg>
           </span>
-          Masuk ke Dashboard
-        </button>
+          <span class="btn-slider-text">Masuk ke Dashboard</span>
+        </a>
       </form>
     </section>
   </main>
@@ -90,6 +94,39 @@
       toggle.setAttribute(
         "aria-label",
         showPassword ? "Sembunyikan password" : "Tampilkan password",
+      );
+    });
+
+    const loginForm = document.querySelector("#loginForm");
+    const username = document.querySelector("#username");
+    const dashboardLink = document.querySelector("#loginDashboardLink");
+    const loginArrow = dashboardLink.querySelector(".circle");
+    const slideDistance =
+      dashboardLink.clientWidth -
+      loginArrow.offsetWidth -
+      parseFloat(getComputedStyle(dashboardLink).paddingLeft) -
+      parseFloat(getComputedStyle(dashboardLink).paddingRight);
+
+    dashboardLink.style.setProperty("--slide-distance", `${slideDistance}px`);
+    username.addEventListener("input", () => {
+      username.setCustomValidity("");
+    });
+
+    dashboardLink.addEventListener("click", (event) => {
+      event.preventDefault();
+
+      if (dashboardLink.classList.contains("active")) return;
+
+      username.setCustomValidity(
+        username.value.trim() ? "" : "Masukkan username terlebih dahulu.",
+      );
+
+      if (!loginForm.reportValidity()) return;
+
+      dashboardLink.classList.add("active");
+      window.setTimeout(
+        () => window.location.assign(dashboardLink.href),
+        window.matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : 450,
       );
     });
   </script>
