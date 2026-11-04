@@ -243,89 +243,6 @@
         }
         }
 
-        /* ==========================================================================
-        Footer Component
-        ========================================================================== */
-        .site-footer {
-        @apply text-white bg-[#972424];
-        font-family: var(--font-poppins);
-        }
-
-        .site-footer-main {
-        @apply grid max-w-[1280px] mx-auto py-9 px-[5%] gap-7;
-        grid-template-columns: minmax(0, 1.3fr) minmax(110px, 0.45fr) minmax(240px, 1fr);
-        }
-
-        .site-footer-brand,
-        .site-footer-location {
-        @apply min-w-0;
-        }
-
-        .site-footer-logo {
-        @apply inline-flex items-center gap-2.5 text-white no-underline;
-        }
-
-        .site-footer-logo img {
-        @apply w-[88px] h-[58px] object-contain;
-        }
-
-        .site-footer-logo span {
-        @apply grid;
-        }
-
-        .site-footer-logo strong {
-        @apply font-extrabold leading-none;
-        font-size: 38px;
-        }
-
-        .site-footer-logo small {
-        @apply mt-[3px] text-[9px];
-        }
-
-        .site-footer-description {
-        @apply max-w-[500px] my-3 text-[13px] leading-relaxed;
-        }
-
-        .site-footer-partners {
-        @apply min-h-[56px] rounded-[9px] bg-white;
-        }
-
-        .site-footer-nav {
-        @apply flex flex-col gap-2 pt-[30px];
-        }
-
-        .site-footer-nav a {
-        @apply text-white text-xs font-bold no-underline hover:underline;
-        }
-
-        .site-footer-map {
-        @apply h-[155px] overflow-hidden rounded-[7px];
-        }
-
-        .site-footer-map iframe {
-        @apply block w-full h-full border-0;
-        }
-
-        .site-footer-address {
-        @apply mt-3 text-xs not-italic leading-relaxed;
-        }
-
-        .site-footer-bottom {
-        @apply py-3 px-4 border-t border-white/35 text-center text-xs;
-        }
-
-        @media (max-width: 800px) {
-        .site-footer-main {
-            @apply grid-cols-2 gap-6 py-8 px-6;
-        }
-        .site-footer-brand {
-            @apply col-span-full;
-        }
-        .site-footer-nav {
-            @apply pt-0;
-        }
-        }
-
 
         .badge {
             display: inline-block;
@@ -393,17 +310,6 @@
         }
 
         /* ---------- Halaman daftar berita ---------- */
-
-        .hero {
-            min-height: 720px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 100px 24px 160px;
-            background: linear-gradient(rgba(246, 246, 246, .75), rgba(246, 246, 246, .7)), url('images/hero-bg.jpg') center / cover #cfcfcf;
-        }
 
         .hero h1 {
             font-size: clamp(36px, 5.5vw, 72px);
@@ -733,91 +639,175 @@
             }
         }
 
-        .alat-hero-img {
-  position: absolute;
-  z-index: -2;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
-}
+        .berita-hero-img {
+            position: absolute;
+            z-index: -2;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+        }
+
+        .berita-hero {
+            position: relative;
+            isolation: isolate;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            min-height: 100svh;
+            place-items: center;
+            overflow: hidden;
+            padding: 112px 24px 48px;
+            background: #f7f7f7;
+        }
+        .berita-hero::before {
+            position: absolute;
+            z-index: -1;
+            inset: 0;
+            content: "";
+            background: rgba(255, 255, 255, 0.76);
+        }
+        .berita-hero-content {
+            position: relative;
+            z-index: 1;
+            width: min(100%, 900px);
+            text-align: center;
+        }
 
     </style>
 </head>
 <body>
     <nav class="main-navbar" id="navbar">
-        <a href="../index.html#hero-section" class="flex items-center text-white no-underline">
-            <img src="../../assets/logo.svg" alt="Firman Logo" class="h-16">
-        </a>
+      <a href="#hero-section" class="flex items-center text-white no-underline">
+        <img src="/assets/logo.svg" alt="Firman Logo" class="h-16" />
+      </a>
 
-        <ul class="nav-items">
-            <li>
-                <a href="../index.html#hero-section" class="nav-item">Beranda</a>
-            </li>
-            <li>
-                <a href="../index.html#about" class="nav-item">Tentang</a>
-            </li>
-            <li>
-                <a href="../index.html#products" class="nav-item">Produk</a>
-            </li>
-            <li>
-                <a href="../index.html#gallery" class="nav-item">Galeri</a>
-            </li>
-            <li>
-                <a href="../index.html#article" class="nav-item">Artikel</a>
-            </li>
-            <li>
-                <a href="../index.html#faq" class="nav-item">FAQ</a>
-            </li>
-            <li>
-                <a href="contact.html" class="nav-item">Kontak</a>
-            </li>
-        </ul>
+      <ul class="nav-items">
+        <li><a href="#hero-section" class="nav-item">Beranda</a></li>
+        <li><a href="#about" class="nav-item">Tentang</a></li>
+        <li><a href="#products" class="nav-item">Produk</a></li>
+        <li><a href="#gallery" class="nav-item">Galeri</a></li>
+        <li><a href="#article" class="nav-item">Artikel</a></li>
+        <li><a href="#faq" class="nav-item">FAQ</a></li>
+        <li><a href="page/contact.html" class="nav-item">Kontak</a></li>
+      </ul>
 
-        <div class="nav-actions">
-            <a href="contact.html" class="btn-primary">
-                Get Started
-            </a>
-        </div>
+      <div class="nav-actions">
+        <a href="#faq" class="btn-primary"> Get Started </a>
+      </div>
 
-        <!-- Tombol burger menu mobile -->
-        <button class="nav-toggle-btn" id="navToggleBtn" aria-label="Buka menu navigasi" aria-expanded="false">
-            <svg class="icon-menu" viewBox="0 0 24 24" fill="none">
-                <line x1="3" y1="6" x2="21" y2="6"></line>
-                <line x1="3" y1="12" x2="21" y2="12"></line>
-                <line x1="3" y1="18" x2="21" y2="18"></line>
-            </svg>
-            <svg class="icon-close" viewBox="0 0 24 24" fill="none">
-                <line x1="18" y1="6" x2="6" y2="18"></line>
-                <line x1="6" y1="6" x2="18" y2="18"></line>
-            </svg>
-        </button>
+      <!-- Tombol burger menu mobile -->
+      <button
+        class="nav-toggle-btn"
+        id="navToggleBtn"
+        aria-label="Buka menu navigasi"
+        aria-expanded="false"
+      >
+        <svg class="icon-menu" viewBox="0 0 24 24" fill="none">
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+        <svg class="icon-close" viewBox="0 0 24 24" fill="none">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
     </nav>
+    <!-- Backdrop & Drawer navigasi mobile -->
+    <div class="mobile-nav-backdrop" id="mobileNavBackdrop"></div>
+    <aside
+      class="mobile-nav-menu"
+      id="mobileNavMenu"
+      aria-label="Menu navigasi mobile"
+    >
+      <div class="mobile-nav-header">
+        <span class="text-sm font-bold text-gray-500 uppercase tracking-wider"
+          >Menu</span
+        >
+        <button
+          class="nav-toggle-btn is-active"
+          id="mobileNavCloseBtn"
+          aria-label="Tutup menu navigasi"
+        >
+          <svg viewBox="0 0 24 24" fill="none">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+
+      <ul class="mobile-nav-links">
+        <li>
+          <a href="#hero-section" class="mobile-nav-link"
+            ><span>Beranda</span><span>&gt;</span></a
+          >
+        </li>
+        <li>
+          <a href="#about" class="mobile-nav-link"
+            ><span>Tentang</span><span>&gt;</span></a
+          >
+        </li>
+        <li>
+          <a href="#products" class="mobile-nav-link"
+            ><span>Produk</span><span>&gt;</span></a
+          >
+        </li>
+        <li>
+          <a href="#gallery" class="mobile-nav-link"
+            ><span>Galeri</span><span>&gt;</span></a
+          >
+        </li>
+        <li>
+          <a href="#article" class="mobile-nav-link"
+            ><span>Artikel</span><span>&gt;</span></a
+          >
+        </li>
+        <li>
+          <a href="#faq" class="mobile-nav-link"
+            ><span>FAQ</span><span>&gt;</span></a
+          >
+        </li>
+        <li>
+          <a href="page/contact.html" class="mobile-nav-link"
+            ><span>Kontak</span><span>&gt;</span></a
+          >
+        </li>
+      </ul>
+
+      <div class="mobile-nav-footer">
+        <a href="#faq" class="btn-primary mobile-nav-cta"> Get Started </a>
+      </div>
+    </aside>
     <div class="viewport">
         <div class="content">
             <header class="hero">
-                <img
-                    class="alat-hero-img"
-                    src="../../assets/images/Praktik-Pengalengan.jpg"
-                    alt="Lini mesin pengolahan pangan"
-                />
-
-                <h1>Temukan Berita<br>TEFA Fish Canning POLIJE</h1>
-                <p>Kumpulan berita, riset terapan, dan edukasi seputar proses pengolahan ikan kaleng berstandar industri di lingkungan kampus vokasi Polije.</p>
-
-                <form class="search" role="search" onsubmit="return false">
-                <input type="search" placeholder="Cari berita atau topik.." aria-label="Cari berita atau topik">
-                <select aria-label="Cari kategori">
-                    <option value="">Cari Kategori</option>
-                    <option>Kegiatan</option>
-                    <option>Riset</option>
-                    <option>Edukasi</option>
-                </select>
-                <button type="submit" aria-label="Cari">
-                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
-                </button>
-                </form>
+                <section class="berita-hero" aria-labelledby="berita-title">
+                    <img
+                        class="berita-hero-img"
+                        src="../../assets/images/Praktik-Pengalengan.jpg"
+                        alt="Lini mesin pengolahan pangan"
+                    />
+                    <div class="berita-hero-content">
+                        <h1 id="berita-title">Temukan Berita TEFA Fish Canning POLIJE</h1>
+                        <p>
+                            Kumpulan berita, riset terapan, dan edukasi seputar proses pengolahan ikan kaleng berstandar industri di lingkungan kampus vokasi Polije.
+                        </p>
+                    </div>
+                    <form class="search" role="search" onsubmit="return false">
+                    <input type="search" placeholder="Cari berita atau topik.." aria-label="Cari berita atau topik">
+                    <select aria-label="Cari kategori">
+                        <option value="">Cari Kategori</option>
+                        <option>Kegiatan</option>
+                        <option>Riset</option>
+                        <option>Edukasi</option>
+                    </select>
+                    <button type="submit" aria-label="Cari">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
+                    </button>
+                    </form>
+                </section>
             </header>
 
             <main class="sheet">
