@@ -255,9 +255,7 @@
   .table {
     display: table;
   }
-  .table {
-    display: table;
-  }
+ 
   .h-3\.5 {
     height: calc(var(--spacing) * 3.5);
   }
@@ -5256,13 +5254,11 @@ body:has(.app) {
   inherits: false;
 }
 @property --tw-outline-style {
-@property --tw-outline-style {
   syntax: "*";
   inherits: false;
   initial-value: solid;
   initial-value: solid;
 }
-@property --tw-blur {
 @property --tw-blur {
   syntax: "*";
   inherits: false;
