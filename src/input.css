@@ -945,6 +945,15 @@
   background: #F5F5F5;
 }
 
+.produk-section-detail {
+  position: relative;
+  z-index: 1;
+  margin-top: -34px;
+  padding: 50px clamp(20px, 7.5vw, 100px) 48px;
+  border-radius: 30px 30px 0 0;
+  /* background: #F5F5F5; */
+}
+
 .produk-section .products-grid {
   width: min(100%, 1400px);
 }
@@ -957,6 +966,7 @@
   background-color: #F5F5F5;
   box-shadow: 0 4px 14px rgba(34, 34, 34, 0.08);
 }
+
 
 .produk-page .product-card:hover {
   box-shadow: 0 8px 22px rgba(34, 34, 34, 0.12);
@@ -1058,6 +1068,142 @@
   .produk-pagination {
     margin-top: 30px;
   }
+}
+
+/* ==========================================================================
+   CSS FOR PRODUK/DETAIL.HTML
+   ========================================================================== */
+
+.product-card {
+    min-width: 0;
+    padding: 12px;
+    border: 1px solid rgba(34, 34, 34, 0.08);
+    border-radius: 16px;
+    background-color: #F5F5F5;
+    box-shadow: 0 4px 14px rgba(34, 34, 34, 0.08);
+}
+
+.produk-detail-container {
+    margin: 20px 40px;
+}
+
+:focus-visible {
+    outline: 3px solid #1c1c1c;
+    outline-offset: 3px;
+}
+
+/* ---------- Produk utama ---------- */
+
+.product {
+    padding: 110px 0 0;
+}
+
+.product-hero {
+    display: grid;
+    grid-template-columns: 40% 1fr;
+    gap: 56px;
+    align-items: start;
+}
+
+.product-hero > img {
+    width: 100%;
+    aspect-ratio: 603 / 496;
+    object-fit: cover;
+    border-radius: 14px;
+    background: #ccc;
+}
+
+/* Di-scope ke .product-hero supaya tidak bentrok dengan .product-info milik kartu dari JS */
+
+.product-hero .product-info h1 {
+    font-size: clamp(30px, 3.7vw, 60px);
+    font-weight: 700;
+    line-height: 1.15;
+    color: #3b3b3b;
+    margin-top: 8px;
+}
+
+.product-hero .product-info p {
+    font-size: clamp(16px, 2vw, 32px);
+    line-height: 1.1;
+    text-align: justify;
+    color: #333;
+    margin-top: 28px;
+}
+
+.product-hero .product-info .price {
+    font-size: clamp(26px, 2.5vw, 40px);
+    font-weight: 600;
+    line-height: 1.5;
+    text-align: left;
+    color: #777;
+    margin: 32px 0 40px;
+}
+
+.btn-order {
+    width: 20vw;
+    background: #D33131;
+    color: #fff;
+    font-size: clamp(15px, 1.9vw, 20px);
+    padding: 10px 20px;
+    border-radius: 4px;
+    font-weight: bold;
+    text-align: center;
+}
+
+/* ---------- Produk lainnya (kartu dibuat oleh produk-page.js) ---------- */
+
+.others {
+    padding: 56px 0 110px;
+}
+
+.others > h2 {
+    font-size: clamp(15px, 2vw, 35px);
+    font-weight: 600;
+    padding-left: 22px;
+    margin-bottom: 56px;
+}
+
+/* ---------- Responsif ---------- */
+
+@media (max-width: 900px) {
+    .produk-detail-container {
+        margin: 15px 30px;
+    }
+
+    .product-hero {
+        grid-template-columns: 1fr;
+        gap: 28px;
+    }
+
+    .product-hero .product-info .price {
+        margin: 28px 0 24px;
+    }
+
+    .others .products-grid {
+        grid-template-columns: repeat(2, 1fr);
+        column-gap: 24px;
+    }
+}
+
+@media (max-width: 560px) {
+    .produk-detail-container {
+        margin: 15px 25px;
+    }
+
+    .others .products-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .others > h2 {
+        padding-left: 0;
+    }
+
+    .btn-order {
+        width: 38vw;
+        font-size: clamp(15px, 1.7vw, 22px);
+        padding: 10px;
+    }
 }
 
 /* ==========================================================================
