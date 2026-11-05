@@ -2,7 +2,7 @@ const alat = [
   {
     id: "1",
     judul: "Proses Penyortiran",
-    gambar: "/assets/images/mesinpengirisikan.jpeg",
+    gambar: "/assets/images/mesinpengirisikan.webp",
     alt: "Proses penyortiran ikan sarden",
     deskripsi: [
       "Ikan lemuru segar diterima dari nelayan dan langsung dipilih berdasarkan ukuran, kesegaran, dan kondisi fisik. Proses ini memastikan konsistensi kualitas produk akhir.",
@@ -21,7 +21,7 @@ const alat = [
   {
     id: "2",
     judul: "Mesin Pencuci Ikan",
-    gambar: "/assets/images/mesinpengirisikan.jpeg",
+    gambar: "/assets/images/mesinpengirisikan.webp",
     alt: "Proses penyortiran ikan sarden",
     deskripsi: [
       "Membersihkan ikan dari kotoran, lendir, dan darah menggunakan air mengalir dan sikat putar lembut. Menjamin higienitas bahan baku dan mengurangi bau amis.",
@@ -39,7 +39,7 @@ const alat = [
   {
     id: "3",
     judul: "Proses Penyortiran",
-    gambar: "/assets/images/mesinpengirisikan.jpeg",
+    gambar: "/assets/images/mesinpengirisikan.webp",
     alt: "Proses penyortiran ikan sarden",
     deskripsi: [
       "Ikan lemuru segar diterima dari nelayan dan langsung dipilih berdasarkan ukuran, kesegaran, dan kondisi fisik. Proses ini memastikan konsistensi kualitas produk akhir.",
@@ -58,7 +58,7 @@ const alat = [
   {
     id: "4",
     judul: "Proses Penyortiran",
-    gambar: "/assets/images/mesinpengirisikan.jpeg",
+    gambar: "/assets/images/mesinpengirisikan.webp",
     alt: "Proses penyortiran ikan sarden",
     deskripsi: [
       "Ikan lemuru segar diterima dari nelayan dan langsung dipilih berdasarkan ukuran, kesegaran, dan kondisi fisik. Proses ini memastikan konsistensi kualitas produk akhir.",

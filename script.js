@@ -13,16 +13,20 @@ setBodyHeight();
 window.addEventListener("resize", setBodyHeight);
 window.addEventListener("load", setBodyHeight);
 
-let currentY = 0;
-let targetY = 0;
-const ease = 0.08;
+let currentY = window.scrollY;
+let animationFrame = null;
+let lastRenderedY = Number.NaN;
+const ease = 0.16;
 
 function smoothScroll() {
-    targetY = window.scrollY;
-    currentY += (targetY - currentY) * ease;
+    animationFrame = null;
+    const targetY = window.scrollY;
+    const delta = targetY - currentY;
+    currentY = Math.abs(delta) < 0.5 ? targetY : currentY + delta * ease;
 
-    if (content) {
+    if (content && currentY !== lastRenderedY) {
         content.style.transform = `translate3d(0, -${currentY}px, 0)`;
+        lastRenderedY = currentY;
     }
 
     if (navbar) {
@@ -35,10 +39,21 @@ function smoothScroll() {
         }
     }
 
-    requestAnimationFrame(smoothScroll);
+    if (Math.abs(targetY - currentY) >= 0.5) {
+        animationFrame = requestAnimationFrame(smoothScroll);
+    } else if (content) {
+        content.classList.remove("is-scrolling");
+    }
 }
 
-requestAnimationFrame(smoothScroll);
+function scheduleSmoothScroll() {
+    if (animationFrame !== null) return;
+    if (content) content.classList.add("is-scrolling");
+    animationFrame = requestAnimationFrame(smoothScroll);
+}
+
+window.addEventListener("scroll", scheduleSmoothScroll, { passive: true });
+scheduleSmoothScroll();
 
 // mobile navbar menu toggle
 function initMobileNavbar() {
@@ -247,22 +262,25 @@ function setupSliderButton(btn) {
         if (isDragging) endDrag();
     });
 
-    // reset kalo di-scroll balik ke atas
+    const section = btn.closest("section");
+    let scrollCheckFrame = null;
+
+    function checkSliderReset() {
+        scrollCheckFrame = null;
+        if (!btn.classList.contains("active")) return;
+
+        if (btn.id === "slideBtn") {
+            if (window.scrollY < 40) reset();
+        } else if (section && window.scrollY < section.offsetTop - 150) {
+            reset();
+        }
+    }
+
     window.addEventListener(
         "scroll",
         () => {
-            if (btn.classList.contains("active")) {
-                const section = btn.closest("section");
-
-                if (btn.id === "slideBtn") {
-                    if (window.scrollY < 40) reset();
-                } else if (section) {
-                    const sectionTop = section.offsetTop;
-                    if (window.scrollY < sectionTop - 150) {
-                        reset();
-                    }
-                }
-            }
+            if (scrollCheckFrame !== null) return;
+            scrollCheckFrame = requestAnimationFrame(checkSliderReset);
         },
         { passive: true }
     );

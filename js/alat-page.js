@@ -17,7 +17,10 @@ function createAlatCard(item) {
   image.className = "alat-img";
   image.src = item.gambar;
   image.alt = item.alt || item.judul;
+  image.width = 700;
+  image.height = 1244;
   image.loading = "lazy";
+  image.decoding = "async";
   image.addEventListener(
     "error",
     () => {
@@ -103,7 +106,7 @@ if (alatList) {
               currentObserver.unobserve(entry.target);
             });
           },
-          { threshold: 0.12, rootMargin: "0px 0px -6% 0px" },
+          { threshold: 0.01, rootMargin: "0px 0px 12% 0px" },
         );
 
         cards.forEach((card) => {

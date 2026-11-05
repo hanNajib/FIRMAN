@@ -3,7 +3,7 @@ const tahapanProduksi = [
     id: "1",
     nomor: "01",
     judul: "Proses Penyortiran",
-    gambar: "/assets/images/Praktik Pengalengan.jpg",
+    gambar: "/assets/images/Praktik-Pengalengan.jpg",
     alt: "Proses penyortiran ikan sarden",
     deskripsiKartu: "Ikan Sarden segar dipilih berdasarkan ukuran dan kualitasnya.",
     deskripsi: [
