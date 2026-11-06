@@ -1,17 +1,21 @@
 const $ = (el) => document.querySelector(el);
 const $$ = (el) => document.querySelectorAll(el);
-
+ 
 const content = $(".content");
 const navbar = $("#navbar");
-
+ 
 function setBodyHeight() {
-    if (content) {
-        document.body.style.height = `${content.getBoundingClientRect().height}px`;
-    }
+    if (!content) return;
+    const h = `${Math.ceil(content.getBoundingClientRect().height)}px`;
+    if (document.body.style.height !== h) document.body.style.height = h;
 }
 setBodyHeight();
 window.addEventListener("resize", setBodyHeight);
 window.addEventListener("load", setBodyHeight);
+
+if (content && "ResizeObserver" in window) {
+    new ResizeObserver(setBodyHeight).observe(content);
+}
 
 let currentY = window.scrollY;
 let animationFrame = null;
