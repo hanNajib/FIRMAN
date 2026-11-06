@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Pre-Order — TEFA Fish Canning POLIJE</title>
+    <link rel="stylesheet" href="../../style.css">
+    <style>
+        /* Halaman Pre-Order — dimuat setelah style.css (memakai ulang font, warna, dan reset) */
+
+        :root {
+            --po-red: #D33131;
+            --po-ink: #1c1c1c;
+            --po-line: #d9d9d9;
+            --po-accent: #D4350F;
+            --po-ok: #15D184;
+            --po-navy: #1e293b;
+            --po-slate: #475569;
+            --po-soft: #f9fafb;
+            --po-edge: #e5e7eb;
+        }
+
+        /* Reset & dasar — di-scope agar tidak mengganggu navbar/footer dan tidak bentrok dengan Tailwind (.container, dll.) */
+        :where(.preorder, .preorder *, .checkout, .checkout *, dialog, dialog *, .toast) {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :where(.preorder, .checkout, dialog, .toast) {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.5;
+        }
+
+        .preorder img {
+            display: block;
+            max-width: 100%;
+        }
+
+        .preorder button,
+        .checkout button,
+        dialog button {
+            font-family: inherit;
+            cursor: pointer;
+        }
+
+        :where(.preorder, .checkout, dialog) :focus-visible {
+            outline: 3px solid var(--po-ink);
+            outline-offset: 3px;
+        }
+
+        body {
+            background: #fff;
+        }
+
+        main.preorder {
+            width: min(1500px, 100% - 48px);
+            margin-inline: auto;
+            padding: 100px 0 140px;
+        }
+
+        /* ---------- Daftar pesanan ---------- */
+        .cart {
+            display: grid;
+            gap: 20px;
+        }
+
+        .cart-item {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            padding: 10px 40px 10px 12px;
+            background: #fff;
+            border: 1px solid var(--po-line);
+            border-radius: 10px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, .1);
+        }
+
+        .cart-item img {
+            width: 140px;
+            height: 118px;
+            object-fit: cover;
+            border-radius: 12px;
+            background: #ccc;
+            flex-shrink: 0;
+        }
+
+        .cart-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .cart-info h3 {
+            font-size: clamp(20px, 2vw, 28px);
+            font-weight: 600;
+            line-height: 1.2;
+        }
+
+        .cart-info p {
+            font-size: 18px;
+            font-weight: 500;
+            color: #777;
+        }
+
+        .cart-info select {
+            appearance: none;
+            margin-top: 8px;
+            padding: 8px 40px 8px 14px;
+            border: 1px solid var(--po-red);
+            border-radius: 6px;
+            color: var(--po-red);
+            font: 500 14px 'Poppins', sans-serif;
+            background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 6'%3E%3Cpath d='M0 0h10L5 6z' fill='%23D33131'/%3E%3C/svg%3E") right 14px center / 12px no-repeat;
+        }
+
+        .del {
+            width: 58px;
+            height: 58px;
+            flex-shrink: 0;
+            border: 0;
+            border-radius: 8px;
+            background: var(--po-red);
+            display: grid;
+            place-items: center;
+        }
+
+        .empty {
+            padding: 48px 0;
+            text-align: center;
+            color: #777;
+        }
+
+        /* ---------- Anda mungkin tertarik ---------- */
+        .recs h2 {
+            font-size: clamp(22px, 2.4vw, 36px);
+            font-weight: 600;
+            padding-left: 14px;
+            margin: 56px 0 44px;
+        }
+
+        .recs-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            column-gap: 6%;
+            row-gap: 40px;
+        }
+
+        .rec {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .rec img {
+            width: 100%;
+            aspect-ratio: 300 / 241;
+            object-fit: cover;
+            border-radius: 12px;
+            background: #ccc;
+        }
+
+        .rec h3 {
+            font-size: clamp(16px, 1.6vw, 24px);
+            font-weight: 500;
+            margin: 14px 0 2px 9px;
+        }
+
+        .rec p {
+            flex: 1;
+            font-size: clamp(13px, 1.3vw, 20px);
+            line-height: 1.5;
+            color: #777;
+            margin: 0 0 8px 9px;
+        }
+
+        .rec-foot {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-left: 9px;
+        }
+
+        .rec-foot strong {
+            font-size: clamp(16px, 1.6vw, 24px);
+            font-weight: 600;
+        }
+
+        .add {
+            width: 36px;
+            height: 36px;
+            border: 0;
+            border-radius: 50%;
+            background: var(--po-red);
+            color: #fff;
+            font-size: 24px;
+            line-height: 1;
+            display: grid;
+            place-items: center;
+        }
+
+        /* ---------- Tombol Proses Pesanan: sticky + glassmorphism ---------- */
+        .checkout {
+            position: fixed;
+            left: 0;
+            right: 0;
+            bottom: 18px;
+            z-index: 30;
+            text-align: center;
+            pointer-events: none;
+        }
+
+        /* fixed + di luar .content: sticky tidak jalan di dalam .viewport/.content yang di-translate script.js */
+        .glass {
+            display: inline-block;
+            pointer-events: auto;
+            padding: 14px 22px;
+            border-radius: 999px;
+            background: rgba(246, 246, 246, .5);
+            border: 1px solid rgba(255, 255, 255, .7);
+            box-shadow: 0 8px 28px rgba(0, 0, 0, .14);
+            -webkit-backdrop-filter: blur(14px) saturate(1.4);
+            backdrop-filter: blur(14px) saturate(1.4);
+        }
+
+        .btn-pill {
+            display: inline-flex;
+            align-items: center;
+            height: 66px;
+            padding: 0 44px 0 0;
+            border: 3px solid var(--po-red);
+            border-radius: 999px;
+            background: var(--po-red);
+            color: #fff;
+            font-size: 20px;
+            font-weight: 600;
+            transition: transform .15s, box-shadow .15s;
+        }
+
+        .btn-pill:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(211, 49, 49, .4);
+        }
+
+        .po-circle {
+            width: 60px;
+            height: 60px;
+            margin-right: 34px;
+            border-radius: 50%;
+            background: #fff;
+            display: grid;
+            place-items: center;
+        }
+
+        /* ---------- Modal ---------- */
+        dialog {
+            border: 0;
+            border-radius: 24px;
+            padding: 0;
+            margin: auto;
+            width: min(960px, 100% - 32px);
+            max-height: 92vh;
+            background: #fff;
+            color: var(--po-ink);
+            box-shadow: 0 24px 80px rgba(0, 0, 0, .3);
+        }
+
+        dialog[open] {
+            animation: pop .25s ease;
+        }
+
+        dialog::backdrop {
+            background: rgba(20, 20, 20, .45);
+            -webkit-backdrop-filter: blur(4px);
+            backdrop-filter: blur(4px);
+        }
+
+        @keyframes pop {
+            from {
+                opacity: 0;
+                transform: translateY(16px) scale(.98);
+            }
+        }
+
+        .modal-body {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            min-height: min(660px, 88vh);
+            padding: 36px 56px 40px;
+        }
+
+        .modal-body h2 {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--po-navy);
+            margin: 40px 0 28px;
+        }
+
+        .modal-body .actions {
+            margin-top: auto;
+            padding-top: 40px;
+            text-align: center;
+        }
+
+        .x {
+            position: absolute;
+            top: 16px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            border: 0;
+            border-radius: 50%;
+            background: transparent;
+            font-size: 28px;
+            color: #777;
+        }
+
+        .x:hover {
+            background: var(--po-soft);
+        }
+
+        /* Stepper */
+        .stepper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: clamp(8px, 2vw, 24px);
+        }
+
+        .step {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            font-size: clamp(14px, 1.8vw, 24px);
+            font-weight: 600;
+            color: #3f3f46;
+        }
+
+        .dot {
+            flex-shrink: 0;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            background: #fff;
+            color: var(--po-accent);
+            font-size: 22px;
+            font-weight: 700;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, .14);
+        }
+
+        .step.active {
+            color: var(--po-accent);
+        }
+
+        .step.active .dot {
+            width: 62px;
+            height: 62px;
+            background: var(--po-accent);
+            color: #fff;
+            box-shadow: none;
+        }
+
+        .step.done {
+            color: var(--po-ok);
+        }
+
+        .step.done .dot {
+            background: var(--po-ok);
+            color: #fff;
+            box-shadow: none;
+        }
+
+        .line {
+            flex: 0 0 clamp(28px, 7vw, 84px);
+            height: 4px;
+            border-radius: 4px;
+            background: #444;
+        }
+
+        .line.done {
+            background: var(--po-ok);
+        }
+
+        /* Form data diri */
+        .field {
+            margin-bottom: 22px;
+        }
+
+        .field label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: var(--po-slate);
+        }
+
+        .field input {
+            width: 100%;
+            height: 52px;
+            padding: 0 20px;
+            border: 1px solid var(--po-edge);
+            border-radius: 10px;
+            background: var(--po-soft);
+            font: inherit;
+            font-size: 16px;
+            color: var(--po-navy);
+        }
+
+        .field input::placeholder {
+            color: #9ca3af;
+        }
+
+        .field input:focus {
+            border-color: var(--po-accent);
+            outline: 0;
+            box-shadow: 0 0 0 3px rgba(212, 53, 15, .15);
+        }
+
+        /* Metode pembayaran */
+        .hint {
+            margin-bottom: 20px;
+            font-weight: 600;
+            font-size: 15px;
+            color: var(--po-slate);
+        }
+
+        .pay {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 28px;
+        }
+
+        .pay-option {
+            position: relative;
+            display: block;
+            padding: 26px 28px;
+            border: 1px solid var(--po-edge);
+            border-radius: 16px;
+            cursor: pointer;
+        }
+
+        .pay-option input {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .pay-option strong {
+            display: block;
+            font-size: 20px;
+            color: var(--po-navy);
+        }
+
+        .pay-option .desc {
+            display: block;
+            margin-top: 14px;
+            color: var(--po-slate);
+        }
+
+        .mark {
+            position: absolute;
+            top: 24px;
+            right: 24px;
+            width: 24px;
+            height: 24px;
+            border: 2px solid #9ca3af;
+            border-radius: 50%;
+        }
+
+        .pay-option:has(input:checked) {
+            border-color: var(--po-accent);
+            background: var(--po-soft);
+            box-shadow: 0 0 0 1px var(--po-accent);
+        }
+
+        .pay-option input:checked~.mark {
+            border-color: var(--po-accent);
+            background: center / 14px no-repeat url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23D4350F' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m4 12 5 5L20 6'/%3E%3C/svg%3E");
+        }
+
+        .pay-option:has(input:focus-visible) {
+            outline: 3px solid var(--po-ink);
+            outline-offset: 2px;
+        }
+
+        /* Konfirmasi */
+        .summary {
+            padding: 34px 36px;
+            border-radius: 22px;
+            background: var(--po-soft);
+        }
+
+        .summary h3 {
+            margin-bottom: 14px;
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--po-slate);
+        }
+
+        .summary .row {
+            display: flex;
+            justify-content: space-between;
+            gap: 16px;
+            padding: 7px 0;
+            color: #64748b;
+        }
+
+        .summary .row b {
+            color: var(--po-navy);
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .summary .total {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 18px;
+            padding-top: 26px;
+            border-top: 1px solid var(--po-edge);
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--po-navy);
+        }
+
+        .summary .total b {
+            font-size: 32px;
+            color: var(--po-accent);
+        }
+
+        .note {
+            margin-top: 28px;
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--po-slate);
+        }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            left: 50%;
+            bottom: 120px;
+            z-index: 100;
+            padding: 12px 22px;
+            border-radius: 999px;
+            background: var(--po-ink);
+            color: #fff;
+            font-size: 14px;
+            opacity: 0;
+            pointer-events: none;
+            transform: translate(-50%, 16px);
+            transition: .25s;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translate(-50%, 0);
+        }
+
+        /* ---------- Responsif ---------- */
+        @media (max-width: 900px) {
+            .recs-grid {
+                grid-template-columns: repeat(2, 1fr);
+                column-gap: 24px;
+            }
+
+            .modal-body {
+                padding: 28px 24px 32px;
+            }
+
+            .pay {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .cart-item {
+                gap: 16px;
+                padding-right: 14px;
+            }
+
+            .cart-item img {
+                width: 92px;
+                height: 80px;
+            }
+
+            .del {
+                width: 44px;
+                height: 44px;
+            }
+
+            .step:not(.active) .lbl {
+                display: none;
+            }
+
+            .dot {
+                width: 44px;
+                height: 44px;
+                font-size: 18px;
+            }
+
+            .step.active .dot {
+                width: 48px;
+                height: 48px;
+            }
+
+            .summary {
+                padding: 24px 20px;
+            }
+
+            .summary .total b {
+                font-size: 24px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .recs-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+
+            dialog[open],
+            .btn-pill,
+            .toast {
+                animation: none;
+                transition: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="main-navbar" id="navbar">
+        <a href="#hero-section" class="flex items-center text-white no-underline">
+            <img src="../../assets/logo.svg" alt="Firman Logo" class="h-16" />
+        </a>
+
+        <ul class="nav-items">
+            <li><a href="#hero-section" class="nav-item">Beranda</a></li>
+            <li><a href="#about" class="nav-item">Tentang</a></li>
+            <li><a href="#products" class="nav-item">Produk</a></li>
+            <li><a href="#gallery" class="nav-item">Galeri</a></li>
+            <li><a href="#article" class="nav-item">Artikel</a></li>
+            <li><a href="#faq" class="nav-item">FAQ</a></li>
+            <li><a href="page/contact.html" class="nav-item">Kontak</a></li>
+        </ul>
+
+        <div class="nav-actions">
+            <a href="#faq" class="btn-primary"> Get Started </a>
+        </div>
+
+        <!-- Tombol burger menu mobile -->
+        <button class="nav-toggle-btn" id="navToggleBtn" aria-label="Buka menu navigasi" aria-expanded="false">
+            <svg class="icon-menu" viewBox="0 0 24 24" fill="none">
+                <line x1="3" y1="6" x2="21" y2="6"></line>
+                <line x1="3" y1="12" x2="21" y2="12"></line>
+                <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+            <svg class="icon-close" viewBox="0 0 24 24" fill="none">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+        </button>
+    </nav>
+
+    <!-- Backdrop & Drawer navigasi mobile -->
+    <div class="mobile-nav-backdrop" id="mobileNavBackdrop"></div>
+    <aside class="mobile-nav-menu" id="mobileNavMenu" aria-label="Menu navigasi mobile">
+        <div class="mobile-nav-header">
+            <span class="text-sm font-bold text-gray-500 uppercase tracking-wider">
+                Menu
+            </span>
+            <button class="nav-toggle-btn is-active" id="mobileNavCloseBtn" aria-label="Tutup menu navigasi">
+                <svg viewBox="0 0 24 24" fill="none">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+        </div>
+
+        <ul class="mobile-nav-links">
+            <li>
+                <a href="#hero-section" class="mobile-nav-link">
+                    <span>Beranda</span><span>&gt;</span>
+                </a>
+            </li>
+            <li>
+                <a href="#about" class="mobile-nav-link">
+                    <span>Tentang</span><span>&gt;</span>
+                </a>
+            </li>
+            <li>
+                <a href="#products" class="mobile-nav-link">
+                    <span>Produk</span><span>&gt;</span>
+                </a>
+            </li>
+            <li>
+                <a href="#gallery" class="mobile-nav-link">
+                    <span>Galeri</span><span>&gt;</span>
+                </a>
+            </li>
+            <li>
+                <a href="#article" class="mobile-nav-link">
+                    <span>Artikel</span><span>&gt;</span>
+                </a>
+            </li>
+            <li>
+                <a href="#faq" class="mobile-nav-link">
+                    <span>FAQ</span><span>&gt;</span>
+                </a>
+            </li>
+            <li>
+                <a href="page/contact.html" class="mobile-nav-link">
+                    <span>Kontak</span><span>&gt;</span>
+                </a>
+            </li>
+        </ul>
+
+        <div class="mobile-nav-footer">
+            <a href="#faq" class="btn-primary mobile-nav-cta"> Get Started </a>
+        </div>
+    </aside>
+    <div class="viewport">
+        <div class="content">
+            <main class="preorder">
+                <section class="cart" id="cart" aria-label="Daftar pesanan" aria-live="polite"></section>
+
+                <section class="recs">
+                    <h2>Anda Mungkin Tertarik</h2>
+                    <div class="recs-grid" id="recs"></div>
+                </section>
+
+            </main>
+
+            <footer class="site-footer">
+                <div class="site-footer-main">
+                    <section class="site-footer-brand">
+                        <a href="" class="site-footer-logo">
+                            <img src="../../assets/logo-footer.svg" alt="" />
+                            <span>
+                                <strong>Firman</strong>
+                                <small>Fish Canning Resource Management</small>
+                            </span>
+                        </a>
+
+                        <p class="site-footer-description">
+                            TEFA Fish Canning POLIJE bergerak di bidang pengolahan dan
+                            pengalengan ikan. Menghadirkan produk sarden berkualitas yang
+                            praktis, higienis, dan siap dikonsumsi dengan mengutamakan mutu
+                            serta keamanan pangan.
+                        </p>
+
+                        <div class="site-footer-partners"></div>
+                    </section>
+                    <nav class="site-footer-nav" aria-label="Navigation footer">
+                        <a href="../index.html#hero-section">Beranda</a>
+                        <a href="../index.html#about">Tentang Kami</a>
+                        <a href="../index.html#products">Produk</a>
+                        <a href="../index.html#gallery">Galeri</a>
+                        <a href="../index.html#article">Artikel</a>
+                        <a href="../index.html#faq">FAQ</a>
+                        <a href="contact.html">Kontak</a>
+                    </nav>
+                    <section class="site-footer-location">
+                        <div class="site-footer-map">
+                            <iframe
+                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3075.2339382492587!2d113.723894911879!3d-8.155884807876651!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd695f2c7074ec7%3A0x40c147ea5d0ce7c8!2sUnit%20Pengalengan%20Ikan%20Politeknik%20Negeri%20Jember!5e1!3m2!1sen!2sid!4v1793345514545!5m2!1sen!2sid"
+                                title="Peta Unit Pengalengan Ikan Politeknik Negeri Jember" loading="lazy"
+                                referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                        </div>
+                        <address class="site-footer-address">
+                            RPVG+PQJ, Jl. Tawang Mangu, Lingkungan Panji, Tegalgede, Kec.
+                            Sumbersari, Kabupaten Jember, Jawa Timur 68124
+                            <br />
+                            Politeknik Negeri Jember
+                        </address>
+                    </section>
+                </div>
+                <div class="site-footer-bottom">&copy; 2026 Tefa Pengalengan</div>
+            </footer>
+        </div>
+    </div>
+
+    <!-- Fixed (tampak sticky) dan diletakkan DI LUAR .viewport/.content karena .content di-translate oleh script.js; .glass = background inline-block bergaya glassmorphism -->
+    <div class="checkout">
+        <div class="glass">
+            <button class="btn-pill" id="processBtn" type="button"><span class="po-circle"></span>Proses
+                Pesanan</button>
+        </div>
+    </div>
+
+    <!-- Modal 1: Data Diri -->
+    <dialog id="m1" aria-labelledby="t1">
+        <form class="modal-body" id="f1">
+            <button class="x" type="button" data-close aria-label="Tutup">&times;</button>
+            <div class="stepper" data-step="1"></div>
+            <h2 id="t1">Data Diri</h2>
+            <div class="field"><label for="nama">Nama Lengkap</label><input id="nama" name="nama" type="text"
+                    placeholder="Joan Pasha Syahputra" autocomplete="name" required></div>
+            <div class="field"><label for="hp">No. Handphone</label><input id="hp" name="hp" type="tel"
+                    placeholder="08xxxxxxxxxx" autocomplete="tel" pattern="[0-9+\s\-]{9,16}" required></div>
+            <div class="field"><label for="email">Email</label><input id="email" name="email" type="email"
+                    placeholder="tenxii@email.com" autocomplete="email" required></div>
+            <div class="field"><label for="alamat">Alamat</label><input id="alamat" name="alamat" type="text"
+                    placeholder="Jl. Jaksel, No. 14, Jember, Jawa Timur" autocomplete="street-address" required></div>
+            <div class="actions"><button class="btn-pill" type="submit"><span
+                        class="po-circle"></span>Lanjutkan</button></div>
+        </form>
+    </dialog>
+
+    <!-- Modal 2: Pembayaran -->
+    <dialog id="m2" aria-labelledby="t2">
+        <form class="modal-body" id="f2">
+            <button class="x" type="button" data-close aria-label="Tutup">&times;</button>
+            <div class="stepper" data-step="2"></div>
+            <h2 id="t2">Pembayaran</h2>
+            <p class="hint">Pilih Metode Pembayaran</p>
+            <div class="pay">
+                <label class="pay-option">
+                    <input type="radio" name="pay" value="DP" checked>
+                    <strong>DP (Uang Muka)</strong><span class="desc">Bayar uang muka terlebih dahulu</span><span
+                        class="mark"></span>
+                </label>
+                <label class="pay-option">
+                    <input type="radio" name="pay" value="Cash / Lunas">
+                    <strong>Cash / Lunas</strong><span class="desc">Bayar penuh saat pesanan diproses</span><span
+                        class="mark"></span>
+                </label>
+            </div>
+            <div class="actions"><button class="btn-pill" type="submit"><span
+                        class="po-circle"></span>Lanjutkan</button></div>
+        </form>
+    </dialog>
+
+    <!-- Modal 3: Konfirmasi -->
+    <dialog id="m3" aria-labelledby="t3">
+        <div class="modal-body">
+            <button class="x" type="button" data-close aria-label="Tutup">&times;</button>
+            <div class="stepper" data-step="3"></div>
+            <h2 id="t3">Konfirmasi Pesanan</h2>
+            <div class="summary" id="summary"></div>
+            <p class="note" id="note"></p>
+            <div class="actions"><button class="btn-pill" id="finish" type="button"><span
+                        class="po-circle"></span>Proses Pesanan</button></div>
+        </div>
+    </dialog>
+
+    <div class="toast" id="toast" role="status"></div>
+    <script src="../../js/preorder.js"></script>
+    <script src="../../script.js"></script>
+    <script src="../../js/data/produk.js"></script>
+    <script src="../../js/produk-page.js"></script>
+</body>
+
+</html>
