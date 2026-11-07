@@ -1,5 +1,6 @@
 const productGrid = document.querySelector("#produkGrid");
 const productPagination = document.querySelector("#produkPagination");
+const productRendererUrl = document.currentScript.src;
 const productsPerPage = 4;
 let validProducts = [];
 let currentPage = 1;
@@ -20,7 +21,7 @@ function createProductCard(product) {
 
   const image = document.createElement("img");
   image.className = "product-img";
-  image.src = product.gambar;
+  image.src = new URL(product.gambar, productRendererUrl).href;
   image.alt = product.alt || product.judul;
   image.width = 1200;
   image.height = 1200;
@@ -50,14 +51,14 @@ function createProductCard(product) {
 
   const action = document.createElement("a");
   action.className = "product-action-btn";
-  action.href = "../index.html#faq";
+  action.href = new URL("../index.html#faq", productRendererUrl).href;
   action.setAttribute("aria-label", `Tanyakan ${product.judul}`);
 
   const arrow = document.createElement("img");
-  arrow.src = "../assets/icons/arrow-up-right.svg";
+  arrow.src = new URL("../assets/icons/arrow-up-right.svg", productRendererUrl).href;
   arrow.alt = "";
   arrow.setAttribute("aria-hidden", "true");
-  arrow.className = "w-3.5 h-3.5 invert brightness-0";
+  arrow.className = "w-3.5 h-3.5 brightness-0 invert";
   action.append(arrow);
   bottom.append(action);
 
