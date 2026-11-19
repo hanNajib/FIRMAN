@@ -4871,6 +4871,318 @@ body:has(.app) {
   }
 }
 
+
+/* ---- CRUD, form,---- */
+            .btn {
+                border:1px solid #D33131
+            }
+
+            .btn:hover {
+                border-color:#B22626
+            }
+
+            button.btn {
+                cursor:pointer;
+                font:inherit;
+                font-weight:700
+            }
+
+            .btn.ghost {
+                background:#fafafa;
+                color:#1d1d21;
+                border-color:#e7e7eb
+            }
+
+            .btn.ghost:hover {
+                background:#f0f0f0;
+                border-color:#e7e7eb
+            }
+
+            .icon-btn {
+                display:inline-grid;
+                place-items:center;
+                width:34px;height:34px;
+                border:1px solid #e7e7eb;
+                border-radius:9px;
+                background:#fff;
+                color:#6a6a74;
+                cursor:pointer;
+                text-decoration:none
+            }
+
+            .icon-btn:hover {
+                color:#D33131;
+                border-color:#D33131
+            }
+
+            .empty {
+                text-align:center;
+                color:#6a6a74;
+                padding:40px
+            }
+
+            .titlebar {
+                display:flex;
+                gap:14px;
+                align-items:flex-start
+            }
+
+            .bc {
+                font-size:13px;
+                color:#6a6a74;
+                margin-bottom:6px
+            }
+
+            .bc a {
+                color:#6a6a74;
+                text-decoration:none
+            }
+
+            .bc a:hover {
+                color:#D33131
+            }
+
+            .bc b {
+                color:#1d1d21;
+                font-weight:600
+            }
+
+            .fc {
+                background:#fff;
+                border:1px solid #e7e7eb;
+                border-radius:14px;
+                padding:26px;
+                max-width:880px
+            }
+
+            .fg {
+                display:grid;
+                grid-template-columns:1fr 1fr;
+                gap:14px
+            }
+
+            label {
+                display:block;
+                font-size:12.5px;
+                font-weight:700;
+                color:#6a6a74
+            }
+
+            .fg input,.fg select {
+                width:100%;
+                flex:none;
+                min-width:0;
+                max-width:none;
+                margin-top:5px
+            }
+
+            .fa {
+                display:flex;
+                justify-content:flex-end;
+                align-items:center;
+                gap:10px;
+                margin-top:22px;
+                padding-top:20px;
+                border-top:1px solid #e7e7eb
+            }
+
+
+
+/* ======================  */
+/* ADMIN DASHBOARD CSS */
+/* ======================  */
+
+
+/* MODAL */
+
+            .overlay {
+                position:fixed;
+                inset:0;
+                background:rgba(15,15,18,.55);
+                display:grid;
+                place-items:center;
+                padding:16px;
+                z-index:9
+            }
+
+            .overlay[hidden] {
+                display:none
+            }
+
+            .modal {
+                background:#fff;
+                border-radius:18px;
+                width:min(440px,100%);
+                padding:26px
+            }
+
+            .modal h2 {
+                font-size:19px;
+                margin-bottom:6px;
+                font-weight: bold;
+            }
+
+            .modal p {
+                color:#6a6a74
+            }
+
+            .btn {
+                border:1px solid #D33131
+            }
+
+            .btn:hover {
+                border-color:#B22626
+            }
+
+            button.btn {
+                cursor:pointer;
+                font:inherit;
+                font-weight:700
+            }
+
+            .btn.ghost {
+                background:#fafafa;
+                color:#1d1d21;
+                border-color:#e7e7eb
+            }
+
+            .btn.ghost:hover {
+                background:#f0f0f0;
+                border-color:#e7e7eb
+            }
+
+            .fa {
+                display:flex;
+                justify-content:
+                flex-end;
+                align-items:center;
+                gap:10px;
+                margin-top:22px;
+                padding-top:20px;
+                border-top:1px solid #e7e7eb
+            }
+
+            .modal .fa {
+                border:0;
+                padding-top:0
+            }
+
+            .warn {
+                width:52px;
+                height:52px;
+                border-radius:50%;
+                background:#FFEA2E;
+                color:#D33131;
+                display:grid;
+                place-items:center;
+                margin-bottom:14px
+            }
+
+            .toast {
+                position:fixed;
+                right:22px;
+                bottom:22px;
+                background:#1d1d21;
+                color:#fff;
+                padding:12px 18px;
+                border-radius:12px;
+                font-weight:600;
+                border-left:5px solid #FFEA2E;
+                transform:translateY(90px);
+                opacity:0;
+                transition:.3s;
+                z-index:10
+            }
+
+            .toast.on {
+                transform:none;
+                opacity:1
+            }
+
+            .cols {
+                display:grid;
+                grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);
+                gap:18px;
+                margin-bottom:18px
+            }
+
+            .cols table {
+                min-width:480px
+            }
+
+            .ph {
+                display:flex;
+                justify-content:space-between;
+                align-items:center;
+                padding:16px 18px;
+                border-bottom:1px solid #e7e7eb
+            }
+
+            .ph h2 {
+                font-size:16px
+            }
+
+            .ph a {
+                color:#D33131;
+                font-weight:600;
+                font-size:13px;
+                text-decoration:none
+            }
+
+            .list {
+                list-style:none;
+                padding:4px 18px
+            }
+
+            .list li {
+                display:flex;
+                justify-content:space-between;
+                align-items:center;
+                gap:12px;
+                padding:12px 0;
+                border-top:1px solid #e7e7eb
+            }
+
+            .list li:first-child {
+                border-top:0
+            }
+
+            .list small {
+                display:block;
+                color:#6a6a74
+            }
+
+            .list .empty {
+                display:block;
+                padding:28px 0
+            }
+
+            .pl li {
+                display:block
+            }
+
+            .pl .row {
+                display:flex;
+                justify-content:space-between;
+                align-items:center;
+                gap:8px;
+                margin-bottom:6px
+            }
+
+            @media (max-width:860px) {
+                .cols {
+                    grid-template-columns:1fr
+                }
+                .fg {
+                    grid-template-columns:1fr
+                }
+            }
+
+            @media (prefers-reduced-motion:reduce) {
+                .toast {
+                    transition:none
+                }
+            }
 /* ==========================================================================
    Pre-Order Page
    ========================================================================== */
