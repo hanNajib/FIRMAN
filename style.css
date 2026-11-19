@@ -300,6 +300,9 @@
     --tw-invert: invert(100%);
     filter: var(--tw-blur,) var(--tw-brightness,) var(--tw-contrast,) var(--tw-grayscale,) var(--tw-hue-rotate,) var(--tw-invert,) var(--tw-saturate,) var(--tw-sepia,) var(--tw-drop-shadow,);
   }
+  .filter {
+    filter: var(--tw-blur,) var(--tw-brightness,) var(--tw-contrast,) var(--tw-grayscale,) var(--tw-hue-rotate,) var(--tw-invert,) var(--tw-saturate,) var(--tw-sepia,) var(--tw-drop-shadow,);
+  }
   .transition {
     transition-property: color, background-color, border-color, outline-color, text-decoration-color, fill, stroke, --tw-gradient-from, --tw-gradient-via, --tw-gradient-to, opacity, box-shadow, transform, translate, scale, rotate, filter, -webkit-backdrop-filter, backdrop-filter, display, content-visibility, overlay, pointer-events;
     transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
@@ -5506,9 +5509,10 @@ body:has(.app) {
 }
 .card img {
   width: 100%;
-  height: 170px;
+  aspect-ratio: 16 / 9;
   object-fit: cover;
   background: #ccc;
+  display: block;
 }
 .card-body {
   padding: 18px 20px 12px;
@@ -5644,10 +5648,10 @@ body:has(.app) {
 }
 .featured img {
   width: 100%;
-  height: 100%;
-  min-height: 212px;
+  aspect-ratio: 16 / 9;
   object-fit: cover;
   background: #ccc;
+  display: block;
 }
 .featured-body {
   padding: 20px 32px;
@@ -5696,6 +5700,52 @@ body:has(.app) {
 .pagination a.disabled {
   opacity: .4;
   pointer-events: none;
+}
+.berita-empty {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 48px 24px;
+  background: #fff;
+  border: 1px dashed #d9d9d9;
+  border-radius: 12px;
+  color: #666;
+}
+.berita-empty h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #222;
+  margin-bottom: 8px;
+}
+.berita-empty p {
+  font-size: 14px;
+  margin-bottom: 16px;
+  color: #666;
+}
+.berita-reset-btn {
+  display: inline-block;
+  background: #D33131;
+  color: #fff;
+  padding: 8px 20px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: background 0.2s;
+}
+.berita-reset-btn:hover {
+  background: #c92b2b;
+}
+.berita-img-missing {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  display: grid;
+  place-items: center;
+  background: #eaeaea;
+  color: #777;
+  font-size: 12px;
+  padding: 12px;
+  text-align: center;
 }
 @media (max-width: 900px) {
   .cards {
@@ -5754,9 +5804,10 @@ body:has(.app) {
 }
 .card img {
   width: 100%;
-  height: 170px;
+  aspect-ratio: 16 / 9;
   object-fit: cover;
   background: #ccc;
+  display: block;
 }
 .card-body {
   padding: 18px 20px 12px;
