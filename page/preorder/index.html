@@ -159,15 +159,20 @@
         </div>
     </div>
 
-    <!-- Fixed (tampak sticky) dan diletakkan DI LUAR .viewport/.content karena .content di-translate oleh script.js; .glass = background inline-block bergaya glassmorphism -->
     <div class="checkout">
         <div class="glass">
-            <button class="btn-pill" id="processBtn" type="button"><span class="po-circle"></span>Proses
-                Pesanan</button>
+            <button class="btn-slider btn-slider-action" id="processBtn" type="button" aria-label="Proses Pesanan">
+                <div class="circle">
+                    <svg class="circle-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                        <polyline points="12 5 19 12 12 19"></polyline>
+                    </svg>
+                </div>
+                <span class="btn-slider-text">Proses Pesanan</span>
+            </button>
         </div>
     </div>
 
-    <!-- Modal 1: Data Diri -->
     <dialog id="m1" aria-labelledby="t1">
         <form class="modal-body" id="f1">
             <button class="x" type="button" data-close aria-label="Tutup">&times;</button>
@@ -188,7 +193,15 @@
             <div class="field"><label for="alamat">Alamat</label><input id="alamat" name="alamat" type="text"
                     placeholder="Jl. Jaksel, No. 14, Jember, Jawa Timur" autocomplete="street-address" required></div>
             <div class="actions">
-                <button class="btn-pill" type="submit"><span class="po-circle"></span>Lanjutkan</button>
+                <button class="btn-slider btn-slider-modal" id="btnSubmitM1" type="submit" aria-label="Lanjutkan ke pembayaran">
+                    <div class="circle">
+                        <svg class="circle-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                            <polyline points="12 5 19 12 12 19"></polyline>
+                        </svg>
+                    </div>
+                    <span class="btn-slider-text">Lanjutkan</span>
+                </button>
             </div>
         </form>
     </dialog>
@@ -213,11 +226,19 @@
                 </label>
             </div>
             <div class="actions">
-                <button class="btn-back" id="backToDetails" type="button" aria-label="Kembali ke langkah sebelumnya">
+                <button class="btn-back" id="backToDetails" type="button" aria-label="Kembali ke formulir data diri">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
                     <span>Kembali</span>
                 </button>
-                <button class="btn-pill" type="submit"><span class="po-circle"></span>Lanjutkan</button>
+                <button class="btn-slider btn-slider-modal" id="btnSubmitM2" type="submit" aria-label="Lanjutkan ke konfirmasi">
+                    <div class="circle">
+                        <svg class="circle-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                            <polyline points="12 5 19 12 12 19"></polyline>
+                        </svg>
+                    </div>
+                    <span class="btn-slider-text">Lanjutkan</span>
+                </button>
             </div>
         </form>
     </dialog>
@@ -235,7 +256,15 @@
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
                     <span>Kembali</span>
                 </button>
-                <button class="btn-pill" id="finish" type="button"><span class="po-circle"></span>Proses Pesanan</button>
+                <button class="btn-slider btn-slider-modal" id="finish" type="button" aria-label="Proses pesanan ke WhatsApp">
+                    <div class="circle">
+                        <svg class="circle-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                            <polyline points="12 5 19 12 12 19"></polyline>
+                        </svg>
+                    </div>
+                    <span class="btn-slider-text">Proses Pesanan</span>
+                </button>
             </div>
         </div>
     </dialog>

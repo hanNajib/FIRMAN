@@ -121,6 +121,11 @@ if (document.readyState === "loading") {
 
 // handle tombol slider
 function setupSliderButton(btn) {
+    // Jangan override slider custom di dalam dialog atau checkout preorder
+    if (btn.closest("dialog") || btn.closest(".checkout") || btn.hasAttribute("data-custom-slider")) {
+        return;
+    }
+
     const thumb = btn.querySelector(".circle");
     const text = btn.querySelector(".btn-slider-text");
 
@@ -415,3 +420,77 @@ if (document.readyState === "loading") {
 } else {
     initFaqAccordion();
 }
+
+// ==========================================================================
+// Display Scaling / Device Pixel Ratio Detector (Native JS)
+// ==========================================================================
+(function initDisplayScaleDetector() {
+    let currentMatchMedia = null;
+    let currentListener = null;
+
+    function getScaleBucket(ratio) {
+        return Math.round((ratio || 1) * 100);
+    }
+
+    function updateDisplayScale() {
+        const dpr = window.devicePixelRatio || 1;
+        const scale = getScaleBucket(dpr);
+
+        const root = document.documentElement;
+        if (root) {
+            root.setAttribute("data-scale", String(scale));
+            root.setAttribute("data-scale-ratio", dpr.toFixed(2));
+
+            const oldRootClasses = Array.from(root.classList).filter((c) => c.startsWith("scale-"));
+            oldRootClasses.forEach((c) => root.classList.remove(c));
+            root.classList.add(`scale-${scale}`);
+        }
+
+        if (document.body) {
+            document.body.setAttribute("data-scale", String(scale));
+            document.body.setAttribute("data-scale-ratio", dpr.toFixed(2));
+
+            const oldBodyClasses = Array.from(document.body.classList).filter((c) => c.startsWith("scale-"));
+            oldBodyClasses.forEach((c) => document.body.classList.remove(c));
+            document.body.classList.add(`scale-${scale}`);
+        }
+    }
+
+    function setupMediaListener() {
+        if (!window.matchMedia) return;
+
+        const dpr = window.devicePixelRatio || 1;
+
+        if (currentMatchMedia && currentListener) {
+            if (currentMatchMedia.removeEventListener) {
+                currentMatchMedia.removeEventListener("change", currentListener);
+            } else if (currentMatchMedia.removeListener) {
+                currentMatchMedia.removeListener(currentListener);
+            }
+        }
+
+        currentMatchMedia = window.matchMedia(`(resolution: ${dpr}dppx)`);
+        currentListener = () => {
+            updateDisplayScale();
+            setupMediaListener();
+        };
+
+        if (currentMatchMedia.addEventListener) {
+            currentMatchMedia.addEventListener("change", currentListener, { once: true });
+        } else if (currentMatchMedia.addListener) {
+            currentMatchMedia.addListener(currentListener);
+        }
+    }
+
+    updateDisplayScale();
+    setupMediaListener();
+
+    window.addEventListener("resize", () => {
+        updateDisplayScale();
+        setupMediaListener();
+    }, { passive: true });
+
+    if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", updateDisplayScale);
+    }
+})();
