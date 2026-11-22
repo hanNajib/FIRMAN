@@ -28,18 +28,25 @@
 }
 
 /* ==========================================================================
-   Virtual Scroll Viewport
+   Virtual Scroll Viewport & Performance Optimizations
    ========================================================================== */
 .viewport {
   @apply fixed inset-0 w-full h-full overflow-hidden;
+  contain: strict;
+  touch-action: pan-y;
 }
 
 .content {
   transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  perspective: 1000px;
+  -webkit-perspective: 1000px;
+  will-change: transform;
 }
 
 .content.is-scrolling {
-  will-change: transform;
+  pointer-events: auto;
 }
 
 /* ==========================================================================
@@ -399,6 +406,8 @@
 .kaleng-item {
   @apply absolute top-0 left-1/2 w-auto h-screen min-h-screen object-contain select-none pointer-events-auto origin-top transition-transform duration-500 ease-out md:max-lg:h-[90vh] md:max-lg:min-h-[700px] max-md:h-[75vh] max-md:min-h-[480px];
   will-change: transform;
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
 }
 
 .kaleng-tengah {
