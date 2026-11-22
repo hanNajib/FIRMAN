@@ -109,17 +109,45 @@
       btnOrder.addEventListener("click", (e) => {
         e.preventDefault();
 
+        const imgPath = product.gambar
+          ? product.gambar.replace(/^\.\.\/assets\//, "../../assets/")
+          : DEFAULT_IMAGE;
+
         const cartItem = {
           id: Number(product.id) || Date.now(),
           name: product.judul,
           price: numericPrice,
-          img: DEFAULT_IMAGE,
-          qty: currentQty,
+          img: imgPath,
+          qty: currentQty || 1,
         };
 
-        // Simpan ke LocalStorage untuk halaman Pre-Order
+        // Simpan / update ke LocalStorage untuk halaman Pre-Order
         try {
-          localStorage.setItem(STORAGE_KEY_CART, JSON.stringify([cartItem]));
+          let existingCart = [];
+          const raw = localStorage.getItem(STORAGE_KEY_CART);
+          if (raw) {
+            const parsed = JSON.parse(raw);
+            if (Array.isArray(parsed)) existingCart = parsed;
+          }
+
+          // Cek apakah produk sudah ada di keranjang
+          const existingIndex = existingCart.findIndex(
+            (item) =>
+              Number(item.id) === Number(cartItem.id) ||
+              item.name === cartItem.name
+          );
+
+          if (existingIndex > -1) {
+            existingCart[existingIndex].qty =
+              (Number(existingCart[existingIndex].qty) || 0) + cartItem.qty;
+          } else {
+            existingCart.push(cartItem);
+          }
+
+          localStorage.setItem(
+            STORAGE_KEY_CART,
+            JSON.stringify(existingCart)
+          );
         } catch (err) {
           console.warn("[ProdukDetail] Gagal menyimpan ke storage:", err);
         }

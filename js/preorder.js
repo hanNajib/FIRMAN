@@ -108,7 +108,7 @@
 
         getCart() {
             const saved = this._get(STORAGE_KEYS.CART);
-            return Array.isArray(saved) && saved.length > 0 ? saved : null;
+            return Array.isArray(saved) ? saved : [];
         },
 
         saveCart(cartItems) {
@@ -183,19 +183,9 @@
     };
 
     /* ==========================================================================
-       5. State Aplikasi (Murni dari Data Pilihan User)
+       5. State Aplikasi (Murni dari Data Pilihan User di LocalStorage)
        ========================================================================== */
-    const DEFAULT_CART_ITEMS = [
-        { id: 1, name: "Sarden SIP", price: 25000, img: DEFAULT_IMAGE, qty: 1 },
-        { id: 2, name: "Sarden SIP", price: 25000, img: DEFAULT_IMAGE, qty: 1 },
-        { id: 3, name: "Sarden SIP", price: 25000, img: DEFAULT_IMAGE, qty: 1 },
-    ];
-
     let cart = PreorderStore.getCart();
-    if (!cart || !cart.length) {
-        cart = DEFAULT_CART_ITEMS;
-        PreorderStore.saveCart(cart);
-    }
     let uid = cart.length ? Math.max(10, ...cart.map((i) => Number(i.id) || 0)) : 10;
 
     const order = {
@@ -536,7 +526,7 @@
                 const btn = e.target.closest("[data-del]");
                 if (btn) {
                     const idToDelete = Number(btn.dataset.del);
-                    cart = cart.filter((i) => i.id !== idToDelete);
+                    cart = cart.filter((i) => Number(i.id) !== idToDelete);
                     PreorderStore.saveCart(cart);
                     renderCart();
                 }
