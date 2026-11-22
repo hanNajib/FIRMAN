@@ -1,63 +1,214 @@
 const $ = (el) => document.querySelector(el);
 const $$ = (el) => document.querySelectorAll(el);
- 
+
 const content = $(".content");
 const navbar = $("#navbar");
- 
-function setBodyHeight() {
-    if (!content) return;
-    const h = `${Math.ceil(content.getBoundingClientRect().height)}px`;
-    if (document.body.style.height !== h) document.body.style.height = h;
-}
-setBodyHeight();
-window.addEventListener("resize", setBodyHeight);
-window.addEventListener("load", setBodyHeight);
 
-if (content && "ResizeObserver" in window) {
-    new ResizeObserver(setBodyHeight).observe(content);
-}
+class SmoothScroller {
+    constructor() {
+        this.content = $(".content");
+        this.navbar = $("#navbar");
+        this.currentY = 0;
+        this.targetY = 0;
+        this.maxScroll = 0;
+        this.ease = 0.085;
+        this.rafId = null;
+        this.isScrolling = false;
+        this.touchStartY = 0;
+        this.scrollListeners = new Set();
 
-let currentY = window.scrollY;
-let animationFrame = null;
-let lastRenderedY = Number.NaN;
-const ease = 0.16;
-
-function smoothScroll() {
-    animationFrame = null;
-    const targetY = window.scrollY;
-    const delta = targetY - currentY;
-    currentY = Math.abs(delta) < 0.5 ? targetY : currentY + delta * ease;
-
-    if (content && currentY !== lastRenderedY) {
-        content.style.transform = `translate3d(0, -${currentY}px, 0)`;
-        lastRenderedY = currentY;
+        if (!this.content) return;
+        this.init();
     }
 
-    if (navbar) {
-        if (currentY > 35) {
-            navbar.classList.add("nav-blur");
-            navbar.classList.add("scrolled");
-        } else if (currentY < 15) {
-            navbar.classList.remove("nav-blur");
-            navbar.classList.remove("scrolled");
+    init() {
+        this.updateBounds();
+        window.addEventListener("resize", () => this.updateBounds(), { passive: true });
+        window.addEventListener("load", () => this.updateBounds(), { passive: true });
+
+        window.addEventListener("wheel", (e) => this.onWheel(e), { passive: false });
+        window.addEventListener("touchstart", (e) => this.onTouchStart(e), { passive: true });
+        window.addEventListener("touchmove", (e) => this.onTouchMove(e), { passive: false });
+        window.addEventListener("keydown", (e) => this.onKeyDown(e));
+
+        this.bindAnchorLinks();
+        this.applyTransform(0);
+    }
+
+    updateBounds() {
+        if (!this.content) return;
+        const totalHeight = this.content.scrollHeight || this.content.offsetHeight;
+        this.maxScroll = Math.max(0, totalHeight - window.innerHeight);
+        const h = `${Math.ceil(totalHeight)}px`;
+        if (document.body.style.height !== h) {
+            document.body.style.height = h;
+        }
+        this.clampTarget();
+    }
+
+    clampTarget() {
+        this.targetY = Math.max(0, Math.min(this.targetY, this.maxScroll));
+        this.requestTick();
+    }
+
+    onWheel(e) {
+        e.preventDefault();
+
+        let delta = e.deltaY;
+        if (e.deltaMode === 1) delta *= 35;
+        else if (e.deltaMode === 2) delta *= window.innerHeight;
+
+        this.targetY += delta * 0.95;
+        this.clampTarget();
+    }
+
+    onTouchStart(e) {
+        if (e.touches.length === 1) {
+            this.touchStartY = e.touches[0].clientY;
         }
     }
 
-    if (Math.abs(targetY - currentY) >= 0.5) {
-        animationFrame = requestAnimationFrame(smoothScroll);
-    } else if (content) {
-        content.classList.remove("is-scrolling");
+    onTouchMove(e) {
+        if (e.touches.length === 1) {
+            const currentY = e.touches[0].clientY;
+            const deltaY = this.touchStartY - currentY;
+            this.touchStartY = currentY;
+            this.targetY += deltaY * 1.5;
+            this.clampTarget();
+        }
+    }
+
+    onKeyDown(e) {
+        const activeTag = document.activeElement ? document.activeElement.tagName.toLowerCase() : "";
+        if (["input", "textarea", "select"].includes(activeTag)) return;
+
+        let delta = 0;
+        switch (e.key) {
+            case "ArrowDown":
+                delta = 80;
+                break;
+            case "ArrowUp":
+                delta = -80;
+                break;
+            case "PageDown":
+            case " ":
+                delta = window.innerHeight * 0.85;
+                break;
+            case "PageUp":
+                delta = -window.innerHeight * 0.85;
+                break;
+            case "Home":
+                this.scrollTo(0);
+                return;
+            case "End":
+                this.scrollTo(this.maxScroll);
+                return;
+            default:
+                return;
+        }
+
+        e.preventDefault();
+        this.targetY += delta;
+        this.clampTarget();
+    }
+
+    scrollTo(target, immediate = false) {
+        this.targetY = Math.max(0, Math.min(target, this.maxScroll));
+        if (immediate) {
+            this.currentY = this.targetY;
+            this.applyTransform(this.currentY);
+            this.updateNavbar(this.currentY);
+        } else {
+            this.requestTick();
+        }
+    }
+
+    scrollToElement(element) {
+        if (!element) return;
+        this.updateBounds();
+        const rect = element.getBoundingClientRect();
+        const targetPos = this.currentY + rect.top;
+        this.scrollTo(targetPos);
+    }
+
+    bindAnchorLinks() {
+        document.addEventListener("click", (e) => {
+            const link = e.target.closest('a[href^="#"]');
+            if (!link) return;
+            const hash = link.getAttribute("href");
+            if (!hash || hash === "#") return;
+
+            const targetEl = document.querySelector(hash);
+            if (targetEl) {
+                e.preventDefault();
+                this.scrollToElement(targetEl);
+                if (history.pushState) {
+                    history.pushState(null, null, hash);
+                }
+            }
+        });
+    }
+
+    onScroll(fn) {
+        this.scrollListeners.add(fn);
+    }
+
+    requestTick() {
+        if (!this.rafId) {
+            if (!this.isScrolling && this.content) {
+                this.content.classList.add("is-scrolling");
+                this.isScrolling = true;
+            }
+            this.rafId = requestAnimationFrame(() => this.update());
+        }
+    }
+
+    update() {
+        this.rafId = null;
+        const diff = this.targetY - this.currentY;
+
+        if (Math.abs(diff) < 0.15) {
+            this.currentY = this.targetY;
+        } else {
+            this.currentY += diff * this.ease;
+        }
+
+        this.applyTransform(this.currentY);
+        this.updateNavbar(this.currentY);
+
+        this.scrollListeners.forEach((fn) => fn(this.currentY));
+
+        if (this.currentY !== this.targetY) {
+            this.requestTick();
+        } else {
+            if (this.content) {
+                this.content.classList.remove("is-scrolling");
+            }
+            this.isScrolling = false;
+        }
+    }
+
+    applyTransform(y) {
+        if (this.content) {
+            this.content.style.transform = `translate3d(0, -${y.toFixed(2)}px, 0)`;
+        }
+    }
+
+    updateNavbar(y) {
+        if (!this.navbar) return;
+        if (y > 35) {
+            this.navbar.classList.add("nav-blur", "scrolled");
+        } else if (y < 15) {
+            this.navbar.classList.remove("nav-blur", "scrolled");
+        }
     }
 }
 
-function scheduleSmoothScroll() {
-    if (animationFrame !== null) return;
-    if (content) content.classList.add("is-scrolling");
-    animationFrame = requestAnimationFrame(smoothScroll);
-}
+const scroller = new SmoothScroller();
 
-window.addEventListener("scroll", scheduleSmoothScroll, { passive: true });
-scheduleSmoothScroll();
+function setBodyHeight() {
+    if (scroller) scroller.updateBounds();
+}
 
 // mobile navbar menu toggle
 function initMobileNavbar() {
@@ -121,6 +272,11 @@ if (document.readyState === "loading") {
 
 // handle tombol slider
 function setupSliderButton(btn) {
+    // Jangan override slider custom di dalam dialog atau checkout preorder
+    if (btn.closest("dialog") || btn.closest(".checkout") || btn.hasAttribute("data-custom-slider")) {
+        return;
+    }
+
     const thumb = btn.querySelector(".circle");
     const text = btn.querySelector(".btn-slider-text");
 
@@ -198,26 +354,35 @@ function setupSliderButton(btn) {
             const targetEl = targetAttr ? $(targetAttr) : null;
 
             if (targetEl) {
-                window.scrollTo({
-                    top: targetEl.offsetTop,
-                    behavior: "smooth"
-                });
+                if (scroller) scroller.scrollToElement(targetEl);
+                else {
+                    window.scrollTo({
+                        top: targetEl.offsetTop,
+                        behavior: "smooth"
+                    });
+                }
             } else if (btn.id === "slideBtn") {
                 const showcaseSection = $("#hero-showcase") || $("#about");
                 if (showcaseSection) {
-                    const targetPos = showcaseSection.offsetTop || window.innerHeight;
-                    window.scrollTo({
-                        top: targetPos,
-                        behavior: "smooth"
-                    });
+                    if (scroller) scroller.scrollToElement(showcaseSection);
+                    else {
+                        const targetPos = showcaseSection.offsetTop || window.innerHeight;
+                        window.scrollTo({
+                            top: targetPos,
+                            behavior: "smooth"
+                        });
+                    }
                 }
             } else {
                 const nextSection = btn.closest("section")?.nextElementSibling;
                 if (nextSection) {
-                    window.scrollTo({
-                        top: nextSection.offsetTop,
-                        behavior: "smooth"
-                    });
+                    if (scroller) scroller.scrollToElement(nextSection);
+                    else {
+                        window.scrollTo({
+                            top: nextSection.offsetTop,
+                            behavior: "smooth"
+                        });
+                    }
                 }
             }
         }, 380);
@@ -267,27 +432,27 @@ function setupSliderButton(btn) {
     });
 
     const section = btn.closest("section");
-    let scrollCheckFrame = null;
 
-    function checkSliderReset() {
-        scrollCheckFrame = null;
+    function checkSliderReset(currentScrollY) {
         if (!btn.classList.contains("active")) return;
+        const scrollY = typeof currentScrollY === "number" ? currentScrollY : (scroller ? scroller.currentY : window.scrollY);
 
         if (btn.id === "slideBtn") {
-            if (window.scrollY < 40) reset();
-        } else if (section && window.scrollY < section.offsetTop - 150) {
+            if (scrollY < 40) reset();
+        } else if (section && scrollY < section.offsetTop - 150) {
             reset();
         }
     }
 
-    window.addEventListener(
-        "scroll",
-        () => {
-            if (scrollCheckFrame !== null) return;
-            scrollCheckFrame = requestAnimationFrame(checkSliderReset);
-        },
-        { passive: true }
-    );
+    if (scroller) {
+        scroller.onScroll(checkSliderReset);
+    } else {
+        window.addEventListener(
+            "scroll",
+            () => checkSliderReset(window.scrollY),
+            { passive: true }
+        );
+    }
 }
 
 function initSliders() {
@@ -415,3 +580,77 @@ if (document.readyState === "loading") {
 } else {
     initFaqAccordion();
 }
+
+// ==========================================================================
+// Display Scaling / Device Pixel Ratio Detector (Native JS)
+// ==========================================================================
+(function initDisplayScaleDetector() {
+    let currentMatchMedia = null;
+    let currentListener = null;
+
+    function getScaleBucket(ratio) {
+        return Math.round((ratio || 1) * 100);
+    }
+
+    function updateDisplayScale() {
+        const dpr = window.devicePixelRatio || 1;
+        const scale = getScaleBucket(dpr);
+
+        const root = document.documentElement;
+        if (root) {
+            root.setAttribute("data-scale", String(scale));
+            root.setAttribute("data-scale-ratio", dpr.toFixed(2));
+
+            const oldRootClasses = Array.from(root.classList).filter((c) => c.startsWith("scale-"));
+            oldRootClasses.forEach((c) => root.classList.remove(c));
+            root.classList.add(`scale-${scale}`);
+        }
+
+        if (document.body) {
+            document.body.setAttribute("data-scale", String(scale));
+            document.body.setAttribute("data-scale-ratio", dpr.toFixed(2));
+
+            const oldBodyClasses = Array.from(document.body.classList).filter((c) => c.startsWith("scale-"));
+            oldBodyClasses.forEach((c) => document.body.classList.remove(c));
+            document.body.classList.add(`scale-${scale}`);
+        }
+    }
+
+    function setupMediaListener() {
+        if (!window.matchMedia) return;
+
+        const dpr = window.devicePixelRatio || 1;
+
+        if (currentMatchMedia && currentListener) {
+            if (currentMatchMedia.removeEventListener) {
+                currentMatchMedia.removeEventListener("change", currentListener);
+            } else if (currentMatchMedia.removeListener) {
+                currentMatchMedia.removeListener(currentListener);
+            }
+        }
+
+        currentMatchMedia = window.matchMedia(`(resolution: ${dpr}dppx)`);
+        currentListener = () => {
+            updateDisplayScale();
+            setupMediaListener();
+        };
+
+        if (currentMatchMedia.addEventListener) {
+            currentMatchMedia.addEventListener("change", currentListener, { once: true });
+        } else if (currentMatchMedia.addListener) {
+            currentMatchMedia.addListener(currentListener);
+        }
+    }
+
+    updateDisplayScale();
+    setupMediaListener();
+
+    window.addEventListener("resize", () => {
+        updateDisplayScale();
+        setupMediaListener();
+    }, { passive: true });
+
+    if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", updateDisplayScale);
+    }
+})();
