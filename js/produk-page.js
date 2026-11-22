@@ -51,8 +51,8 @@ function createProductCard(product) {
 
   const action = document.createElement("a");
   action.className = "product-action-btn";
-  action.href = new URL("../index.html#faq", productRendererUrl).href;
-  action.setAttribute("aria-label", `Tanyakan ${product.judul}`);
+  action.href = new URL(`../page/produk/detail.html?id=${encodeURIComponent(product.id)}`, productRendererUrl).href;
+  action.setAttribute("aria-label", `Lihat detail ${product.judul}`);
 
   const arrow = document.createElement("img");
   arrow.src = new URL("../assets/icons/arrow-up-right.svg", productRendererUrl).href;
@@ -61,6 +61,11 @@ function createProductCard(product) {
   arrow.className = "w-3.5 h-3.5 brightness-0 invert";
   action.append(arrow);
   bottom.append(action);
+
+  imageWrap.style.cursor = "pointer";
+  imageWrap.addEventListener("click", () => {
+    window.location.href = action.href;
+  });
 
   info.append(bottom);
   card.append(imageWrap, info);
