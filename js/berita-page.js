@@ -39,7 +39,8 @@
   }
 
   /**
-   * Filter data berdasarkan pencarian dan kategori
+   * Filter data berdasarkan pencarian dan kategori,
+   * terurut berdasarkan tanggal terbaru (Order by Date Descending).
    */
   function getFilteredData() {
     if (typeof berita === "undefined" || !Array.isArray(berita)) {
@@ -48,7 +49,7 @@
 
     const query = searchQuery.trim().toLowerCase();
 
-    return berita.filter((item) => {
+    const filtered = berita.filter((item) => {
       // Filter kategori jika dipilih
       const matchCategory =
         !selectedCategory ||
@@ -64,6 +65,13 @@
         (item.penulis && item.penulis.toLowerCase().includes(query));
 
       return matchCategory && matchQuery;
+    });
+
+    // Urutkan berdasarkan tanggal terbaru
+    return filtered.sort((a, b) => {
+      const timeA = new Date(a.datetime || a.tanggal || 0).getTime();
+      const timeB = new Date(b.datetime || b.tanggal || 0).getTime();
+      return timeB - timeA;
     });
   }
 
@@ -301,8 +309,15 @@
   function changePage(page) {
     currentPage = page;
     const filteredList = getFilteredData();
-    renderCards(filteredList);
-    renderPagination(filteredList.length);
+    const featuredItem =
+      filteredList.find((item) => item.isFeatured) || filteredList[0];
+    const cardItems =
+      !searchQuery && !selectedCategory && featuredItem
+        ? filteredList.filter((item) => String(item.id) !== String(featuredItem.id))
+        : filteredList;
+
+    renderCards(cardItems);
+    renderPagination(cardItems.length);
     updateLayoutHeight();
 
     // Scroll halus ke daftar berita
@@ -331,8 +346,21 @@
   function applyFilters() {
     const filteredList = getFilteredData();
 
+    // Tentukan berita unggulan (Featured)
+    let featuredItem = null;
+    if (filteredList.length > 0) {
+      featuredItem =
+        filteredList.find((item) => item.isFeatured) || filteredList[0];
+    }
+
+    // Kecualikan berita yang sudah tampil di banner unggulan agar tidak duplikat
+    const cardItems =
+      !searchQuery && !selectedCategory && featuredItem
+        ? filteredList.filter((item) => String(item.id) !== String(featuredItem.id))
+        : filteredList;
+
     // Sesuaikan currentPage jika di luar batas hasil
-    const totalPages = Math.ceil(filteredList.length / itemsPerPage);
+    const totalPages = Math.ceil(cardItems.length / itemsPerPage);
     if (currentPage > totalPages && totalPages > 0) {
       currentPage = 1;
     }
@@ -348,8 +376,8 @@
     }
 
     renderFeatured(filteredList);
-    renderCards(filteredList);
-    renderPagination(filteredList.length);
+    renderCards(cardItems);
+    renderPagination(cardItems.length);
     updateLayoutHeight();
   }
 

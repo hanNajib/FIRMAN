@@ -3,150 +3,165 @@
  * Data Berita & Artikel TEFA Fish Canning POLIJE (js/data/berita.js)
  *
  * Pola Data Murni (Data ↔ Renderer Pattern)
+ * Terurut berdasarkan tanggal terbaru (Order by Date Descending).
  */
 
 const berita = [
   {
     id: "1",
-    judul: "Politeknik Negeri Jember laksanakan audit SNI untuk produk sarden",
-    kategori: "Kegiatan",
+    judul: "Sarden SIP Raih Juara Pertama Lomba Inovasi Produk Pangan Nasional",
+    kategori: "Pencapaian",
     isFeatured: true,
-    tanggal: "20 Januari 2026",
-    datetime: "2026-01-20",
-    gambar: "../../assets/images/Praktik-Pengalengan.jpg",
-    alt: "Petugas TEFA menjalani audit SNI",
+    tanggal: "2 Maret 2026",
+    datetime: "2026-03-02",
+    gambar: "../../assets/images/pencapian1.png",
+    alt: "Penghargaan Juara Pertama Inovasi Produk Pangan Nasional Sarden SIP POLIJE",
     ringkasan:
-      "Politeknik Negeri Jember (Polije) telah berhasil melaksanakan audit Standar Nasional Indonesia (SNI) untuk produk Sarden kaleng di Teaching Factory (TEFA) Canning guna menjamin mutu pangan nasional.",
-    penulis: "Humas Polije",
+      "Sarden SIP berhasil meraih juara pertama dalam ajang bergengsi Lomba Inovasi Produk Pangan Nasional berkat keunggulan cita rasa, formulasi alami, dan standar mutu industri modern.",
+    penulis: "Admin TEFA",
     konten: [
-      "Politeknik Negeri Jember (Polije) telah berhasil melaksanakan audit Standar Nasional Indonesia (SNI) untuk produk sarden kaleng di Teaching Factory (TEFA) Canning. Audit ini merupakan langkah krusial dalam memastikan kualitas, keamanan, dan standardisasi produk sarden yang dihasilkan oleh mahasiswa dan tim teknis.",
-      "Proses audit berlangsung selama tiga hari dengan melibatkan tim auditor independen dari Badan Standardisasi Nasional (BSN). Evaluasi mencakup seluruh rantai produksi, mulai dari seleksi bahan baku ikan lemuru segar, higienitas lini pengolahan, proses seaming kaleng, hingga proses sterilisasi retort dengan suhu dan tekanan tinggi.",
-      "Hasil audit menunjukkan bahwa fasilitas dan operasional TEFA Canning Polije telah memenuhi parameter kepatuhan SNI 3223:2022 tentang Ikan Dalam Kemasan Kaleng, menegaskan komitmen vokasi Polije dalam menghasilkan produk bermutu industri bagi masyarakat luas."
-    ]
+      "Sarden SIP produksi Teaching Factory (TEFA) Fish Canning Politeknik Negeri Jember berhasil menorehkan prestasi gemilang dengan meraih juara pertama dalam Lomba Inovasi Produk Pangan Nasional 2026 yang diselenggarakan oleh Kementerian Perindustrian bekerja sama dengan asosiasi industri pangan nasional. Pencapaian ini menjadi bukti konkret bahwa produk olahan pangan hasil riset vokasi dan produksi mahasiswa POLIJE memiliki kualitas kompetitif yang mampu bersaing di pasar nasional.",
+      "Ajang kompetisi tahunan ini diikuti oleh puluhan institusi pendidikan tinggi dan pelaku industri pangan dari seluruh Indonesia. Aspek penilaian yang diterapkan tim juri independen meliputi kebaruan inovasi formulasi saus alami tanpa bahan pengawet sintetis, efektivitas proses pengolahan termal dengan teknologi retort, desain kemasan food-grade bersertifikasi SNI, serta kelayakan ekonomi dan rencana komersialisasi produk yang terstruktur.",
+      "Direktur Politeknik Negeri Jember bersama jajaran pengelola TEFA menyampaikan apresiasi mendalam atas dedikasi mahasiswa serta dosen pembimbing yang terlibat dalam pengembangan varian unggulan Sarden SIP. Keberhasilan ini tidak lepas dari integrasi kurikulum berbasis Teaching Factory, di mana mahasiswa dilatih secara langsung mempraktikkan regulasi Good Manufacturing Practice (GMP) dan Hazard Analysis Critical Control Point (HACCP).",
+      "Melalui penghargaan bergengsi ini, TEFA Fish Canning POLIJE semakin mantap memperluas penetrasi pasar produk Sarden SIP ke jaringan retail modern, distributor daerah, serta pengadaan institusional. Prestasi ini diharapkan dapat memotivasi seluruh civitas akademika untuk terus melahirkan riset terapan yang aplikatif dan berdampak nyata bagi kedaulatan pangan maritim Indonesia.",
+    ],
   },
   {
     id: "2",
-    judul: "Sarden SIP POLIJE: Produk pangan kaleng higienis inovasi mahasiswa vokasi",
-    kategori: "Kegiatan",
+    judul: "Dosen dan Mahasiswa POLIJE Kembangkan Produk Olahan Surimi Berbasis Ikan Lemuru",
+    kategori: "Inovasi",
     isFeatured: false,
-    tanggal: "22 Januari 2026",
-    datetime: "2026-01-22",
-    gambar: "../../assets/images/fototefapengalengansardensipmantapjiwajosjis.png",
-    alt: "Mahasiswa mengemas sarden kaleng",
+    tanggal: "26 Februari 2026",
+    datetime: "2026-02-26",
+    gambar: "../../assets/images/sarden.png",
+    alt: "Ikan lemuru segar bahan baku pengembangan produk olahan surimi",
     ringkasan:
-      "Sarden SIP POLIJE merupakan produk pangan kaleng higienis yang dihasilkan oleh mahasiswa berbasis Teaching Factory dengan cita rasa lezat dan kaya nutrisi.",
-    penulis: "Tim Media TEFA",
+      "Tim riset terapan TEFA POLIJE sukses mengembangkan diversifikasi produk surimi berkualitas tinggi memanfaatkan potensi melimpah ikan lemuru lokal dari pesisir selatan Jember.",
+    penulis: "Admin TEFA",
     konten: [
-      "Sarden SIP POLIJE merupakan wujud nyata penerapan kurikulum berbasis industri di Politeknik Negeri Jember. Mahasiswa dilibatkan langsung dalam alur kerja profesional pabrik pengalengan ikan komersial.",
-      "Dengan formula saus pilihan tanpa bahan pengawet sintetis berbahaya, Sarden SIP menawarkan sumber protein tinggi, asam lemak omega-3, serta kalsium yang baik bagi konsumsi harian keluarga."
-    ]
+      "Tim kolaborasi dosen peneliti dan mahasiswa Program Studi Pengolahan Hasil Ternak serta Teknologi Industri Pangan POLIJE berhasil mengembangkan terobosan baru berupa produk surimi berbasis ikan lemuru (Sardinella lemuru). Inovasi ini dirancang untuk memanfaatkan potensi tangkapan nelayan lokal di pesisir Puger, Jember, yang selama ini menghadapi fluktuasi harga saat musim panen raya.",
+      "Surimi merupakan pasta protein ikan konsentrat yang menjadi bahan baku utama pembuatan berbagai olahan bernilai tambah tinggi seperti kamaboko, fish cake, baso ikan, dan crab stick imitasi. Penggunaan ikan lemuru sebagai bahan baku surimi menghadapi tantangan tingginya kandungan lemak dan mioglobin gelap. Namun, melalui teknik pencucian bertingkat dengan larutan alkali encer dan pemisahan sentrifugal dingin yang dikembangkan di laboratorium TEFA, pasta surimi yang dihasilkan berhasil mencapai derajat putih di atas 70% dengan elastisitas gel yang sangat kuat.",
+      "Uji organoleptik dan uji tekstur gelometer menunjukkan bahwa surimi lemuru TEFA POLIJE memenuhi standar mutu ekspor. Mahasiswa yang terlibat dalam proyek riset ini mendapatkan pengalaman berharga dalam mengoperasikan alat refiner, mesin dewatering, dan silent cutter berkapasitas pilot plant, sehingga kompetensi industri mereka terasah secara komprehensif.",
+      "Ke depan, produk surimi lemuru ini akan diproduksi dalam skala komersial terbatas oleh unit TEFA Canning untuk memenuhi kebutuhan UMKM pengolahan makanan beku di Jawa Timur. Langkah ini sejalan dengan misi hilirisasi riset terapan kampus vokasi menuju kemandirian industri bahan baku pangan nasional.",
+    ],
   },
   {
     id: "3",
-    judul: "Riset Formulasi Saus Tomat Alami Berbasis Komoditas Lokal Jember",
-    kategori: "Riset",
-    isFeatured: false,
-    tanggal: "28 Januari 2026",
-    datetime: "2026-01-28",
-    gambar: "../../assets/images/tomat.png",
-    alt: "Riset formulasi saus tomat alami",
-    ringkasan:
-      "Dosen dan mahasiswa jurusan Teknologi Pertanian Polije mengembangkan saus tomat alami dengan viskositas optimal dan antioksidan likopen tinggi.",
-    penulis: "Pusat Riset Terapan Polije",
-    konten: [
-      "Pengembangan formula media saus pengalengan ikan terus dioptimalkan melalui riset terapan di TEFA Fish Canning Polije. Salah satu riset unggulan berfokus pada pemanfaatan tomat segar dari petani lokal Jember.",
-      "Riset ini berhasil menciptakan pasta tomat dengan tingkat keasaman (pH) seimbang, warna merah cerah alami, dan stabilitas termal yang tahan terhadap suhu sterilisasi retort 121°C."
-    ]
-  },
-  {
-    id: "4",
-    judul: "Edukasi Kunjungan Industri Siswa SMK: Mengenal Teknologi Retort Bertekanan",
-    kategori: "Edukasi",
-    isFeatured: false,
-    tanggal: "3 Februari 2026",
-    datetime: "2026-02-03",
-    gambar: "../../assets/images/Sanitary-Food-Processing-Line 1.jpg",
-    alt: "Kunjungan edukasi industri di lini TEFA Canning",
-    ringkasan:
-      "TEFA Canning Polije menyambut kunjungan siswa SMK Kejuruan Pengolahan Hasil Perikanan untuk mempelajari teknologi retort dan sanitasi industri modern.",
-    penulis: "Unit Kemitraan Vokasi",
-    konten: [
-      "Sebagai pusat keunggulan pendidikan vokasi, TEFA Canning Polije secara berkala menyelenggarakan program edukasi dan transfer teknologi bagi generasi muda dan siswa SMK.",
-      "Dalam kunjungan ini, peserta diajak melihat langsung pengoperasian mesin seamer otomatis, prinsip kerja retort bertekanan, dan pengujian kualitas mutu kemasan kaleng."
-    ]
-  },
-  {
-    id: "5",
-    judul: "Uji Mutu Organoleptik & Mikrobiologi Produk Ikan Kaleng Lemuru",
-    kategori: "Riset",
-    isFeatured: false,
-    tanggal: "10 Februari 2026",
-    datetime: "2026-02-10",
-    gambar: "../../assets/images/Praktik-Pengalengan.jpg",
-    alt: "Pengujian laboratorium mutu ikan sarden",
-    ringkasan:
-      "Laboratorium Pengawasan Mutu Polije melakukan uji mikrobiologi berkala untuk memastikan produk ikan kaleng bebas bakteri pembusuk dan aman dikonsumsi.",
-    penulis: "Lab Pengendalian Mutu",
-    konten: [
-      "Pengendalian mutu (Quality Control) adalah pilar terpenting dalam industri makanan kaleng. Setiap batch produksi Sarden SIP wajib melewati tahap inkubasi dan pengujian mikrobiologis sebelum didistribusikan.",
-      "Hasil uji stabilitas komersial mengonfirmasi sterilitas produk dengan zero-defect pada parameter mikroba patogen seperti Clostridium botulinum."
-    ]
-  },
-  {
-    id: "6",
-    judul: "Workshop Higienitas & Sanitasi Standar HACCP bagi Mahasiswa TEFA",
-    kategori: "Edukasi",
-    isFeatured: false,
-    tanggal: "15 Februari 2026",
-    datetime: "2026-02-15",
-    gambar: "../../assets/images/alat-hero.webp",
-    alt: "Penerapan standar sanitasi dan higienitas pekerja",
-    ringkasan:
-      "Pelatihan ketat mengenai Hazard Analysis and Critical Control Points (HACCP) diberikan sebelum mahasiswa memasuki lini produksi pengalengan ikan.",
-    penulis: "Divisi QA/QC TEFA",
-    konten: [
-      "Kedisiplinan sanitasi menjadi keharusan di TEFA Canning. Setiap personel wajib mematuhi protokol pemakaian APD steril, air shower, sanitasi tangan, dan desinfeksi peralatan.",
-      "Workshop ini membekali mahasiswa dengan standar sertifikasi kompetensi industri pengolahan makanan berskala global."
-    ]
-  },
-  {
-    id: "7",
-    judul: "Optimalisasi Rantai Pasok Ikan Lemuru Segar dari Nelayan Puger Jember",
-    kategori: "Kegiatan",
+    judul: "Inovasi Kemasan Ramah Lingkungan untuk Produk Sarden Kaleng TEFA POLIJE",
+    kategori: "Inovasi",
     isFeatured: false,
     tanggal: "22 Februari 2026",
     datetime: "2026-02-22",
-    gambar: "../../assets/images/sarden.png",
-    alt: "Pasokan ikan lemuru segar kualitas pilihan",
+    gambar: "../../assets/images/inovasi2.jpg",
+    alt: "Kemasan sarden kaleng ramah lingkungan TEFA POLIJE",
     ringkasan:
-      "Kerja sama strategis TEFA Canning Polije dengan kelompok nelayan pantai Puger menjamin pasokan ikan segar berkualitas tinggi dan menopang ekonomi nelayan lokal.",
-    penulis: "Humas Polije",
+      "Pengembangan kemasan ramah lingkungan yang dapat didaur ulang dan mengurangi dampak terhadap lingkungan.",
+    penulis: "Admin TEFA",
     konten: [
-      "Kualitas ikan kaleng berawal dari kesegaran bahan baku. TEFA Polije menjalin kemitraan erat dengan nelayan lokal Puger, Jember selatan, menerapkan rantai dingin (cold chain) sejak kapal bersandar.",
-      "Ikan lemuru langsung disortir dan diproses dalam kondisi kesegaran maksimal untuk mempertahankan tekstur kenyal dan rasa gurih alami."
-    ]
+      "Sebagai wujud komitmen terhadap pelestarian lingkungan dan keberlanjutan industri hijau, TEFA Fish Canning Politeknik Negeri Jember resmi memperkenalkan inovasi kemasan ramah lingkungan untuk seluruh varian produk Sarden SIP. Kemasan baru ini mengusung konsep eco-packaging yang mengombinasikan material tinplate baja bermutu tinggi dengan proses pencetakan label ramah biosfer.",
+      "Kemasan kaleng baja ini memiliki sifat 100% recyclable tanpa penurunan kualitas material (infinite recycling). Selain itu, lapisan interior kaleng kini menggunakan food-safe coating berbasis resin organik bebas BPA (BPA-NI) yang terbukti aman bagi kesehatan konsumen dan tidak meninggalkan residu kimia berbahaya pada saus sarden meski disimpan dalam jangka waktu lama.",
+      "Pada bagian eksterior, TEFA beralih menggunakan tinta cetak berbasis minyak kedelai (soy-based ink) dan pelapis luar biodegradable yang cepat terurai saat proses daur ulang. Pengurangan ketebalan dinding kaleng sebesar 8% juga berhasil dicapai melalui optimasi struktural geometri kaleng, yang secara langsung menekan bobot logistik dan jejak karbon transportasi tanpa mengurangi ketahanan terhadap tekanan retort hingga 1,5 bar.",
+      "Inovasi kemasan ini telah lolos uji migrasi kemasan di balai sertifikasi kemasan pangan dan mendapat apresiasi luas dari mitra industri. TEFA POLIJE terus membuktikan bahwa produk pangan kaleng lokal dapat tampil higienis, aman, berdaya saing modern, sekaligus peduli terhadap kelestarian ekosistem bumi.",
+    ],
+  },
+  {
+    id: "4",
+    judul: "TEFA POLIJE Implementasikan Teknologi Retort Terbaru untuk Tingkatkan Efisiensi Produksi",
+    kategori: "Inovasi",
+    isFeatured: false,
+    tanggal: "15 Februari 2026",
+    datetime: "2026-02-15",
+    gambar: "../../assets/images/inovasi1.jpg",
+    alt: "Penerapan mesin retort modern di lini produksi TEFA Canning",
+    ringkasan:
+      "TEFA POLIJE telah mengimplementasikan teknologi mesin retort generasi terbaru yang dilengkapi sistem otomasi presisi guna meningkatkan efisiensi energi dan kapasitas sterilisasi.",
+    penulis: "Admin TEFA",
+    konten: [
+      "Unit Pengalengan Ikan TEFA POLIJE kembali memperkuat kapabilitas fasilitas produksinya dengan mengintegrasikan mesin retort uap bertekanan generasi terbaru. Mesin sterilisasi modern ini dilengkapi modul Programmable Logic Controller (PLC) dan sensor digital multi-titik yang memantau distribusi panas di seluruh keranjang kaleng secara real-time.",
+      "Dalam industri pengalengan ikan, tahap sterilisasi termal adalah jantung penentu keamanan mikrobiologis. Mesin retort baru ini mampu mempertahankan stabilitas temperatur kerja pada rentang 115°C hingga 121°C dengan deviasi sangat rendah (±0,3°C). Presisi ini memastikan nilai letalitas panas (F0) tercapai sempurna untuk memusnahkan spora Clostridium botulinum tanpa merusak tekstur daging ikan dan kandungan nutrisi asam lemak Omega-3.",
+      "Penerapan sistem sirkulasi uap tertutup dan penukar panas efisiensi tinggi pada unit baru ini terbukti berhasil memangkas konsumsi uap hingga 35% dan mempercepat siklus pendinginan pasca-sterilisasi hingga 25 menit per batch. Peningkatan efisiensi ini memungkinkan TEFA meningkatkan output harian hingga 2.500 kaleng per hari operasional praktik.",
+      "Kehadiran teknologi mutakhir ini sekaligus menjadi sarana pembelajaran industri yang sangat berharga bagi para mahasiswa. Mahasiswa tidak hanya belajar teori pengolahan termal, namun langsung mengoperasikan antarmuka HMI (Human-Machine Interface), memverifikasi grafik termokopel, dan menjalankan prosedur sanitasi bejana bertekanan sesuai standar K3 ketel uap industri.",
+    ],
+  },
+  {
+    id: "5",
+    judul: "TEFA POLIJE Gelar Praktik Pengalengan Ikan dengan Penerapan Standar Higienis Global",
+    kategori: "Kegiatan",
+    isFeatured: false,
+    tanggal: "8 Februari 2026",
+    datetime: "2026-02-08",
+    gambar: "../../assets/images/pemberian saus.jpg",
+    alt: "Mahasiswa menerapkan standar higienis dan sanitasi saat pengisian saus",
+    ringkasan:
+      "Kegiatan praktik pengalengan ikan di TEFA POLIJE menerapkan protokol sanitasi ketat berstandar global, membekali mahasiswa dengan disiplin kerja industri pangan profesional.",
+    penulis: "Admin TEFA",
+    konten: [
+      "Teaching Factory (TEFA) Canning POLIJE menyelenggarakan kegiatan praktik terpadu pengalengan ikan bagi mahasiswa semester akhir dengan pengawasan ketat instruktur industri. Seluruh rangkaian kegiatan dijalankan dengan mematuhi protokol higienis internasional sesuai pedoman Codex Alimentarius dan standar Hazard Analysis Critical Control Point (HACCP).",
+      "Sebelum memasuki ruang pengolahan steril, setiap mahasiswa wajib melalui serangkaian zona sanitasi yang mencakup penggantian pakaian kerja khusus, pemakaian penutup kepala ganda, masker medis, sepatu boot anti-slip, cuci tangan bertahap dengan sabun antiseptik berbusa, pengeringan udara bertekanan, dan perlintasan bak larutan klorin. Disiplin ketat ini diterapkan guna mengeliminasi potensi kontaminasi silang sejak langkah pertama.",
+      "Pada stasiun kerja pengisian saus dan penimbangan kaleng, mahasiswa mempraktikkan teknik pengisian panas (hot filling) pada suhu minimal 80°C guna menciptakan ruang hampa (headspace vacuum) yang optimal setelah proses seaming. Setiap kaleng ditimbang secara acak menggunakan timbangan digital terkalibrasi untuk menjamin kepatuhan bobot tuntas (drained weight) sesuai label kemasan.",
+      "Praktik berbasis simulasi nyata industri ini dirancang agar lulusan Politeknik Negeri Jember memiliki mentalitas kerja tanpa kompromi terhadap higienitas. Pengalaman langsung dalam lingkungan yang memenuhi standar audit industri menjadi modal utama alumni Polije untuk langsung terserap di berbagai perusahaan multinasional sektor food and beverage.",
+    ],
+  },
+  {
+    id: "6",
+    judul: "Jamin Mutu Pangan: Mahasiswa POLIJE Pelajari Proses Krusial Sterilisasi di Mesin Retort",
+    kategori: "Kegiatan",
+    isFeatured: false,
+    tanggal: "28 Januari 2026",
+    datetime: "2026-01-28",
+    gambar: "../../assets/images/Proses Sterilisasi.jpg",
+    alt: "Proses sterilisasi komersial suhu tinggi mesin retort TEFA POLIJE",
+    ringkasan:
+      "Mahasiswa Politeknik Negeri Jember mendalami teknik operasional dan kalkulasi kecukupan panas proses sterilisasi komersial pada bejana retort pengalengan ikan.",
+    penulis: "Admin TEFA",
+    konten: [
+      "Sebanyak 45 mahasiswa jurusan teknologi pertanian Politeknik Negeri Jember mengikuti modul praktik intensif pengoperasian dan validasi termal bejana retort di fasilitas TEFA Canning. Kegiatan ini menitikberatkan pada pemahaman proses sterilisasi komersial sebagai benteng utama jaminan mutu dan keamanan produk pangan berasam rendah (low-acid canned foods).",
+      "Selama sesi praktik, mahasiswa dibimbing melakukan kalkulasi penetrasi panas dengan memasang kabel termokopel tepat pada cold point di bagian tengah kaleng sarden. Data temperatur yang terekam setiap 30 detik kemudian diolah menggunakan metode integrasi numerik Ball dan General Method untuk menghitung nilai F0 sterilisasi secara matematis presisi.",
+      "Pemahaman mendalam mengenai kecukupan panas sangat krusial agar produk mencapai sterilitas komersial tanpa mengalami over-cooking yang dapat merusak tekstur daging ikan lemuru maupun membuat saus menjadi gosong (caramelized). Mahasiswa juga dilatih menangani prosedur darurat seperti penurunan tekanan mendadak (pressure drop) dan pencegahan deformasi kaleng saat proses pendinginan air bertekanan (counter pressure cooling).",
+      "Kepala Laboratorium TEFA menegaskan bahwa penguasaan teknologi retort merupakan kompetensi langka yang sangat dicari oleh industri pengalengan ikan nasional. Dengan sertifikasi kompetensi teknis yang diperoleh setelah praktik ini, mahasiswa siap berkontribusi sebagai operator handal, quality control officer, maupun thermal process specialist.",
+    ],
+  },
+  {
+    id: "7",
+    judul: "SARDEN SIP POLIJE: Produk Pangan Kaleng Higienis Hasil Produksi Mahasiswa Kompeten",
+    kategori: "Kegiatan",
+    isFeatured: false,
+    tanggal: "24 Januari 2026",
+    datetime: "2026-01-24",
+    gambar: "../../assets/images/berita2.jpg",
+    alt: "Mahasiswa POLIJE memeriksa kemasan kaleng sarden siap edar",
+    ringkasan:
+      "Sarden SIP POLIJE membuktikan kapabilitas mahasiswa vokasi dalam menghasilkan produk pangan kaleng lezat, higienis, dan bernutrisi tinggi yang siap bersaing di pasar modern.",
+    penulis: "Admin TEFA",
+    konten: [
+      "Sarden SIP (Sarden Ikan Pilihan) merupakan salah satu produk unggulan kebanggaan Politeknik Negeri Jember yang diproduksi secara langsung oleh mahasiswa di bawah bimbingan teknisi profesional Teaching Factory. Menggunakan bahan baku utama ikan lemuru segar hasil tangkapan perairan Selat Bali dan Samudra Hindia, produk ini diproses secara higienis dalam hitungan jam pasca-pendaratan ikan.",
+      "Keunggulan utama Sarden SIP terletak pada kesegaran bahan baku utamanya yang memiliki tekstur daging padat dan kaya akan minyak ikan alami yang mengandung Omega-3 (EPA dan DHA). Formulasi saus tomat dan bumbu rempah nusantara diolah dari sayuran segar pilihan tanpa tambahan pewarna buatan maupun pengawet kimiawi, sehingga menghasilkan rasa gurih alami yang disukai seluruh anggota keluarga.",
+      "Setiap batch produksi diawasi ketat melalui lembar kendali mutu di sembilan titik kritis (Critical Control Points). Mulai dari pemotongan kepala dan pembuangan isi perut (gutting), pencucian air es mengalir, pengukusan awal (exhausting) untuk mengeluarkan udara jaringan ikan, hingga penutupan ganda (double seaming) kaleng yang diuji secara mikroskopis dengan projector seam-check.",
+      "Produk Sarden SIP saat ini telah tersedia di gerai resmi Polije Mart, toko oleh-oleh khas Jember, dan melayani pemesanan pre-order secara daring melalui sistem informasi FIRMAN. Kehadiran produk ini menjadi bukti nyata bahwa sistem pendidikan vokasi mampu bertransformasi menjadi unit usaha produktif yang mencetak wirausahawan dan profesional industri pangan yang berdaya saing.",
+    ],
   },
   {
     id: "8",
-    judul: "Inovasi Varian Sarden Saus Cabai dan Tartar: Riset Preferensi Pasar",
-    kategori: "Riset",
+    judul: "Politeknik Negeri Jember Laksanakan Audit SNI untuk Produk Sarden Kaleng",
+    kategori: "Kegiatan",
     isFeatured: false,
-    tanggal: "2 Maret 2026",
-    datetime: "2026-03-02",
-    gambar: "../../assets/images/kalengsardenpolijesippengensardenpakenasitambahsambelmakanpakekerupuk.png",
-    alt: "Varian produk sarden inovatif",
+    tanggal: "20 Januari 2026",
+    datetime: "2026-01-20",
+    gambar: "../../assets/images/Praktik-Pengalengan.jpg",
+    alt: "Tim auditor dan teknisi memeriksa lini pengalengan TEFA POLIJE",
     ringkasan:
-      "Diversifikasi produk sarden dengan sensasi pedas saus cabai dan kelezatan saus tartar mendapatkan respons antusias dalam uji preferensi konsumen muda.",
-    penulis: "Divisi R&D TEFA",
+      "Politeknik Negeri Jember sukses melaksanakan audit sertifikasi Standar Nasional Indonesia (SNI 3223:2022) pada fasilitas Teaching Factory Canning guna memastikan mutu pangan berstandar nasional.",
+    penulis: "Admin TEFA",
     konten: [
-      "Merespons selera pasar generasi muda yang menginginkan variasi rasa baru, tim R&D TEFA merilis varian Saus Cabai Pedas Gurih dan Saus Tartar Creamy.",
-      "Uji kesukaan (hedonik) mencatatkan skor kepuasan lebih dari 88%, memperluas potensi jangkauan produk ke segmen konsumen yang lebih luas."
-    ]
-  }
+      "Politeknik Negeri Jember (Polije) telah sukses menuntaskan rangkaian audit sertifikasi Standar Nasional Indonesia (SNI) untuk lini produk ikan sarden dalam kemasan kaleng di fasilitas Teaching Factory (TEFA) Canning. Audit komprehensif ini dilakukan sebagai langkah strategis dalam menjamin kepatuhan mutu produk terhadap regulasi pangan nasional dan standar keamanan konsumen.",
+      "Pelaksanaan audit selama tiga hari penuh melibatkan tim auditor teknis dari Lembaga Sertifikasi Produk (LSPro) dan Badan Standardisasi Nasional (BSN). Ruang lingkup asesmen mencakup audit dokumen sistem manajemen mutu, verifikasi kalibrasi instrumen laboratorium, pengujian residu logam berat dan histamin pada bahan baku, hingga inspeksi fisik higienitas ruang produksi dan kelayakan mesin penutup kaleng otomatis.",
+      "Tim auditor memberikan apresiasi tinggi terhadap komitmen civitas akademika TEFA POLIJE yang berhasil mempertahankan dokumentasi traceability (keterlacakan produk) yang sangat rapi. Melalui sistem pencatatan batch digital, setiap kaleng sarden yang diproduksi dapat ditelusuri kembali hingga ke tanggal kedatangan ikan di pelabuhan pendaratan nelayan dan nomor lot saus yang digunakan.",
+      "Dengan terpenuhinya seluruh klausul dalam SNI 3223:2022 tentang Ikan Sarden dan Ikan Mekerel Dalam Kemasan Kaleng, TEFA Polije berhak mencantumkan tanda SNI pada seluruh label kemasannya. Pencapaian ini kian memperkokoh reputasi TEFA Canning Polije sebagai teaching factory rujukan nasional di bidang teknologi pengolahan perikanan tangkap.",
+    ],
+  },
 ];
 
 // Kompatibilitas jika dipanggil dari environment node/module
 if (typeof module !== "undefined" && module.exports) {
   module.exports = berita;
 }
-

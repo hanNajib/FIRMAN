@@ -116,13 +116,61 @@
     }
 
     var toastTimer;
-    function toast(text) {
+    function toast(text, type) {
         var el = byId('toast');
         if (!el) return;
-        el.textContent = text;
+
+        var tLower = String(text || '').toLowerCase();
+        var toastType = type;
+        if (!toastType) {
+            if (tLower.indexOf('hapus') !== -1 || tLower.indexOf('dihapus') !== -1) {
+                toastType = 'delete';
+            } else if (tLower.indexOf('berhasil') !== -1 || tLower.indexOf('tambah') !== -1 || tLower.indexOf('perbarui') !== -1) {
+                toastType = 'success';
+            } else if (tLower.indexOf('gagal') !== -1 || tLower.indexOf('tidak') !== -1 || tLower.indexOf('error') !== -1) {
+                toastType = 'error';
+            } else {
+                toastType = 'success';
+            }
+        }
+
+        var title = 'Pemberitahuan';
+        var iconSvg = '';
+
+        if (toastType === 'delete') {
+            title = 'Data Dihapus';
+            iconSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4h8v2m-9 0 1 14h8l1-14"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>';
+        } else if (toastType === 'error') {
+            title = 'Gagal Memproses';
+            iconSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>';
+        } else {
+            // success (tambah / update / berhasil)
+            if (tLower.indexOf('perbarui') !== -1) {
+                title = 'Berhasil Diperbarui';
+            } else if (tLower.indexOf('tambah') !== -1) {
+                title = 'Berhasil Ditambahkan';
+            } else {
+                title = 'Berhasil';
+            }
+            iconSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
+        }
+
+        el.className = 'toast toast-' + toastType;
+        el.innerHTML =
+            '<div class="toast-badge">' + iconSvg + '</div>' +
+            '<div class="toast-body">' +
+                '<strong class="toast-title">' + esc(title) + '</strong>' +
+                '<span class="toast-msg">' + esc(text) + '</span>' +
+            '</div>';
+
+        // Force reflow agar transisi CSS berjalan mulus
+        void el.offsetWidth;
         el.classList.add('on');
+
         clearTimeout(toastTimer);
-        toastTimer = setTimeout(function () { el.classList.remove('on'); }, 2600);
+        toastTimer = setTimeout(function () {
+            el.classList.remove('on');
+        }, 3000);
     }
 
     /* Pesan singkat yang ditampilkan di halaman berikutnya (setelah redirect). */
