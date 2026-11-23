@@ -385,22 +385,18 @@
    * Inisialisasi event listener search bar dan filter
    */
   function initEvents() {
-    // Form submit
+    // Form submit (Manual search saat klik tombol search atau tekan Enter)
     if (searchForm) {
       searchForm.addEventListener("submit", (e) => {
         e.preventDefault();
         if (searchInput) searchQuery = searchInput.value;
         currentPage = 1;
         applyFilters();
-      });
-    }
 
-    // Input live-search
-    if (searchInput) {
-      searchInput.addEventListener("input", () => {
-        searchQuery = searchInput.value;
-        currentPage = 1;
-        applyFilters();
+        // Scroll halus ke daftar berita setelah pencarian
+        if (beritaListSection) {
+          beritaListSection.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
       });
     }
 

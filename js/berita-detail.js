@@ -67,17 +67,35 @@
 
     if (articleEl) {
       articleEl.innerHTML = "";
+      let firstParagraphDone = false;
+
       if (Array.isArray(article.konten) && article.konten.length > 0) {
-        article.konten.forEach((paragraf, index) => {
-          const p = createEl("p", "", paragraf);
-          if (index === 0 && article.penulis) {
-            const strong = createEl("strong", "", `${article.penulis} — `);
-            p.prepend(strong);
+        article.konten.forEach((item) => {
+          // Jika item berupa objek sub-heading
+          if (typeof item === "object" && item !== null && (item.subjudul || item.heading)) {
+            const headingText = item.subjudul || item.heading;
+            const h2 = createEl("h2", "article-subheading", headingText);
+            articleEl.appendChild(h2);
+          } else if (typeof item === "string") {
+            const p = createEl("p", "", item);
+            if (!firstParagraphDone) {
+              const lokasi = article.lokasi || "Jember";
+              const tgl = article.tanggal || "";
+              const leadText = tgl ? `${lokasi} ${tgl} – ` : `${lokasi} – `;
+              const strong = createEl("strong", "article-lead", leadText);
+              p.prepend(strong);
+              firstParagraphDone = true;
+            }
+            articleEl.appendChild(p);
           }
-          articleEl.appendChild(p);
         });
       } else if (article.ringkasan) {
         const p = createEl("p", "", article.ringkasan);
+        const lokasi = article.lokasi || "Jember";
+        const tgl = article.tanggal || "";
+        const leadText = tgl ? `${lokasi} ${tgl} – ` : `${lokasi} – `;
+        const strong = createEl("strong", "article-lead", leadText);
+        p.prepend(strong);
         articleEl.appendChild(p);
       }
     }
