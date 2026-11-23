@@ -1,6 +1,11 @@
 const $ = (el) => document.querySelector(el);
 const $$ = (el) => document.querySelectorAll(el);
 
+if ("scrollRestoration" in history) {
+    history.scrollRestoration = "manual";
+}
+window.scrollTo(0, 0);
+
 const content = $(".content");
 const navbar = $("#navbar");
 
@@ -11,7 +16,8 @@ class SmoothScroller {
         this.currentY = 0;
         this.targetY = 0;
         this.maxScroll = 0;
-        this.ease = 0.085;
+        this.decay = 8.5;
+        this.lastTime = performance.now();
         this.rafId = null;
         this.isScrolling = false;
         this.touchStartY = 0;
@@ -23,8 +29,17 @@ class SmoothScroller {
 
     init() {
         this.updateBounds();
+        this.applyTransform(0);
+
         window.addEventListener("resize", () => this.updateBounds(), { passive: true });
-        window.addEventListener("load", () => this.updateBounds(), { passive: true });
+        window.addEventListener("load", () => {
+            this.updateBounds();
+            this.checkInitialHash();
+        }, { passive: true });
+
+        window.addEventListener("hashchange", () => {
+            this.checkInitialHash();
+        });
 
         window.addEventListener("wheel", (e) => this.onWheel(e), { passive: false });
         window.addEventListener("touchstart", (e) => this.onTouchStart(e), { passive: true });
@@ -32,10 +47,45 @@ class SmoothScroller {
         window.addEventListener("keydown", (e) => this.onKeyDown(e));
 
         this.bindAnchorLinks();
-        this.applyTransform(0);
+        this.checkInitialHash();
     }
 
-    updateBounds() {
+    checkInitialHash() {
+        const hash = window.location.hash;
+        if (!hash || hash === "#") return;
+
+        const run = () => {
+            // Always force native scroll to 0 — prevents browser from fighting us
+            window.scrollTo(0, 0);
+            // Update bounds WITHOUT clamping/ticking so targetY stays untouched
+            this.updateBounds(false);
+
+            const targetEl = document.querySelector(hash);
+            if (!targetEl) return;
+
+            const navbarHeight = this.navbar ? this.navbar.offsetHeight : 0;
+            let targetPos = targetEl.offsetTop;
+            let el = targetEl.offsetParent;
+            while (el && el !== this.content && el !== document.body) {
+                targetPos += el.offsetTop;
+                el = el.offsetParent;
+            }
+            targetPos = Math.max(0, Math.min(targetPos - navbarHeight, this.maxScroll));
+
+            // Set both currentY AND targetY — no lerp, no race condition
+            this.currentY = targetPos;
+            this.targetY = targetPos;
+            this.applyTransform(targetPos);
+            this.updateNavbar(targetPos);
+        };
+
+        // Run immediately, then again once layout/images fully settle
+        run();
+        requestAnimationFrame(run);
+        setTimeout(run, 150);
+    }
+
+    updateBounds(clamp = true) {
         if (!this.content) return;
         const totalHeight = this.content.scrollHeight || this.content.offsetHeight;
         this.maxScroll = Math.max(0, totalHeight - window.innerHeight);
@@ -43,7 +93,7 @@ class SmoothScroller {
         if (document.body.style.height !== h) {
             document.body.style.height = h;
         }
-        this.clampTarget();
+        if (clamp) this.clampTarget();
     }
 
     clampTarget() {
@@ -127,7 +177,8 @@ class SmoothScroller {
         if (!element) return;
         this.updateBounds();
         const rect = element.getBoundingClientRect();
-        const targetPos = this.currentY + rect.top;
+        const navbarHeight = this.navbar ? this.navbar.offsetHeight : 0;
+        const targetPos = Math.max(0, this.currentY + rect.top - navbarHeight);
         this.scrollTo(targetPos);
     }
 
@@ -155,22 +206,28 @@ class SmoothScroller {
 
     requestTick() {
         if (!this.rafId) {
+            this.lastTime = performance.now();
             if (!this.isScrolling && this.content) {
                 this.content.classList.add("is-scrolling");
                 this.isScrolling = true;
             }
-            this.rafId = requestAnimationFrame(() => this.update());
+            this.rafId = requestAnimationFrame((now) => this.update(now));
         }
     }
 
-    update() {
+    update(now = performance.now()) {
         this.rafId = null;
+
+        const dt = Math.min((now - this.lastTime) / 1000, 0.1);
+        this.lastTime = now;
+
         const diff = this.targetY - this.currentY;
 
-        if (Math.abs(diff) < 0.15) {
+        if (Math.abs(diff) < 0.08) {
             this.currentY = this.targetY;
         } else {
-            this.currentY += diff * this.ease;
+            const factor = 1 - Math.exp(-this.decay * dt);
+            this.currentY += diff * factor;
         }
 
         this.applyTransform(this.currentY);
@@ -190,7 +247,7 @@ class SmoothScroller {
 
     applyTransform(y) {
         if (this.content) {
-            this.content.style.transform = `translate3d(0, -${y.toFixed(2)}px, 0)`;
+            this.content.style.transform = `translate3d(0, -${y}px, 0)`;
         }
     }
 
@@ -345,18 +402,75 @@ function setupSliderButton(btn) {
         if (text) text.style.opacity = "";
 
         setTimeout(() => {
-            const targetAttr = btn.getAttribute("data-target") || btn.getAttribute("href");
-            const targetEl = targetAttr ? $(targetAttr) : null;
+            const detail = { button: btn };
+            const customEvent = new CustomEvent("slide:complete", {
+                detail,
+                bubbles: true,
+                cancelable: true
+            });
+            const eventAllowed = btn.dispatchEvent(customEvent);
 
-            if (targetEl) {
-                if (scroller) scroller.scrollToElement(targetEl);
-                else {
-                    window.scrollTo({
-                        top: targetEl.offsetTop,
-                        behavior: "smooth"
-                    });
+            if (typeof btn.onSlideComplete === "function") {
+                btn.onSlideComplete(btn);
+                return;
+            }
+
+            const actionAttr = btn.getAttribute("data-action") || (text ? text.getAttribute("data-action") : null);
+            if (actionAttr) {
+                if (typeof window[actionAttr] === "function") {
+                    window[actionAttr](btn);
+                    return;
                 }
-            } else if (btn.id === "slideBtn") {
+                try {
+                    const fn = new Function("button", actionAttr);
+                    fn.call(btn, btn);
+                    return;
+                } catch (err) {
+                    console.error("Error executing data-action:", err);
+                }
+            }
+
+            if (!eventAllowed) return;
+
+            const targetAttr =
+                (text ? text.getAttribute("data-target") || text.getAttribute("href") || text.getAttribute("data-href") : null) ||
+                btn.getAttribute("data-target") ||
+                btn.getAttribute("href") ||
+                btn.getAttribute("data-href");
+
+            if (targetAttr) {
+                if (targetAttr.startsWith("#")) {
+                    const targetEl = document.querySelector(targetAttr);
+                    if (targetEl) {
+                        if (scroller) scroller.scrollToElement(targetEl);
+                        else targetEl.scrollIntoView({ behavior: "smooth" });
+                    } else {
+                        console.warn(`Slider target element not found: ${targetAttr}`);
+                    }
+                } else {
+                    const targetWindow = btn.getAttribute("target");
+                    if (targetWindow === "_blank") {
+                        window.open(targetAttr, "_blank");
+                    } else {
+                        window.location.href = targetAttr;
+                    }
+                }
+                return;
+            }
+
+            if (btn.type === "submit" || btn.classList.contains("form-submit-btn")) {
+                const form = btn.closest("form");
+                if (form) {
+                    if (typeof form.requestSubmit === "function") {
+                        form.requestSubmit();
+                    } else {
+                        form.submit();
+                    }
+                    return;
+                }
+            }
+
+            if (btn.id === "slideBtn") {
                 const showcaseSection = $("#hero-showcase") || $("#about");
                 if (showcaseSection) {
                     if (scroller) scroller.scrollToElement(showcaseSection);
@@ -574,4 +688,11 @@ if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", initFaqAccordion);
 } else {
     initFaqAccordion();
+}
+
+
+function slideButtonAction() {
+    $$("btn-slider-text").forEach((btn, index) => {
+        console.log
+    })
 }
