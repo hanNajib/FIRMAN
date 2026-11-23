@@ -1,195 +1,245 @@
 <!doctype html>
 <html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../style.css" />
+    <title>Hubungi Kontak Kami | Firman</title>
+  </head>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap"
-    rel="stylesheet" />
-  <link rel="stylesheet" href="../style.css" />
-  <title>Hubungi Kontak Kami | Firman</title>
-</head>
-
-<body class="contact-page">
-  <nav class="main-navbar" id="navbar">
-    <a href="../index.html#hero-section" class="flex items-center text-white no-underline">
-      <img src="../assets/logo.svg" alt="Firman Logo" class="h-16">
-    </a>
-
-    <ul class="nav-items">
-      <li><a href="../index.html#hero-section" class="nav-item">Beranda</a></li>
-      <li><a href="../index.html#about" class="nav-item">Tentang</a></li>
-      <li><a href="../index.html#products" class="nav-item">Produk</a></li>
-      <li><a href="../index.html#gallery" class="nav-item">Galeri</a></li>
-      <li><a href="../index.html#article" class="nav-item">Artikel</a></li>
-      <li><a href="../index.html#faq" class="nav-item">FAQ</a></li>
-      <li><a href="contact.html" class="nav-item">Kontak</a></li>
-    </ul>
-
-    <div class="nav-actions">
-      <a href="contact.html" class="btn-primary">
-        Get Started
+  <body class="contact-page">
+    <nav class="main-navbar" id="navbar">
+      <a
+        href="../index.html#hero-section"
+        class="flex items-center text-white no-underline"
+      >
+        <img src="../assets/logo.svg" alt="Firman Logo" class="h-16" />
       </a>
-    </div>
 
-    <!-- Tombol burger menu mobile -->
-    <button class="nav-toggle-btn" id="navToggleBtn" aria-label="Buka menu navigasi" aria-expanded="false">
-      <svg class="icon-menu" viewBox="0 0 24 24" fill="none">
-        <line x1="3" y1="6" x2="21" y2="6"></line>
-        <line x1="3" y1="12" x2="21" y2="12"></line>
-        <line x1="3" y1="18" x2="21" y2="18"></line>
-      </svg>
-      <svg class="icon-close" viewBox="0 0 24 24" fill="none">
-        <line x1="18" y1="6" x2="6" y2="18"></line>
-        <line x1="6" y1="6" x2="18" y2="18"></line>
-      </svg>
-    </button>
-  </nav>
+      <ul class="nav-items">
+        <li>
+          <a href="../index.html#hero-section" class="nav-item">Beranda</a>
+        </li>
+        <li><a href="../index.html#about" class="nav-item">Tentang</a></li>
+        <li><a href="../index.html#products" class="nav-item">Produk</a></li>
+        <li><a href="../index.html#gallery" class="nav-item">Galeri</a></li>
+        <li><a href="../index.html#article" class="nav-item">Artikel</a></li>
+        <li><a href="../index.html#faq" class="nav-item">FAQ</a></li>
+        <li><a href="contact.html" class="nav-item">Kontak</a></li>
+      </ul>
 
-  <div class="mobile-nav-backdrop" id="mobileNavBackdrop"></div>
-  <aside class="mobile-nav-menu" id="mobileNavMenu" aria-label="Menu navigasi mobile">
-    <div class="mobile-nav-header">
-      <span class="text-sm font-bold text-gray-500 uppercase tracking-wider">Menu</span>
-      <button class="nav-toggle-btn is-active" id="mobileNavCloseBtn" aria-label="Tutup menu navigasi">
-        <svg viewBox="0 0 24 24" fill="none">
+      <div class="nav-actions">
+        <a href="contact.html" class="btn-primary"> Get Started </a>
+      </div>
+
+      <!-- Tombol burger menu mobile -->
+      <button
+        class="nav-toggle-btn"
+        id="navToggleBtn"
+        aria-label="Buka menu navigasi"
+        aria-expanded="false"
+      >
+        <svg class="icon-menu" viewBox="0 0 24 24" fill="none">
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+        <svg class="icon-close" viewBox="0 0 24 24" fill="none">
           <line x1="18" y1="6" x2="6" y2="18"></line>
           <line x1="6" y1="6" x2="18" y2="18"></line>
         </svg>
       </button>
-    </div>c
+    </nav>
 
-    <ul class="mobile-nav-links">
-      <li><a href="../index.html#hero-section" class="mobile-nav-link"><span>Beranda</span><span>&gt;</span></a></li>
-      <li><a href="../index.html#about" class="mobile-nav-link"><span>Tentang</span><span>&gt;</span></a></li>
-      <li><a href="../index.html#products" class="mobile-nav-link"><span>Produk</span><span>&gt;</span></a></li>
-      <li><a href="../index.html#gallery" class="mobile-nav-link"><span>Galeri</span><span>&gt;</span></a></li>
-      <li><a href="../index.html#article" class="mobile-nav-link"><span>Artikel</span><span>&gt;</span></a></li>
-      <li><a href="../index.html#faq" class="mobile-nav-link"><span>FAQ</span><span>&gt;</span></a></li>
-      <li><a href="contact.html" class="mobile-nav-link"><span>Kontak</span><span>&gt;</span></a></li>
-    </ul>
+    <div class="mobile-nav-backdrop" id="mobileNavBackdrop"></div>
+    <aside
+      class="mobile-nav-menu"
+      id="mobileNavMenu"
+      aria-label="Menu navigasi mobile"
+    >
+      <div class="mobile-nav-header">
+        <span class="text-sm font-bold text-gray-500 uppercase tracking-wider"
+          >Menu</span
+        >
+        <button
+          class="nav-toggle-btn is-active"
+          id="mobileNavCloseBtn"
+          aria-label="Tutup menu navigasi"
+        >
+          <svg viewBox="0 0 24 24" fill="none">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+      c
 
-    <div class="mobile-nav-footer">
-      <a href="contact.html" class="btn-primary mobile-nav-cta">
-        Get Started
-      </a>
-    </div>
-  </aside>
+      <ul class="mobile-nav-links">
+        <li>
+          <a href="../index.html#hero-section" class="mobile-nav-link"
+            ><span>Beranda</span><span>&gt;</span></a
+          >
+        </li>
+        <li>
+          <a href="../index.html#about" class="mobile-nav-link"
+            ><span>Tentang</span><span>&gt;</span></a
+          >
+        </li>
+        <li>
+          <a href="../index.html#products" class="mobile-nav-link"
+            ><span>Produk</span><span>&gt;</span></a
+          >
+        </li>
+        <li>
+          <a href="../index.html#gallery" class="mobile-nav-link"
+            ><span>Galeri</span><span>&gt;</span></a
+          >
+        </li>
+        <li>
+          <a href="../index.html#article" class="mobile-nav-link"
+            ><span>Artikel</span><span>&gt;</span></a
+          >
+        </li>
+        <li>
+          <a href="../index.html#faq" class="mobile-nav-link"
+            ><span>FAQ</span><span>&gt;</span></a
+          >
+        </li>
+        <li>
+          <a href="contact.html" class="mobile-nav-link"
+            ><span>Kontak</span><span>&gt;</span></a
+          >
+        </li>
+      </ul>
 
-  <div class="viewport">
-    <div class="content">
-      <main>
-        <section class="contact-hero" id="contact">
+      <div class="mobile-nav-footer">
+        <a href="contact.html" class="btn-primary mobile-nav-cta">
+          Get Started
+        </a>
+      </div>
+    </aside>
 
-          <div class="contact-hero-copy">
-            <p class="contact-eyebrow">Saran, Kritik atau Kerjasama?</p>
-            <h1>Hubungi Kontak <span>Kami</span></h1>
-            <div class="contact-details">
-              <div class="contact-list">
-                <a class="contact-card" href="tel:+620000000000">
-                  <span class="contact-card-icon" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" fill="none">
-                      <path
-                        d="M7 3.5h3l1.5 4-2 1.5a15 15 0 0 0 5.5 5.5l1.5-2 4 1.5v3a2 2 0 0 1-2.2 2A16.5 16.5 0 0 1 5 5.7 2 2 0 0 1 7 3.5Z" />
-                    </svg>
-                  </span>
-                  <span class="contact-card-copy">
-                    <small>Nomor kontak</small>
-                    <strong>+62 822 4757 4857</strong>
-                  </span>
-                </a>
+    <main>
+      <section class="contact-hero" id="contact">
+        <div class="contact-hero-copy">
+          <p class="contact-eyebrow">Saran, Kritik atau Kerjasama?</p>
+          <h1>Hubungi Kontak <span>Kami</span></h1>
+          <div class="contact-details">
+            <div class="contact-list">
+              <a class="contact-card" href="tel:+620000000000">
+                <span class="contact-card-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none">
+                    <path
+                      d="M7 3.5h3l1.5 4-2 1.5a15 15 0 0 0 5.5 5.5l1.5-2 4 1.5v3a2 2 0 0 1-2.2 2A16.5 16.5 0 0 1 5 5.7 2 2 0 0 1 7 3.5Z"
+                    />
+                  </svg>
+                </span>
+                <span class="contact-card-copy">
+                  <small>Nomor kontak</small>
+                  <strong>+62 822 4757 4857</strong>
+                </span>
+              </a>
 
-                <a class="contact-card" href="mailto:nama@perusahaan.co.id">
-                  <span class="contact-card-icon" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" fill="none">
-                      <rect x="3.5" y="5" width="17" height="14" rx="2" />
-                      <path d="m4.5 7 7.5 6 7.5-6" />
-                    </svg>
-                  </span>
-                  <span class="contact-card-copy">
-                    <small>Email</small>
-                    <strong>politeknik@polije.ac.id</strong>
-                  </span>
-                </a>
+              <a class="contact-card" href="mailto:nama@perusahaan.co.id">
+                <span class="contact-card-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none">
+                    <rect x="3.5" y="5" width="17" height="14" rx="2" />
+                    <path d="m4.5 7 7.5 6 7.5-6" />
+                  </svg>
+                </span>
+                <span class="contact-card-copy">
+                  <small>Email</small>
+                  <strong>politeknik@polije.ac.id</strong>
+                </span>
+              </a>
 
-                <div class="contact-card">
-                  <span class="contact-card-icon" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" fill="none">
-                      <path d="M19 10c0 5-7 11-7 11S5 15 5 10a7 7 0 1 1 14 0Z" />
-                      <circle cx="12" cy="10" r="2.2" />
-                    </svg>
-                  </span>
-                  <span class="contact-card-copy">
-                    <small>Alamat</small>
-                    <strong>RPVG+PQJ, Jl. Tawang Mangu, Lingkungan Panji,
-                      Tegalgede, Kec. Sumbersari, Kabupaten Jember, Jawa Timur
-                      68124</strong>
-                  </span>
-                </div>
-              </div>
-
-              <div class="contact-map">
-                <iframe
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3075.2339382492587!2d113.723894911879!3d-8.155884807876651!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd695f2c7074ec7%3A0x40c147ea5d0ce7c8!2sUnit%20Pengalengan%20Ikan%20Politeknik%20Negeri%20Jember!5e1!3m2!1sen!2sid!4v1793345514545!5m2!1sen!2sid"
-                  title="Peta Unit Pengalengan Ikan Politeknik Negeri Jember" loading="lazy"
-                  referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+              <div class="contact-card">
+                <span class="contact-card-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none">
+                    <path d="M19 10c0 5-7 11-7 11S5 15 5 10a7 7 0 1 1 14 0Z" />
+                    <circle cx="12" cy="10" r="2.2" />
+                  </svg>
+                </span>
+                <span class="contact-card-copy">
+                  <small>Alamat</small>
+                  <strong
+                    >RPVG+PQJ, Jl. Tawang Mangu, Lingkungan Panji, Tegalgede,
+                    Kec. Sumbersari, Kabupaten Jember, Jawa Timur 68124</strong
+                  >
+                </span>
               </div>
             </div>
+
+            <div class="contact-map">
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3075.2339382492587!2d113.723894911879!3d-8.155884807876651!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd695f2c7074ec7%3A0x40c147ea5d0ce7c8!2sUnit%20Pengalengan%20Ikan%20Politeknik%20Negeri%20Jember!5e1!3m2!1sen!2sid!4v1793345514545!5m2!1sen!2sid"
+                title="Peta Unit Pengalengan Ikan Politeknik Negeri Jember"
+                loading="lazy"
+                referrerpolicy="strict-origin-when-cross-origin"
+                allowfullscreen
+              ></iframe>
+            </div>
           </div>
-        </section>
-      </main>
-    </div>
-  </div>
-  <footer class="site-footer">
-    <div class="site-footer-main">
-      <section class="site-footer-brand">
-        <a href="" class="site-footer-logo">
-          <img src="../assets/logo-footer.svg" alt="" />
-          <span>
-            <strong>Firman</strong>
-            <small>Fish Canning Resource Management</small>
-          </span>
-        </a>
-
-        <p class="site-footer-description">
-          TEFA Fish Canning POLIJE bergerak di bidang pengolahan dan
-          pengalengan ikan. Menghadirkan produk sarden berkualitas yang
-          praktis, higienis, dan siap dikonsumsi dengan mengutamakan mutu
-          serta keamanan pangan.
-        </p>
-
-        <div class="site-footer-partners"></div>
-      </section>
-      <nav class="site-footer-nav" aria-label="Navigation footer">
-        <a href="../index.html#hero-section">Beranda</a>
-        <a href="../index.html#about">Tentang Kami</a>
-        <a href="../index.html#products">Produk</a>
-        <a href="../index.html#gallery">Galeri</a>
-        <a href="../index.html#article">Artikel</a>
-        <a href="../index.html#faq">FAQ</a>
-        <a href="contact.html">Kontak</a>
-      </nav>
-      <section class="site-footer-location">
-        <div class="site-footer-map">
-          <iframe
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3075.2339382492587!2d113.723894911879!3d-8.155884807876651!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd695f2c7074ec7%3A0x40c147ea5d0ce7c8!2sUnit%20Pengalengan%20Ikan%20Politeknik%20Negeri%20Jember!5e1!3m2!1sen!2sid!4v1793345514545!5m2!1sen!2sid"
-            title="Peta Unit Pengalengan Ikan Politeknik Negeri Jember" loading="lazy"
-            referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
         </div>
-        <address class="site-footer-address">
-          RPVG+PQJ, Jl. Tawang Mangu, Lingkungan Panji, Tegalgede, Kec.
-          Sumbersari, Kabupaten Jember, Jawa Timur 68124
-          <br />
-          Politeknik Negeri Jember
-        </address>
       </section>
-    </div>
-    <div class="site-footer-bottom">&copy; 2026 Tefa Pengalengan</div>
-  </footer>
+    </main>
+    <footer class="site-footer">
+      <div class="site-footer-main">
+        <section class="site-footer-brand">
+          <a href="" class="site-footer-logo">
+            <img src="../assets/logo-footer.svg" alt="" />
+            <span>
+              <strong>Firman</strong>
+              <small>Fish Canning Resource Management</small>
+            </span>
+          </a>
 
-  <script src="../script.js"></script>
-</body>
+          <p class="site-footer-description">
+            TEFA Fish Canning POLIJE bergerak di bidang pengolahan dan
+            pengalengan ikan. Menghadirkan produk sarden berkualitas yang
+            praktis, higienis, dan siap dikonsumsi dengan mengutamakan mutu
+            serta keamanan pangan.
+          </p>
 
+          <div class="site-footer-partners"></div>
+        </section>
+        <nav class="site-footer-nav" aria-label="Navigation footer">
+          <a href="../index.html#hero-section">Beranda</a>
+          <a href="../index.html#about">Tentang Kami</a>
+          <a href="../index.html#products">Produk</a>
+          <a href="../index.html#gallery">Galeri</a>
+          <a href="../index.html#article">Artikel</a>
+          <a href="../index.html#faq">FAQ</a>
+          <a href="contact.html">Kontak</a>
+        </nav>
+        <section class="site-footer-location">
+          <div class="site-footer-map">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3075.2339382492587!2d113.723894911879!3d-8.155884807876651!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd695f2c7074ec7%3A0x40c147ea5d0ce7c8!2sUnit%20Pengalengan%20Ikan%20Politeknik%20Negeri%20Jember!5e1!3m2!1sen!2sid!4v1793345514545!5m2!1sen!2sid"
+              title="Peta Unit Pengalengan Ikan Politeknik Negeri Jember"
+              loading="lazy"
+              referrerpolicy="strict-origin-when-cross-origin"
+              allowfullscreen
+            ></iframe>
+          </div>
+          <address class="site-footer-address">
+            RPVG+PQJ, Jl. Tawang Mangu, Lingkungan Panji, Tegalgede, Kec.
+            Sumbersari, Kabupaten Jember, Jawa Timur 68124
+            <br />
+            Politeknik Negeri Jember
+          </address>
+        </section>
+      </div>
+      <div class="site-footer-bottom">&copy; 2026 Tefa Pengalengan</div>
+    </footer>
+
+    <script src="../script.js"></script>
+  </body>
 </html>

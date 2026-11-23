@@ -33,19 +33,27 @@
 
     // Daftar rekomendasi diambil dari data master Produk
     function getProductCatalog() {
+        // Path gambar di produk.js relatif ke root (../assets/...), preorder ada di page/preorder/
+        // jadi perlu adjust path: ganti "../assets/" → "../../assets/"
+        function fixImgPath(src) {
+            if (!src) return DEFAULT_IMAGE;
+            return src.replace(/^\.\.\/assets\//, "../../assets/");
+        }
+
         if (typeof Produk !== "undefined" && Array.isArray(Produk) && Produk.length > 0) {
             return Produk.map((p) => ({
                 id: Number(p.id) || Date.now(),
                 name: p.judul,
                 price: parseInt(String(p.harga).replace(/\D/g, ""), 10) || 20000,
-                img: DEFAULT_IMAGE,
+                img: fixImgPath(p.gambar),
+                desc: p.deskripsi || "",
             }));
         }
         return [
-            { id: 1, name: "Sarden SIP Saus Tomat", price: 20000, img: DEFAULT_IMAGE },
-            { id: 2, name: "Sarden SIP Asin", price: 20000, img: DEFAULT_IMAGE },
-            { id: 3, name: "Sarden SIP Saus Cabai", price: 20000, img: DEFAULT_IMAGE },
-            { id: 4, name: "Sarden SIP Saus Tartar", price: 20000, img: DEFAULT_IMAGE },
+            { id: 1, name: "Sarden SIP Saus Tomat", price: 20000, img: DEFAULT_IMAGE, desc: "Sehat, lezat dan bergizi, pilihan terbaik olahan sarden TEFA POLIJE" },
+            { id: 2, name: "Sarden SIP Asin",       price: 20000, img: DEFAULT_IMAGE, desc: "Olahan ikan sarden dengan cita rasa asin gurih." },
+            { id: 3, name: "Sarden SIP Saus Cabai", price: 20000, img: DEFAULT_IMAGE, desc: "Ikan sarden bercita rasa pedas yang menggugah selera." },
+            { id: 4, name: "Sarden SIP Saus Tartar",price: 20000, img: DEFAULT_IMAGE, desc: "Saus tartar yang menghadirkan variasi rasa berbeda." },
         ];
     }
 
@@ -258,7 +266,7 @@
         <article class="rec">
           <img src="${escapeHTML(p.img || DEFAULT_IMAGE)}" alt="${escapeHTML(p.name)}" loading="lazy" onerror="this.src='${DEFAULT_IMAGE}'">
           <h3>${escapeHTML(p.name)}</h3>
-          <p>Sehat, lezat dan bergizi, pilihan terbaik olahan sarden TEFA POLIJE</p>
+          <p>${escapeHTML(p.desc || "Sehat, lezat dan bergizi, pilihan terbaik olahan sarden TEFA POLIJE")}</p>
           <div class="rec-foot">
             <strong>${formatRupiah(p.price)}</strong>
             <button class="add" type="button" data-add="${idx}" aria-label="Tambah ${escapeHTML(p.name)} ke pesanan">+</button>
@@ -341,15 +349,146 @@
     }
 
     /* ==========================================================================
-       7. Modal Navigation
+       7. Modal Navigation & Interactive Slider Buttons
        ========================================================================== */
     function showModal(id, direction = "next") {
         $$("dialog[open]").forEach((d) => d.close());
         const dialog = document.getElementById(id);
         if (dialog) {
             dialog.dataset.transition = direction;
+            const slider = dialog.querySelector(".btn-slider");
+            if (slider && typeof slider.resetSlider === "function") {
+                slider.resetSlider();
+            }
             dialog.showModal();
+
+            // Refresh perhitungan lebar slide ketika dialog sudah terbuka
+            setTimeout(() => {
+                if (slider) {
+                    const thumb = slider.querySelector(".circle");
+                    const maxSlide = Math.max(0, slider.offsetWidth - (thumb?.offsetWidth || 40) - 10);
+                    slider.style.setProperty("--slide-distance", `${maxSlide}px`);
+                }
+            }, 60);
         }
+    }
+
+    function setupPreorderSlider(btn, onTrigger) {
+        if (!btn) return;
+        const thumb = btn.querySelector(".circle");
+        const text = btn.querySelector(".btn-slider-text");
+        if (!thumb) return;
+
+        let isDragging = false;
+        let startX = 0;
+        let currentX = 0;
+        let maxSlide = 0;
+        let wasDragged = false;
+
+        function updateMetrics() {
+            const btnWidth = btn.offsetWidth;
+            const thumbWidth = thumb.offsetWidth || 40;
+            maxSlide = Math.max(0, btnWidth - thumbWidth - 10);
+            btn.style.setProperty("--slide-distance", `${maxSlide}px`);
+        }
+
+        updateMetrics();
+        window.addEventListener("resize", updateMetrics);
+
+        function reset() {
+            btn.classList.remove("active");
+            thumb.style.transform = "";
+            if (text) text.style.opacity = "";
+        }
+
+        function activate() {
+            btn.classList.add("active");
+            thumb.style.transform = `translateX(${maxSlide}px)`;
+            if (text) text.style.opacity = "0";
+
+            setTimeout(() => {
+                onTrigger(reset);
+            }, 260);
+        }
+
+        function startDrag(clientX) {
+            if (btn.classList.contains("active")) return;
+            updateMetrics();
+            isDragging = true;
+            wasDragged = false;
+            startX = clientX;
+            currentX = clientX;
+            thumb.style.transition = "none";
+            if (text) text.style.transition = "none";
+        }
+
+        function moveDrag(clientX) {
+            if (!isDragging) return;
+            currentX = clientX;
+            const delta = currentX - startX;
+            if (Math.abs(delta) > 5) {
+                wasDragged = true;
+            }
+            const clampedDelta = Math.max(0, Math.min(delta, maxSlide));
+            thumb.style.transform = `translateX(${clampedDelta}px)`;
+
+            if (text) {
+                const progress = clampedDelta / (maxSlide || 1);
+                text.style.opacity = `${Math.max(0, 1 - progress * 1.5)}`;
+            }
+        }
+
+        function endDrag() {
+            if (!isDragging) return;
+            isDragging = false;
+
+            thumb.style.transition = "";
+            if (text) text.style.transition = "";
+
+            const delta = currentX - startX;
+            if (delta > maxSlide * 0.4) {
+                activate();
+            } else {
+                reset();
+            }
+
+            setTimeout(() => {
+                wasDragged = false;
+            }, 140);
+        }
+
+        btn.addEventListener("click", (e) => {
+            e.preventDefault();
+            if (wasDragged) return;
+            if (btn.classList.contains("active")) {
+                reset();
+                return;
+            }
+            updateMetrics();
+            activate();
+        });
+
+        btn.addEventListener("mousedown", (e) => startDrag(e.clientX));
+        window.addEventListener("mousemove", (e) => {
+            if (isDragging) moveDrag(e.clientX);
+        });
+        window.addEventListener("mouseup", () => {
+            if (isDragging) endDrag();
+        });
+
+        btn.addEventListener("touchstart", (e) => {
+            if (e.touches.length === 1) startDrag(e.touches[0].clientX);
+        }, { passive: true });
+
+        window.addEventListener("touchmove", (e) => {
+            if (isDragging && e.touches.length === 1) moveDrag(e.touches[0].clientX);
+        }, { passive: true });
+
+        window.addEventListener("touchend", () => {
+            if (isDragging) endDrag();
+        });
+
+        btn.resetSlider = reset;
     }
 
     /* ==========================================================================
@@ -361,6 +500,9 @@
         const form1 = $("#f1");
         const form2 = $("#f2");
         const processBtn = $("#processBtn");
+        const btnSubmitM1 = $("#btnSubmitM1");
+        const btnSubmitM2 = $("#btnSubmitM2");
+        const finishBtn = $("#finish");
         const hpInput = $("#hp");
         const emailInput = $("#email");
         const hpError = $("#hpError");
@@ -472,60 +614,82 @@
                 order.data = currentData;
                 PreorderStore.saveCustomer(currentData);
             });
-        }
 
-        // Tombol Proses Pesanan (Buka Modal 1)
-        if (processBtn) {
-            processBtn.addEventListener("click", () => {
-                if (!cart.length) {
-                    toast("Keranjang masih kosong. Mengarahkan ke pemilihan produk...");
-                    setTimeout(() => {
-                        window.location.href = "../produk/detail.html?id=1";
-                    }, 1400);
-                    return;
-                }
-                if (cart.some((i) => !i.qty)) {
-                    return toast("Pilih kuantitas untuk semua produk terlebih dahulu");
-                }
-                showModal("m1", "next");
+            form1.addEventListener("submit", (e) => {
+                e.preventDefault();
+                if (btnSubmitM1) btnSubmitM1.click();
             });
         }
 
-        // Submit Modal 1 (Data Diri)
-        if (form1) {
-            form1.addEventListener("submit", (e) => {
-                e.preventDefault();
-
-                const hpValid = hpInput ? !ValidationService.validatePhone(hpInput.value) : true;
-                const emailValid = emailInput ? !ValidationService.validateEmail(emailInput.value) : true;
-
-                if (hpInput) {
-                    ValidationService.setFieldError(
-                        hpInput,
-                        hpError,
-                        ValidationService.validatePhone(hpInput.value)
-                    );
+        // Slider 1: Tombol Sticky "Proses Pesanan"
+        if (processBtn) {
+            setupPreorderSlider(processBtn, (reset) => {
+                if (!cart.length) {
+                    toast("Keranjang masih kosong. Mengarahkan ke pemilihan produk...");
+                    setTimeout(() => {
+                        reset();
+                        window.location.href = "../produk/detail.html?id=1";
+                    }, 1200);
+                    return;
                 }
-                if (emailInput) {
-                    ValidationService.setFieldError(
-                        emailInput,
-                        emailError,
-                        ValidationService.validateEmail(emailInput.value)
-                    );
+                if (cart.some((i) => !i.qty)) {
+                    reset();
+                    return toast("Pilih kuantitas untuk semua produk terlebih dahulu");
+                }
+                showModal("m1", "next");
+                setTimeout(reset, 400);
+            });
+        }
+
+        // Slider 2: Tombol Modal 1 "Lanjutkan" (Data Diri)
+        if (btnSubmitM1) {
+            setupPreorderSlider(btnSubmitM1, (reset) => {
+                const namaVal = $("#nama")?.value.trim();
+                const hpVal = hpInput?.value.trim();
+                const emailVal = emailInput?.value.trim();
+                const alamatVal = $("#alamat")?.value.trim();
+
+                if (!namaVal) {
+                    toast("Silakan isi nama lengkap Anda");
+                    $("#nama")?.focus();
+                    reset();
+                    return;
                 }
 
-                if (!hpValid) {
+                const hpErr = ValidationService.validatePhone(hpVal);
+                const emailErr = ValidationService.validateEmail(emailVal);
+
+                if (hpInput) ValidationService.setFieldError(hpInput, hpError, hpErr);
+                if (emailInput) ValidationService.setFieldError(emailInput, emailError, emailErr);
+
+                if (hpErr) {
                     hpInput?.focus();
-                    return;
-                }
-                if (!emailValid) {
-                    emailInput?.focus();
+                    reset();
                     return;
                 }
 
-                order.data = Object.fromEntries(new FormData(form1));
+                if (emailErr) {
+                    emailInput?.focus();
+                    reset();
+                    return;
+                }
+
+                if (!alamatVal) {
+                    toast("Silakan isi alamat lengkap Anda");
+                    $("#alamat")?.focus();
+                    reset();
+                    return;
+                }
+
+                order.data = {
+                    nama: namaVal,
+                    hp: hpVal,
+                    email: emailVal,
+                    alamat: alamatVal,
+                };
                 PreorderStore.saveCustomer(order.data);
                 showModal("m2", "next");
+                setTimeout(reset, 400);
             });
         }
 
@@ -541,40 +705,70 @@
 
             form2.addEventListener("submit", (e) => {
                 e.preventDefault();
-                order.pay = new FormData(form2).get("pay") || "DP";
-                PreorderStore.savePayment(order.pay);
-                renderSummary();
-                showModal("m3", "next");
+                if (btnSubmitM2) btnSubmitM2.click();
             });
         }
 
-        // Navigasi Kembali Antar Modal
-        $("#backToDetails")?.addEventListener("click", () => showModal("m1", "back"));
-        $("#backToPayment")?.addEventListener("click", () => showModal("m2", "back"));
+        // Slider 3: Tombol Modal 2 "Lanjutkan" (Pembayaran)
+        if (btnSubmitM2) {
+            setupPreorderSlider(btnSubmitM2, (reset) => {
+                const selectedPay = form2 ? new FormData(form2).get("pay") : "DP";
+                order.pay = selectedPay || "DP";
+                PreorderStore.savePayment(order.pay);
+                renderSummary();
+                showModal("m3", "next");
+                setTimeout(reset, 400);
+            });
+        }
 
-        // Tombol Selesai (Buka WhatsApp)
-        $("#finish")?.addEventListener("click", () => {
-            if (!order.data || !order.pay || !cart.length || cart.some((item) => !item.qty)) {
-                return toast("Data pesanan belum lengkap. Periksa kembali keranjang dan formulir.");
-            }
-            if (!/^\d{10,15}$/.test(WHATSAPP_NUMBER)) {
-                return toast("Nomor WhatsApp tujuan belum dikonfigurasi dengan benar.");
-            }
+        // Slider 4: Tombol Modal 3 "Proses Pesanan" (Konfirmasi ke WA)
+        if (finishBtn) {
+            setupPreorderSlider(finishBtn, (reset) => {
+                if (!order.data || !order.pay || !cart.length || cart.some((item) => !item.qty)) {
+                    reset();
+                    return toast("Data pesanan belum lengkap. Periksa kembali keranjang dan formulir.");
+                }
+                if (!/^\d{10,15}$/.test(WHATSAPP_NUMBER)) {
+                    reset();
+                    return toast("Nomor WhatsApp tujuan belum dikonfigurasi dengan benar.");
+                }
 
-            const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(createWhatsAppMessage())}`;
+                const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(createWhatsAppMessage())}`;
+                PreorderStore.clearOrder();
+                window.location.assign(url);
+                setTimeout(reset, 1500);
+            });
+        }
 
-            // Kosongkan riwayat pesanan setelah checkout selesai
-            PreorderStore.clearOrder();
-
-            window.location.assign(url);
+        // Navigasi Kembali Antar Modal (TIDAK menutup dialog, melainkan kembali ke langkah sebelumnya)
+        $("#backToDetails")?.addEventListener("click", (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            showModal("m1", "back");
         });
 
-        // Handler penutup dialog (backdrop atau tombol x)
+        $("#backToPayment")?.addEventListener("click", (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            showModal("m2", "back");
+        });
+
+        // Handler penutup dialog HANYA saat klik backdrop abu-abu di luar modal
         $$("dialog").forEach((dialog) => {
             dialog.addEventListener("click", (e) => {
-                if (e.target === dialog || e.target.closest("[data-close]")) {
+                if (e.target === dialog) {
                     dialog.close();
                 }
+            });
+        });
+
+        // Handler tombol silang (x)
+        $$("[data-close]").forEach((closeBtn) => {
+            closeBtn.addEventListener("click", (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                const dialog = closeBtn.closest("dialog");
+                if (dialog) dialog.close();
             });
         });
     }
