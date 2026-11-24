@@ -1,22 +1,68 @@
 const $ = (el) => document.querySelector(el);
 const $$ = (el) => document.querySelectorAll(el);
 
-if ("scrollRestoration" in history) {
-    history.scrollRestoration = "manual";
+// Media query yang sinkron dengan CSS (@media (max-width: 768px))
+const mobileQuery = window.matchMedia("(max-width: 768px)");
+
+function isMobileView() {
+    return mobileQuery.matches;
 }
-window.scrollTo(0, 0);
 
-window.addEventListener("scroll", () => {
-    if (window.scrollY !== 0 || window.scrollX !== 0) {
-        window.scrollTo(0, 0);
-    }
-}, { passive: false });
-
+const viewport = $(".viewport");
 const content = $(".content");
 const navbar = $("#navbar");
 
+// Kunci scroll viewport bawaan browser pada desktop (mencegah desync dengan translate3d)
+if (viewport) {
+    viewport.scrollTop = 0;
+    viewport.scrollLeft = 0;
+    viewport.addEventListener("scroll", () => {
+        if (!isMobileView()) {
+            if (viewport.scrollTop !== 0 || viewport.scrollLeft !== 0) {
+                viewport.scrollTop = 0;
+                viewport.scrollLeft = 0;
+            }
+        }
+    }, { passive: false });
+}
+
+if ("scrollRestoration" in history) {
+    history.scrollRestoration = "manual";
+}
+
+window.addEventListener("scroll", () => {
+    if (!isMobileView()) {
+        if (window.scrollY !== 0 || window.scrollX !== 0) {
+            window.scrollTo(0, 0);
+        }
+    } else {
+        updateGlobalNavbar(window.scrollY);
+    }
+}, { passive: true });
+
+function updateGlobalNavbar(y) {
+    if (!navbar) return;
+    if (y > 35) {
+        navbar.classList.add("nav-blur", "scrolled");
+    } else if (y < 15) {
+        navbar.classList.remove("nav-blur", "scrolled");
+    }
+}
+
+// Helper untuk menghitung jarak absolut suatu elemen dari puncak kontainer (.content)
+function getElementContentOffset(el, containerEl) {
+    let top = 0;
+    let curr = el;
+    while (curr && curr !== containerEl && curr !== document.body) {
+        top += curr.offsetTop || 0;
+        curr = curr.offsetParent;
+    }
+    return top;
+}
+
 class SmoothScroller {
     constructor() {
+        this.viewport = $(".viewport");
         this.content = $(".content");
         this.navbar = $("#navbar");
         this.currentY = 0;
@@ -28,18 +74,37 @@ class SmoothScroller {
         this.isScrolling = false;
         this.touchStartY = 0;
         this.scrollListeners = new Set();
+        this.resizeObserver = null;
 
         if (!this.content) return;
         this.init();
     }
 
     init() {
-        this.updateBounds();
+        if (this.viewport) {
+            this.viewport.scrollTop = 0;
+            this.viewport.scrollLeft = 0;
+        }
+        if (this.content) {
+            this.content.scrollTop = 0;
+            this.content.scrollLeft = 0;
+        }
+        window.scrollTo(0, 0);
+
+        this.updateBounds(false);
         this.applyTransform(0);
 
-        window.addEventListener("resize", () => this.updateBounds(), { passive: true });
+        window.addEventListener("resize", () => this.updateBounds(true), { passive: true });
+
+        if (window.ResizeObserver && this.content) {
+            this.resizeObserver = new ResizeObserver(() => {
+                this.updateBounds(true);
+            });
+            this.resizeObserver.observe(this.content);
+        }
+
         window.addEventListener("load", () => {
-            this.updateBounds();
+            this.updateBounds(false);
             this.checkInitialHash();
         }, { passive: true });
 
@@ -48,9 +113,25 @@ class SmoothScroller {
         });
 
         window.addEventListener("wheel", (e) => this.onWheel(e), { passive: false });
-        window.addEventListener("touchstart", (e) => this.onTouchStart(e), { passive: true });
-        window.addEventListener("touchmove", (e) => this.onTouchMove(e), { passive: false });
         window.addEventListener("keydown", (e) => this.onKeyDown(e));
+
+        window.addEventListener("touchstart", (e) => {
+            if (isMobileView()) return;
+            if (e.touches && e.touches.length === 1) {
+                this.touchStartY = e.touches[0].clientY;
+            }
+        }, { passive: true });
+
+        window.addEventListener("touchmove", (e) => {
+            if (isMobileView()) return;
+            if (e.touches && e.touches.length === 1) {
+                const touchY = e.touches[0].clientY;
+                const delta = this.touchStartY - touchY;
+                this.touchStartY = touchY;
+                this.targetY += delta * 1.2;
+                this.clampTarget();
+            }
+        }, { passive: true });
 
         this.bindAnchorLinks();
         this.checkInitialHash();
@@ -61,17 +142,26 @@ class SmoothScroller {
         if (!hash || hash === "#") return;
 
         const run = () => {
+            if (isMobileView()) return;
+            if (this.viewport) {
+                this.viewport.scrollTop = 0;
+                this.viewport.scrollLeft = 0;
+            }
+            if (this.content) {
+                this.content.scrollTop = 0;
+                this.content.scrollLeft = 0;
+            }
             window.scrollTo(0, 0);
+
             this.updateBounds(false);
 
             const targetEl = document.querySelector(hash);
             if (!targetEl) return;
 
-            const contentRect = this.content.getBoundingClientRect();
-            const targetRect = targetEl.getBoundingClientRect();
+            const offsetTop = getElementContentOffset(targetEl, this.content);
             const navbarHeight = this.navbar ? this.navbar.offsetHeight : 0;
             const targetPos = Math.max(0, Math.min(
-                Math.round(targetRect.top - contentRect.top - navbarHeight),
+                Math.round(offsetTop - navbarHeight),
                 this.maxScroll
             ));
 
@@ -79,18 +169,22 @@ class SmoothScroller {
             this.targetY = targetPos;
             this.applyTransform(targetPos);
             this.updateNavbar(targetPos);
-            window.scrollTo(0, 0);
         };
 
         run();
         requestAnimationFrame(run);
         setTimeout(run, 50);
         setTimeout(run, 150);
-        setTimeout(run, 400);
+        setTimeout(run, 300);
+        setTimeout(run, 600);
     }
 
     updateBounds(clamp = true) {
-        if (!this.content) return;
+        if (!this.content || isMobileView()) return;
+        if (this.viewport) {
+            this.viewport.scrollTop = 0;
+            this.viewport.scrollLeft = 0;
+        }
         const totalHeight = this.content.scrollHeight || this.content.offsetHeight;
         this.maxScroll = Math.max(0, totalHeight - window.innerHeight);
         const h = `${Math.ceil(totalHeight)}px`;
@@ -101,11 +195,14 @@ class SmoothScroller {
     }
 
     clampTarget() {
+        if (isMobileView()) return;
         this.targetY = Math.max(0, Math.min(this.targetY, this.maxScroll));
+        this.currentY = Math.max(0, Math.min(this.currentY, this.maxScroll));
         this.requestTick();
     }
 
     onWheel(e) {
+        if (isMobileView()) return;
         e.preventDefault();
 
         let delta = e.deltaY;
@@ -116,23 +213,8 @@ class SmoothScroller {
         this.clampTarget();
     }
 
-    onTouchStart(e) {
-        if (e.touches.length === 1) {
-            this.touchStartY = e.touches[0].clientY;
-        }
-    }
-
-    onTouchMove(e) {
-        if (e.touches.length === 1) {
-            const currentY = e.touches[0].clientY;
-            const deltaY = this.touchStartY - currentY;
-            this.touchStartY = currentY;
-            this.targetY += deltaY * 1.5;
-            this.clampTarget();
-        }
-    }
-
     onKeyDown(e) {
+        if (isMobileView()) return;
         const activeTag = document.activeElement ? document.activeElement.tagName.toLowerCase() : "";
         if (["input", "textarea", "select"].includes(activeTag)) return;
 
@@ -167,6 +249,10 @@ class SmoothScroller {
     }
 
     scrollTo(target, immediate = false) {
+        if (isMobileView()) {
+            window.scrollTo({ top: target, behavior: immediate ? "auto" : "smooth" });
+            return;
+        }
         this.targetY = Math.max(0, Math.min(target, this.maxScroll));
         if (immediate) {
             this.currentY = this.targetY;
@@ -179,10 +265,23 @@ class SmoothScroller {
 
     scrollToElement(element) {
         if (!element) return;
+        if (isMobileView()) {
+            const navbarEl = $("#navbar");
+            const navH = navbarEl ? navbarEl.offsetHeight : 0;
+            const topPos = element.getBoundingClientRect().top + window.scrollY - navH;
+            window.scrollTo({
+                top: Math.max(0, topPos),
+                behavior: "smooth"
+            });
+            return;
+        }
         this.updateBounds();
-        const rect = element.getBoundingClientRect();
+        const offsetTop = getElementContentOffset(element, this.content);
         const navbarHeight = this.navbar ? this.navbar.offsetHeight : 0;
-        const targetPos = Math.max(0, this.currentY + rect.top - navbarHeight);
+        const targetPos = Math.max(0, Math.min(
+            Math.round(offsetTop - navbarHeight),
+            this.maxScroll
+        ));
         this.scrollTo(targetPos);
     }
 
@@ -196,7 +295,17 @@ class SmoothScroller {
             const targetEl = document.querySelector(hash);
             if (targetEl) {
                 e.preventDefault();
-                this.scrollToElement(targetEl);
+                if (isMobileView()) {
+                    const navbarEl = $("#navbar");
+                    const navH = navbarEl ? navbarEl.offsetHeight : 0;
+                    const topPos = targetEl.getBoundingClientRect().top + window.scrollY - navH;
+                    window.scrollTo({
+                        top: Math.max(0, topPos),
+                        behavior: "smooth"
+                    });
+                } else {
+                    this.scrollToElement(targetEl);
+                }
                 if (history.pushState) {
                     history.pushState(null, null, hash);
                 }
@@ -250,25 +359,76 @@ class SmoothScroller {
     }
 
     applyTransform(y) {
+        if (this.viewport && (this.viewport.scrollTop !== 0 || this.viewport.scrollLeft !== 0)) {
+            this.viewport.scrollTop = 0;
+            this.viewport.scrollLeft = 0;
+        }
+        if (window.scrollY !== 0 || window.scrollX !== 0) {
+            window.scrollTo(0, 0);
+        }
         if (this.content) {
             this.content.style.transform = `translate3d(0, -${y}px, 0)`;
         }
     }
 
     updateNavbar(y) {
-        if (!this.navbar) return;
-        if (y > 35) {
-            this.navbar.classList.add("nav-blur", "scrolled");
-        } else if (y < 15) {
-            this.navbar.classList.remove("nav-blur", "scrolled");
+        updateGlobalNavbar(y);
+    }
+}
+
+// Inisialisasi Native Mobile Scrolling vs Desktop Scroller
+let scroller = null;
+
+function syncScrollMode() {
+    if (isMobileView()) {
+        // Mobile / Small Screen: 100% Native Scrolling
+        document.body.style.height = "auto";
+        if (content) {
+            content.style.transform = "none";
+        }
+    } else {
+        // Desktop (> 768px): Smooth virtual scroller
+        if (!scroller && content) {
+            scroller = new SmoothScroller();
+        } else if (scroller) {
+            scroller.updateBounds(true);
         }
     }
 }
 
-const scroller = new SmoothScroller();
+// Inisialisasi awal
+syncScrollMode();
+
+// Tangani perubahan viewport (misal resize browser / rotasi device)
+mobileQuery.addEventListener("change", () => {
+    syncScrollMode();
+});
+
+// Mobile hash on-load handling
+const checkMobileHashOnLoad = () => {
+    if (!isMobileView()) return;
+    const hash = window.location.hash;
+    if (!hash || hash === "#") return;
+    const targetEl = document.querySelector(hash);
+    if (targetEl) {
+        const navbarEl = $("#navbar");
+        const navH = navbarEl ? navbarEl.offsetHeight : 0;
+        const topPos = targetEl.getBoundingClientRect().top + window.scrollY - navH;
+        window.scrollTo({
+            top: Math.max(0, topPos),
+            behavior: "smooth"
+        });
+    }
+};
+
+if (isMobileView()) {
+    checkMobileHashOnLoad();
+}
+window.addEventListener("load", checkMobileHashOnLoad, { passive: true });
+window.addEventListener("hashchange", checkMobileHashOnLoad, { passive: true });
 
 function setBodyHeight() {
-    if (scroller) scroller.updateBounds();
+    if (scroller && !isMobileView()) scroller.updateBounds();
 }
 
 // mobile navbar menu toggle
@@ -465,8 +625,17 @@ function setupSliderButton(btn) {
                 if (targetAttr.startsWith("#")) {
                     const targetEl = document.querySelector(targetAttr);
                     if (targetEl) {
-                        if (scroller) scroller.scrollToElement(targetEl);
-                        else targetEl.scrollIntoView({ behavior: "smooth" });
+                        if (scroller) {
+                            scroller.scrollToElement(targetEl);
+                        } else {
+                            const navbarEl = $("#navbar");
+                            const navH = navbarEl ? navbarEl.offsetHeight : 0;
+                            const topPos = targetEl.getBoundingClientRect().top + window.scrollY - navH;
+                            window.scrollTo({
+                                top: Math.max(0, topPos),
+                                behavior: "smooth"
+                            });
+                        }
                     } else {
                         console.warn(`Slider target element not found: ${targetAttr}`);
                     }
@@ -496,11 +665,14 @@ function setupSliderButton(btn) {
             if (btn.id === "slideBtn") {
                 const showcaseSection = $("#hero-showcase") || $("#about");
                 if (showcaseSection) {
-                    if (scroller) scroller.scrollToElement(showcaseSection);
-                    else {
-                        const targetPos = showcaseSection.offsetTop || window.innerHeight;
+                    if (scroller) {
+                        scroller.scrollToElement(showcaseSection);
+                    } else {
+                        const navbarEl = $("#navbar");
+                        const navH = navbarEl ? navbarEl.offsetHeight : 0;
+                        const topPos = showcaseSection.getBoundingClientRect().top + window.scrollY - navH;
                         window.scrollTo({
-                            top: targetPos,
+                            top: Math.max(0, topPos),
                             behavior: "smooth"
                         });
                     }
@@ -508,10 +680,14 @@ function setupSliderButton(btn) {
             } else {
                 const nextSection = btn.closest("section")?.nextElementSibling;
                 if (nextSection) {
-                    if (scroller) scroller.scrollToElement(nextSection);
-                    else {
+                    if (scroller) {
+                        scroller.scrollToElement(nextSection);
+                    } else {
+                        const navbarEl = $("#navbar");
+                        const navH = navbarEl ? navbarEl.offsetHeight : 0;
+                        const topPos = nextSection.getBoundingClientRect().top + window.scrollY - navH;
                         window.scrollTo({
-                            top: nextSection.offsetTop,
+                            top: Math.max(0, topPos),
                             behavior: "smooth"
                         });
                     }
@@ -578,13 +754,12 @@ function setupSliderButton(btn) {
 
     if (scroller) {
         scroller.onScroll(checkSliderReset);
-    } else {
-        window.addEventListener(
-            "scroll",
-            () => checkSliderReset(window.scrollY),
-            { passive: true }
-        );
     }
+    window.addEventListener(
+        "scroll",
+        () => checkSliderReset(window.scrollY),
+        { passive: true }
+    );
 }
 
 function initSliders() {

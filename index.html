@@ -9,7 +9,9 @@
     if ('scrollRestoration' in history) {
       history.scrollRestoration = 'manual';
     }
-    window.scrollTo(0, 0);
+    if (window.location.hash) {
+      window.scrollTo(0, 0);
+    }
   </script>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -53,7 +55,8 @@
     </div>
 
     <!-- Tombol burger menu mobile -->
-    <button class="nav-toggle-btn" id="navToggleBtn" aria-label="Buka menu navigasi" aria-expanded="false" aria-controls="mobileNavMenu">
+    <button class="nav-toggle-btn" id="navToggleBtn" aria-label="Buka menu navigasi" aria-expanded="false"
+      aria-controls="mobileNavMenu">
       <svg class="icon-menu" viewBox="0 0 24 24" fill="none">
         <line x1="3" y1="6" x2="21" y2="6"></line>
         <line x1="3" y1="12" x2="21" y2="12"></line>
@@ -295,7 +298,8 @@
         <div class="title-section">
           <span>Nikmati dan Rasakan Setiap</span>
           <h2>Produk <span>Unggulan Kami</span></h2>
-          <p class="products-section-desc">Pemesanan produk dilayani dalam kemasan karton/dus untuk menjaga standar mutu dan keamanan distribusi pangan.</p>
+          <p class="products-section-desc">Pemesanan produk dilayani dalam kemasan karton/dus untuk menjaga standar mutu
+            dan keamanan distribusi pangan.</p>
         </div>
 
         <div class="products-grid">
@@ -578,7 +582,8 @@
           </div>
 
           <div class="article-cta">
-            <button class="btn-slider btn-slider-action" data-target="page/berita/index.html" aria-label="Artikel Lainnya">
+            <button class="btn-slider btn-slider-action" data-target="page/berita/index.html"
+              aria-label="Artikel Lainnya">
               <div class="circle">
                 <svg class="circle-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                   stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
