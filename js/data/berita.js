@@ -15,7 +15,7 @@ const berita = [
     lokasi: "Jember",
     tanggal: "2 Maret 2026",
     datetime: "2026-03-02",
-    gambar: "../../assets/images/pencapian1.png",
+    gambar: "../../assets/images/berita/pencapian1.png",
     alt: "Penghargaan Juara Pertama Inovasi Produk Pangan Nasional Sarden SIP POLIJE",
     ringkasan:
       "Sarden SIP berhasil meraih juara pertama dalam ajang bergengsi Lomba Inovasi Produk Pangan Nasional berkat keunggulan cita rasa, formulasi alami, dan standar mutu industri modern.",
@@ -30,7 +30,8 @@ const berita = [
   },
   {
     id: "2",
-    judul: "Dosen dan Mahasiswa POLIJE Kembangkan Produk Olahan Surimi Berbasis Ikan Lemuru",
+    judul:
+      "Dosen dan Mahasiswa POLIJE Kembangkan Produk Olahan Surimi Berbasis Ikan Lemuru",
     kategori: "Inovasi",
     isFeatured: false,
     lokasi: "Jember",
@@ -44,20 +45,23 @@ const berita = [
     konten: [
       "Tim kolaborasi dosen peneliti dan mahasiswa Program Studi Pengolahan Hasil Ternak serta Teknologi Industri Pangan POLIJE berhasil mengembangkan terobosan baru berupa produk surimi berbasis ikan lemuru (Sardinella lemuru). Inovasi ini dirancang untuk memanfaatkan potensi tangkapan nelayan lokal di pesisir Puger, Jember, yang selama ini menghadapi fluktuasi harga saat musim panen raya.",
       "Surimi merupakan pasta protein ikan konsentrat yang menjadi bahan baku utama pembuatan berbagai olahan bernilai tambah tinggi seperti kamaboko, fish cake, baso ikan, dan crab stick imitasi. Kehadiran formula baru ini membuka peluang diversifikasi produk olahan perikanan tangkap yang jauh lebih luas bagi industri hilir lokal.",
-      { subjudul: "Teknologi Ekstraksi Protein dan Standar Uji Tekstur Ekspor" },
+      {
+        subjudul: "Teknologi Ekstraksi Protein dan Standar Uji Tekstur Ekspor",
+      },
       "Penggunaan ikan lemuru sebagai bahan baku surimi menghadapi tantangan tingginya kandungan lemak dan mioglobin gelap. Namun, melalui teknik pencucian bertingkat dengan larutan alkali encer dan pemisahan sentrifugal dingin yang dikembangkan di laboratorium TEFA, pasta surimi yang dihasilkan berhasil mencapai derajat putih di atas 70% dengan elastisitas gel yang sangat kuat.",
       "Ke depan, produk surimi lemuru ini akan diproduksi dalam skala komersial terbatas oleh unit TEFA Canning untuk memenuhi kebutuhan UMKM pengolahan makanan beku di Jawa Timur. Langkah ini sejalan dengan misi hilirisasi riset terapan kampus vokasi menuju kemandirian industri bahan baku pangan nasional.",
     ],
   },
   {
     id: "3",
-    judul: "Inovasi Kemasan Ramah Lingkungan untuk Produk Sarden Kaleng TEFA POLIJE",
+    judul:
+      "Inovasi Kemasan Ramah Lingkungan untuk Produk Sarden Kaleng TEFA POLIJE",
     kategori: "Inovasi",
     isFeatured: false,
     lokasi: "Jember",
     tanggal: "22 Februari 2026",
     datetime: "2026-02-22",
-    gambar: "../../assets/images/inovasi2.jpg",
+    gambar: "../../assets/images/news/inovasi2.jpg",
     alt: "Kemasan sarden kaleng ramah lingkungan TEFA POLIJE",
     ringkasan:
       "Pengembangan kemasan ramah lingkungan yang dapat didaur ulang dan mengurangi dampak terhadap lingkungan.",
@@ -72,13 +76,14 @@ const berita = [
   },
   {
     id: "4",
-    judul: "TEFA POLIJE Implementasikan Teknologi Retort Terbaru untuk Tingkatkan Efisiensi Produksi",
+    judul:
+      "TEFA POLIJE Implementasikan Teknologi Retort Terbaru untuk Tingkatkan Efisiensi Produksi",
     kategori: "Inovasi",
     isFeatured: false,
     lokasi: "Jember",
     tanggal: "15 Februari 2026",
     datetime: "2026-02-15",
-    gambar: "../../assets/images/inovasi1.jpg",
+    gambar: "../../assets/images/berita/inovasi1.jpg",
     alt: "Penerapan mesin retort modern di lini produksi TEFA Canning",
     ringkasan:
       "TEFA POLIJE telah mengimplementasikan teknologi mesin retort generasi terbaru yang dilengkapi sistem otomasi presisi guna meningkatkan efisiensi energi dan kapasitas sterilisasi.",
@@ -93,7 +98,8 @@ const berita = [
   },
   {
     id: "5",
-    judul: "TEFA POLIJE Gelar Praktik Pengalengan Ikan dengan Penerapan Standar Higienis Global",
+    judul:
+      "TEFA POLIJE Gelar Praktik Pengalengan Ikan dengan Penerapan Standar Higienis Global",
     kategori: "Kegiatan",
     isFeatured: false,
     lokasi: "Jember",
@@ -114,7 +120,8 @@ const berita = [
   },
   {
     id: "6",
-    judul: "Jamin Mutu Pangan: Mahasiswa POLIJE Pelajari Proses Krusial Sterilisasi di Mesin Retort",
+    judul:
+      "Jamin Mutu Pangan: Mahasiswa POLIJE Pelajari Proses Krusial Sterilisasi di Mesin Retort",
     kategori: "Kegiatan",
     isFeatured: false,
     lokasi: "Jember",
@@ -135,7 +142,8 @@ const berita = [
   },
   {
     id: "7",
-    judul: "SARDEN SIP POLIJE: Produk Pangan Kaleng Higienis Hasil Produksi Mahasiswa Kompeten",
+    judul:
+      "SARDEN SIP POLIJE: Produk Pangan Kaleng Higienis Hasil Produksi Mahasiswa Kompeten",
     kategori: "Kegiatan",
     isFeatured: false,
     lokasi: "Jember",
@@ -156,7 +164,8 @@ const berita = [
   },
   {
     id: "8",
-    judul: "Politeknik Negeri Jember Laksanakan Audit SNI untuk Produk Sarden Kaleng",
+    judul:
+      "Politeknik Negeri Jember Laksanakan Audit SNI untuk Produk Sarden Kaleng",
     kategori: "Kegiatan",
     isFeatured: false,
     lokasi: "Jember",
