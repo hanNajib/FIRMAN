@@ -232,13 +232,14 @@
           <img src="${escapeHTML(item.img || DEFAULT_IMAGE)}" alt="${escapeHTML(item.name)}" loading="lazy" onerror="this.src='${DEFAULT_IMAGE}'">
           <div class="cart-info">
             <h3>${escapeHTML(item.name)}</h3>
-            <p>${formatRupiah(item.price)}</p>
+            <p>${formatRupiah(item.price)} <small style="font-size: 11px; color: #888; font-weight: normal;">/ dus (24 kaleng)</small></p>
             <div class="cart-qty-row">
               <div class="cart-qty-stepper">
                 <button class="cart-qty-btn" type="button" data-qty-action="minus" data-id="${item.id}" aria-label="Kurangi kuantitas">−</button>
-                <input class="cart-qty-input" type="number" min="1" max="99" value="${item.qty || 1}" data-id="${item.id}" aria-label="Jumlah kuantitas ${escapeHTML(item.name)}">
+                <input class="cart-qty-input" type="number" min="1" max="99" value="${item.qty || 1}" data-id="${item.id}" aria-label="Jumlah dus ${escapeHTML(item.name)}">
                 <button class="cart-qty-btn" type="button" data-qty-action="plus" data-id="${item.id}" aria-label="Tambah kuantitas">+</button>
               </div>
+              <span style="font-size: 12px; color: #666; font-weight: 500; margin-left: 6px;">Dus</span>
             </div>
           </div>
           <button class="del" type="button" data-del="${item.id}" aria-label="Hapus ${escapeHTML(item.name)}">${TRASH_ICON}</button>
@@ -298,7 +299,7 @@
             cart
                 .map(
                     (item) =>
-                        `<div class="row"><span>${escapeHTML(item.name)}<small class="item-breakdown">${item.qty} × ${formatRupiah(item.price)}</small></span><b>${formatRupiah(item.price * item.qty)}</b></div>`
+                        `<div class="row"><span>${escapeHTML(item.name)}<small class="item-breakdown">${item.qty} Dus × ${formatRupiah(item.price)}</small></span><b>${formatRupiah(item.price * item.qty)}</b></div>`
                 )
                 .join("") +
             `<div class="total"><span>Total Harga</span><b>${formatRupiah(total)}</b></div>`;
@@ -313,7 +314,7 @@
         const details = cart
             .map((item, index) => [
                 `${index + 1}. *${item.name}*`,
-                `   ${item.qty} x ${formatRupiah(item.price)} = ${formatRupiah(item.price * item.qty)}`,
+                `   ${item.qty} Dus x ${formatRupiah(item.price)} = ${formatRupiah(item.price * item.qty)}`,
             ].join("\n"))
             .join("\n");
 

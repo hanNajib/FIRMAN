@@ -67,7 +67,9 @@
 
     if (titleEl) titleEl.textContent = product.judul;
     if (descEl && product.deskripsi) descEl.textContent = product.deskripsi;
-    if (priceEl && product.harga) priceEl.textContent = String(product.harga);
+    if (priceEl && product.harga) {
+      priceEl.innerHTML = `${String(product.harga)} <span class="price-unit">/ kaleng</span>`;
+    }
 
     function updateSubtotal() {
       if (qtyInput) qtyInput.value = currentQty;

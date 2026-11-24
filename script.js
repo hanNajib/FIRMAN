@@ -1,57 +1,208 @@
 const $ = (el) => document.querySelector(el);
 const $$ = (el) => document.querySelectorAll(el);
 
+// Media query yang sinkron dengan CSS (@media (max-width: 768px))
+const mobileQuery = window.matchMedia("(max-width: 768px)");
+
+function isMobileView() {
+    return mobileQuery.matches;
+}
+
+const viewport = $(".viewport");
 const content = $(".content");
 const navbar = $("#navbar");
 
+// Kunci scroll viewport bawaan browser pada desktop (mencegah desync dengan translate3d)
+if (viewport) {
+    viewport.scrollTop = 0;
+    viewport.scrollLeft = 0;
+    viewport.addEventListener("scroll", () => {
+        if (!isMobileView()) {
+            if (viewport.scrollTop !== 0 || viewport.scrollLeft !== 0) {
+                viewport.scrollTop = 0;
+                viewport.scrollLeft = 0;
+            }
+        }
+    }, { passive: false });
+}
+
+if ("scrollRestoration" in history) {
+    history.scrollRestoration = "manual";
+}
+
+window.addEventListener("scroll", () => {
+    if (!isMobileView()) {
+        if (window.scrollY !== 0 || window.scrollX !== 0) {
+            window.scrollTo(0, 0);
+        }
+    } else {
+        updateGlobalNavbar(window.scrollY);
+    }
+}, { passive: true });
+
+function updateGlobalNavbar(y) {
+    if (!navbar) return;
+    if (y > 35) {
+        navbar.classList.add("nav-blur", "scrolled");
+    } else if (y < 15) {
+        navbar.classList.remove("nav-blur", "scrolled");
+    }
+}
+
+// Helper untuk menghitung jarak absolut suatu elemen dari puncak kontainer (.content)
+function getElementContentOffset(el, containerEl) {
+    let top = 0;
+    let curr = el;
+    while (curr && curr !== containerEl && curr !== document.body) {
+        top += curr.offsetTop || 0;
+        curr = curr.offsetParent;
+    }
+    return top;
+}
+
 class SmoothScroller {
     constructor() {
+        this.viewport = $(".viewport");
         this.content = $(".content");
         this.navbar = $("#navbar");
         this.currentY = 0;
         this.targetY = 0;
         this.maxScroll = 0;
-        this.ease = 0.085;
+        this.decay = 8.5;
+        this.lastTime = performance.now();
         this.rafId = null;
         this.isScrolling = false;
         this.touchStartY = 0;
         this.scrollListeners = new Set();
+        this.resizeObserver = null;
 
         if (!this.content) return;
         this.init();
     }
 
     init() {
-        this.updateBounds();
-        window.addEventListener("resize", () => this.updateBounds(), { passive: true });
-        window.addEventListener("load", () => this.updateBounds(), { passive: true });
+        if (this.viewport) {
+            this.viewport.scrollTop = 0;
+            this.viewport.scrollLeft = 0;
+        }
+        if (this.content) {
+            this.content.scrollTop = 0;
+            this.content.scrollLeft = 0;
+        }
+        window.scrollTo(0, 0);
+
+        this.updateBounds(false);
+        this.applyTransform(0);
+
+        window.addEventListener("resize", () => this.updateBounds(true), { passive: true });
+
+        if (window.ResizeObserver && this.content) {
+            this.resizeObserver = new ResizeObserver(() => {
+                this.updateBounds(true);
+            });
+            this.resizeObserver.observe(this.content);
+        }
+
+        window.addEventListener("load", () => {
+            this.updateBounds(false);
+            this.checkInitialHash();
+        }, { passive: true });
+
+        window.addEventListener("hashchange", () => {
+            this.checkInitialHash();
+        });
 
         window.addEventListener("wheel", (e) => this.onWheel(e), { passive: false });
-        window.addEventListener("touchstart", (e) => this.onTouchStart(e), { passive: true });
-        window.addEventListener("touchmove", (e) => this.onTouchMove(e), { passive: false });
         window.addEventListener("keydown", (e) => this.onKeyDown(e));
 
+        window.addEventListener("touchstart", (e) => {
+            if (isMobileView()) return;
+            if (e.touches && e.touches.length === 1) {
+                this.touchStartY = e.touches[0].clientY;
+            }
+        }, { passive: true });
+
+        window.addEventListener("touchmove", (e) => {
+            if (isMobileView()) return;
+            if (e.touches && e.touches.length === 1) {
+                const touchY = e.touches[0].clientY;
+                const delta = this.touchStartY - touchY;
+                this.touchStartY = touchY;
+                this.targetY += delta * 1.2;
+                this.clampTarget();
+            }
+        }, { passive: true });
+
         this.bindAnchorLinks();
-        this.applyTransform(0);
+        this.checkInitialHash();
     }
 
-    updateBounds() {
-        if (!this.content) return;
+    checkInitialHash() {
+        const hash = window.location.hash;
+        if (!hash || hash === "#") return;
+
+        const run = () => {
+            if (isMobileView()) return;
+            if (this.viewport) {
+                this.viewport.scrollTop = 0;
+                this.viewport.scrollLeft = 0;
+            }
+            if (this.content) {
+                this.content.scrollTop = 0;
+                this.content.scrollLeft = 0;
+            }
+            window.scrollTo(0, 0);
+
+            this.updateBounds(false);
+
+            const targetEl = document.querySelector(hash);
+            if (!targetEl) return;
+
+            const offsetTop = getElementContentOffset(targetEl, this.content);
+            const navbarHeight = this.navbar ? this.navbar.offsetHeight : 0;
+            const targetPos = Math.max(0, Math.min(
+                Math.round(offsetTop - navbarHeight),
+                this.maxScroll
+            ));
+
+            this.currentY = targetPos;
+            this.targetY = targetPos;
+            this.applyTransform(targetPos);
+            this.updateNavbar(targetPos);
+        };
+
+        run();
+        requestAnimationFrame(run);
+        setTimeout(run, 50);
+        setTimeout(run, 150);
+        setTimeout(run, 300);
+        setTimeout(run, 600);
+    }
+
+    updateBounds(clamp = true) {
+        if (!this.content || isMobileView()) return;
+        if (this.viewport) {
+            this.viewport.scrollTop = 0;
+            this.viewport.scrollLeft = 0;
+        }
         const totalHeight = this.content.scrollHeight || this.content.offsetHeight;
         this.maxScroll = Math.max(0, totalHeight - window.innerHeight);
         const h = `${Math.ceil(totalHeight)}px`;
         if (document.body.style.height !== h) {
             document.body.style.height = h;
         }
-        this.clampTarget();
+        if (clamp) this.clampTarget();
     }
 
     clampTarget() {
+        if (isMobileView()) return;
         this.targetY = Math.max(0, Math.min(this.targetY, this.maxScroll));
+        this.currentY = Math.max(0, Math.min(this.currentY, this.maxScroll));
         this.requestTick();
     }
 
     onWheel(e) {
+        if (isMobileView()) return;
         e.preventDefault();
 
         let delta = e.deltaY;
@@ -62,23 +213,8 @@ class SmoothScroller {
         this.clampTarget();
     }
 
-    onTouchStart(e) {
-        if (e.touches.length === 1) {
-            this.touchStartY = e.touches[0].clientY;
-        }
-    }
-
-    onTouchMove(e) {
-        if (e.touches.length === 1) {
-            const currentY = e.touches[0].clientY;
-            const deltaY = this.touchStartY - currentY;
-            this.touchStartY = currentY;
-            this.targetY += deltaY * 1.5;
-            this.clampTarget();
-        }
-    }
-
     onKeyDown(e) {
+        if (isMobileView()) return;
         const activeTag = document.activeElement ? document.activeElement.tagName.toLowerCase() : "";
         if (["input", "textarea", "select"].includes(activeTag)) return;
 
@@ -113,6 +249,10 @@ class SmoothScroller {
     }
 
     scrollTo(target, immediate = false) {
+        if (isMobileView()) {
+            window.scrollTo({ top: target, behavior: immediate ? "auto" : "smooth" });
+            return;
+        }
         this.targetY = Math.max(0, Math.min(target, this.maxScroll));
         if (immediate) {
             this.currentY = this.targetY;
@@ -125,9 +265,23 @@ class SmoothScroller {
 
     scrollToElement(element) {
         if (!element) return;
+        if (isMobileView()) {
+            const navbarEl = $("#navbar");
+            const navH = navbarEl ? navbarEl.offsetHeight : 0;
+            const topPos = element.getBoundingClientRect().top + window.scrollY - navH;
+            window.scrollTo({
+                top: Math.max(0, topPos),
+                behavior: "smooth"
+            });
+            return;
+        }
         this.updateBounds();
-        const rect = element.getBoundingClientRect();
-        const targetPos = this.currentY + rect.top;
+        const offsetTop = getElementContentOffset(element, this.content);
+        const navbarHeight = this.navbar ? this.navbar.offsetHeight : 0;
+        const targetPos = Math.max(0, Math.min(
+            Math.round(offsetTop - navbarHeight),
+            this.maxScroll
+        ));
         this.scrollTo(targetPos);
     }
 
@@ -141,7 +295,17 @@ class SmoothScroller {
             const targetEl = document.querySelector(hash);
             if (targetEl) {
                 e.preventDefault();
-                this.scrollToElement(targetEl);
+                if (isMobileView()) {
+                    const navbarEl = $("#navbar");
+                    const navH = navbarEl ? navbarEl.offsetHeight : 0;
+                    const topPos = targetEl.getBoundingClientRect().top + window.scrollY - navH;
+                    window.scrollTo({
+                        top: Math.max(0, topPos),
+                        behavior: "smooth"
+                    });
+                } else {
+                    this.scrollToElement(targetEl);
+                }
                 if (history.pushState) {
                     history.pushState(null, null, hash);
                 }
@@ -155,22 +319,28 @@ class SmoothScroller {
 
     requestTick() {
         if (!this.rafId) {
+            this.lastTime = performance.now();
             if (!this.isScrolling && this.content) {
                 this.content.classList.add("is-scrolling");
                 this.isScrolling = true;
             }
-            this.rafId = requestAnimationFrame(() => this.update());
+            this.rafId = requestAnimationFrame((now) => this.update(now));
         }
     }
 
-    update() {
+    update(now = performance.now()) {
         this.rafId = null;
+
+        const dt = Math.min((now - this.lastTime) / 1000, 0.1);
+        this.lastTime = now;
+
         const diff = this.targetY - this.currentY;
 
-        if (Math.abs(diff) < 0.15) {
+        if (Math.abs(diff) < 0.08) {
             this.currentY = this.targetY;
         } else {
-            this.currentY += diff * this.ease;
+            const factor = 1 - Math.exp(-this.decay * dt);
+            this.currentY += diff * factor;
         }
 
         this.applyTransform(this.currentY);
@@ -189,25 +359,76 @@ class SmoothScroller {
     }
 
     applyTransform(y) {
+        if (this.viewport && (this.viewport.scrollTop !== 0 || this.viewport.scrollLeft !== 0)) {
+            this.viewport.scrollTop = 0;
+            this.viewport.scrollLeft = 0;
+        }
+        if (window.scrollY !== 0 || window.scrollX !== 0) {
+            window.scrollTo(0, 0);
+        }
         if (this.content) {
-            this.content.style.transform = `translate3d(0, -${y.toFixed(2)}px, 0)`;
+            this.content.style.transform = `translate3d(0, -${y}px, 0)`;
         }
     }
 
     updateNavbar(y) {
-        if (!this.navbar) return;
-        if (y > 35) {
-            this.navbar.classList.add("nav-blur", "scrolled");
-        } else if (y < 15) {
-            this.navbar.classList.remove("nav-blur", "scrolled");
+        updateGlobalNavbar(y);
+    }
+}
+
+// Inisialisasi Native Mobile Scrolling vs Desktop Scroller
+let scroller = null;
+
+function syncScrollMode() {
+    if (isMobileView()) {
+        // Mobile / Small Screen: 100% Native Scrolling
+        document.body.style.height = "auto";
+        if (content) {
+            content.style.transform = "none";
+        }
+    } else {
+        // Desktop (> 768px): Smooth virtual scroller
+        if (!scroller && content) {
+            scroller = new SmoothScroller();
+        } else if (scroller) {
+            scroller.updateBounds(true);
         }
     }
 }
 
-const scroller = new SmoothScroller();
+// Inisialisasi awal
+syncScrollMode();
+
+// Tangani perubahan viewport (misal resize browser / rotasi device)
+mobileQuery.addEventListener("change", () => {
+    syncScrollMode();
+});
+
+// Mobile hash on-load handling
+const checkMobileHashOnLoad = () => {
+    if (!isMobileView()) return;
+    const hash = window.location.hash;
+    if (!hash || hash === "#") return;
+    const targetEl = document.querySelector(hash);
+    if (targetEl) {
+        const navbarEl = $("#navbar");
+        const navH = navbarEl ? navbarEl.offsetHeight : 0;
+        const topPos = targetEl.getBoundingClientRect().top + window.scrollY - navH;
+        window.scrollTo({
+            top: Math.max(0, topPos),
+            behavior: "smooth"
+        });
+    }
+};
+
+if (isMobileView()) {
+    checkMobileHashOnLoad();
+}
+window.addEventListener("load", checkMobileHashOnLoad, { passive: true });
+window.addEventListener("hashchange", checkMobileHashOnLoad, { passive: true });
 
 function setBodyHeight() {
-    if (scroller) scroller.updateBounds();
+    if (scroller && !isMobileView()) scroller.updateBounds();
 }
 
 // mobile navbar menu toggle
@@ -244,10 +465,24 @@ function initMobileNavbar() {
     if (closeBtn) closeBtn.addEventListener("click", closeMenu);
     backdrop.addEventListener("click", closeMenu);
 
-    const mobileLinks = menu.querySelectorAll(".mobile-nav-link, .mobile-nav-cta");
+    const mobileLinks = menu.querySelectorAll(".mobile-nav-link, .mobile-nav-sublink, .mobile-nav-cta");
     mobileLinks.forEach((link) => {
         link.addEventListener("click", () => {
             closeMenu();
+        });
+    });
+
+    // Mobile nav accordion toggle
+    const dropdownToggles = menu.querySelectorAll(".mobile-nav-dropdown-toggle");
+    dropdownToggles.forEach((btn) => {
+        btn.addEventListener("click", (e) => {
+            e.preventDefault();
+            const parent = btn.closest(".mobile-nav-item-dropdown");
+            if (parent) {
+                const isOpen = parent.classList.contains("is-open");
+                parent.classList.toggle("is-open", !isOpen);
+                btn.setAttribute("aria-expanded", !isOpen ? "true" : "false");
+            }
         });
     });
 
@@ -350,25 +585,94 @@ function setupSliderButton(btn) {
         if (text) text.style.opacity = "";
 
         setTimeout(() => {
-            const targetAttr = btn.getAttribute("data-target") || btn.getAttribute("href");
-            const targetEl = targetAttr ? $(targetAttr) : null;
+            const detail = { button: btn };
+            const customEvent = new CustomEvent("slide:complete", {
+                detail,
+                bubbles: true,
+                cancelable: true
+            });
+            const eventAllowed = btn.dispatchEvent(customEvent);
 
-            if (targetEl) {
-                if (scroller) scroller.scrollToElement(targetEl);
-                else {
-                    window.scrollTo({
-                        top: targetEl.offsetTop,
-                        behavior: "smooth"
-                    });
+            if (typeof btn.onSlideComplete === "function") {
+                btn.onSlideComplete(btn);
+                return;
+            }
+
+            const actionAttr = btn.getAttribute("data-action") || (text ? text.getAttribute("data-action") : null);
+            if (actionAttr) {
+                if (typeof window[actionAttr] === "function") {
+                    window[actionAttr](btn);
+                    return;
                 }
-            } else if (btn.id === "slideBtn") {
+                try {
+                    const fn = new Function("button", actionAttr);
+                    fn.call(btn, btn);
+                    return;
+                } catch (err) {
+                    console.error("Error executing data-action:", err);
+                }
+            }
+
+            if (!eventAllowed) return;
+
+            const targetAttr =
+                (text ? text.getAttribute("data-target") || text.getAttribute("href") || text.getAttribute("data-href") : null) ||
+                btn.getAttribute("data-target") ||
+                btn.getAttribute("href") ||
+                btn.getAttribute("data-href");
+
+            if (targetAttr) {
+                if (targetAttr.startsWith("#")) {
+                    const targetEl = document.querySelector(targetAttr);
+                    if (targetEl) {
+                        if (scroller) {
+                            scroller.scrollToElement(targetEl);
+                        } else {
+                            const navbarEl = $("#navbar");
+                            const navH = navbarEl ? navbarEl.offsetHeight : 0;
+                            const topPos = targetEl.getBoundingClientRect().top + window.scrollY - navH;
+                            window.scrollTo({
+                                top: Math.max(0, topPos),
+                                behavior: "smooth"
+                            });
+                        }
+                    } else {
+                        console.warn(`Slider target element not found: ${targetAttr}`);
+                    }
+                } else {
+                    const targetWindow = btn.getAttribute("target");
+                    if (targetWindow === "_blank") {
+                        window.open(targetAttr, "_blank");
+                    } else {
+                        window.location.href = targetAttr;
+                    }
+                }
+                return;
+            }
+
+            if (btn.type === "submit" || btn.classList.contains("form-submit-btn")) {
+                const form = btn.closest("form");
+                if (form) {
+                    if (typeof form.requestSubmit === "function") {
+                        form.requestSubmit();
+                    } else {
+                        form.submit();
+                    }
+                    return;
+                }
+            }
+
+            if (btn.id === "slideBtn") {
                 const showcaseSection = $("#hero-showcase") || $("#about");
                 if (showcaseSection) {
-                    if (scroller) scroller.scrollToElement(showcaseSection);
-                    else {
-                        const targetPos = showcaseSection.offsetTop || window.innerHeight;
+                    if (scroller) {
+                        scroller.scrollToElement(showcaseSection);
+                    } else {
+                        const navbarEl = $("#navbar");
+                        const navH = navbarEl ? navbarEl.offsetHeight : 0;
+                        const topPos = showcaseSection.getBoundingClientRect().top + window.scrollY - navH;
                         window.scrollTo({
-                            top: targetPos,
+                            top: Math.max(0, topPos),
                             behavior: "smooth"
                         });
                     }
@@ -376,10 +680,14 @@ function setupSliderButton(btn) {
             } else {
                 const nextSection = btn.closest("section")?.nextElementSibling;
                 if (nextSection) {
-                    if (scroller) scroller.scrollToElement(nextSection);
-                    else {
+                    if (scroller) {
+                        scroller.scrollToElement(nextSection);
+                    } else {
+                        const navbarEl = $("#navbar");
+                        const navH = navbarEl ? navbarEl.offsetHeight : 0;
+                        const topPos = nextSection.getBoundingClientRect().top + window.scrollY - navH;
                         window.scrollTo({
-                            top: nextSection.offsetTop,
+                            top: Math.max(0, topPos),
                             behavior: "smooth"
                         });
                     }
@@ -446,13 +754,12 @@ function setupSliderButton(btn) {
 
     if (scroller) {
         scroller.onScroll(checkSliderReset);
-    } else {
-        window.addEventListener(
-            "scroll",
-            () => checkSliderReset(window.scrollY),
-            { passive: true }
-        );
     }
+    window.addEventListener(
+        "scroll",
+        () => checkSliderReset(window.scrollY),
+        { passive: true }
+    );
 }
 
 function initSliders() {

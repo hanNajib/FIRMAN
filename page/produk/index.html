@@ -9,21 +9,36 @@
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@6.0.0-alpha.1/dist/css/bootstrap.min.css" rel="stylesheet"
+      integrity="sha384-B/GM4XqrwHnWXNOWMbloTmrYXZg10cakYGmpfsR/bbzQ6JAJI4ihuyADKLnBgrCe" crossorigin="anonymous">
+    <script type="module" src="https://cdn.jsdelivr.net/npm/bootstrap@6.0.0-alpha.1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-1a/pXj49ZQ1aHEmrJ+gMw1otqoVsYwlEnlD8mIfY2TV03r20Y0CN7uqx1tQogjPL"
+      crossorigin="anonymous"></script>
     <link rel="stylesheet" href="../../style.css" />
     <title>Produk | Firman</title>
   </head>
   <body>
     <nav class="main-navbar" id="navbar">
-      <a href="../../index.html#hero-section" class="flex items-center no-underline">
-        <img src="../../assets/logo.svg" alt="Firman" class="h-16" />
+      <a href="../../index.html#hero-section" class="nav-brand" aria-label="Firman - ke Beranda">
+        <img src="../../assets/logo.svg" alt="Firman Logo" />
       </a>
       <ul class="nav-items">
         <li><a href="../../index.html#hero-section" class="nav-item">Beranda</a></li>
-        <li><a href="../../index.html#about" class="nav-item">Tentang</a></li>
-        <li><a href="#produk-list" class="nav-item" aria-current="page">Produk</a></li>
+        <li class="nav-item-dropdown dropdown">
+          <a href="../../index.html#about" class="nav-item dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Tentang
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="../../index.html#about">Detail Fish Canning</a></li>
+            <li><a class="dropdown-item" href="../produksi.html">Tahapan</a></li>
+            <li><a class="dropdown-item" href="../alat.html">Alat-Alat</a></li>
+          </ul>
+        </li>
+        <li><a href="index.html" class="nav-item active" aria-current="page">Produk</a></li>
         <li><a href="../../index.html#gallery" class="nav-item">Galeri</a></li>
-        <li><a href="../../index.html#article" class="nav-item">Berita</a></li>
-        <li><a href="../../index.html#faq" class="nav-item">Kontak</a></li>
+        <li><a href="../../index.html#article" class="nav-item">Artikel</a></li>
+        <li><a href="../../index.html#faq" class="nav-item">FAQ</a></li>
+        <li><a href="../contact.html" class="nav-item">Kontak</a></li>
       </ul>
       <div class="nav-actions">
         <a href="../../index.html#faq" class="btn-primary">Get Started</a>
@@ -65,11 +80,22 @@
       </div>
       <ul class="mobile-nav-links">
         <li><a href="../../index.html#hero-section" class="mobile-nav-link"><span>Beranda</span><span>&gt;</span></a></li>
-        <li><a href="../../index.html#about" class="mobile-nav-link"><span>Tentang</span><span>&gt;</span></a></li>
-        <li><a href="#produk-list" class="mobile-nav-link"><span>Produk</span><span>&gt;</span></a></li>
+        <li class="mobile-nav-item-dropdown">
+          <button type="button" class="mobile-nav-dropdown-toggle" aria-expanded="false">
+            <span>Tentang</span>
+            <span class="chevron">&gt;</span>
+          </button>
+          <div class="mobile-nav-sublinks">
+            <a href="../../index.html#about" class="mobile-nav-sublink">Detail Fish Canning</a>
+            <a href="../produksi.html" class="mobile-nav-sublink">Tahapan</a>
+            <a href="../alat.html" class="mobile-nav-sublink">Alat-Alat</a>
+          </div>
+        </li>
+        <li><a href="index.html" class="mobile-nav-link"><span>Produk</span><span>&gt;</span></a></li>
         <li><a href="../../index.html#gallery" class="mobile-nav-link"><span>Galeri</span><span>&gt;</span></a></li>
-        <li><a href="../../index.html#article" class="mobile-nav-link"><span>Berita</span><span>&gt;</span></a></li>
-        <li><a href="../../index.html#faq" class="mobile-nav-link"><span>Kontak</span><span>&gt;</span></a></li>
+        <li><a href="../../index.html#article" class="mobile-nav-link"><span>Artikel</span><span>&gt;</span></a></li>
+        <li><a href="../../index.html#faq" class="mobile-nav-link"><span>FAQ</span><span>&gt;</span></a></li>
+        <li><a href="../contact.html" class="mobile-nav-link"><span>Kontak</span><span>&gt;</span></a></li>
       </ul>
       <div class="mobile-nav-footer">
         <a href="../../index.html#faq" class="btn-primary mobile-nav-cta">Get Started</a>
