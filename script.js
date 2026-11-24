@@ -6,6 +6,12 @@ if ("scrollRestoration" in history) {
 }
 window.scrollTo(0, 0);
 
+window.addEventListener("scroll", () => {
+    if (window.scrollY !== 0 || window.scrollX !== 0) {
+        window.scrollTo(0, 0);
+    }
+}, { passive: false });
+
 const content = $(".content");
 const navbar = $("#navbar");
 
@@ -55,34 +61,32 @@ class SmoothScroller {
         if (!hash || hash === "#") return;
 
         const run = () => {
-            // Always force native scroll to 0 — prevents browser from fighting us
             window.scrollTo(0, 0);
-            // Update bounds WITHOUT clamping/ticking so targetY stays untouched
             this.updateBounds(false);
 
             const targetEl = document.querySelector(hash);
             if (!targetEl) return;
 
+            const contentRect = this.content.getBoundingClientRect();
+            const targetRect = targetEl.getBoundingClientRect();
             const navbarHeight = this.navbar ? this.navbar.offsetHeight : 0;
-            let targetPos = targetEl.offsetTop;
-            let el = targetEl.offsetParent;
-            while (el && el !== this.content && el !== document.body) {
-                targetPos += el.offsetTop;
-                el = el.offsetParent;
-            }
-            targetPos = Math.max(0, Math.min(targetPos - navbarHeight, this.maxScroll));
+            const targetPos = Math.max(0, Math.min(
+                Math.round(targetRect.top - contentRect.top - navbarHeight),
+                this.maxScroll
+            ));
 
-            // Set both currentY AND targetY — no lerp, no race condition
             this.currentY = targetPos;
             this.targetY = targetPos;
             this.applyTransform(targetPos);
             this.updateNavbar(targetPos);
+            window.scrollTo(0, 0);
         };
 
-        // Run immediately, then again once layout/images fully settle
         run();
         requestAnimationFrame(run);
+        setTimeout(run, 50);
         setTimeout(run, 150);
+        setTimeout(run, 400);
     }
 
     updateBounds(clamp = true) {
@@ -301,10 +305,24 @@ function initMobileNavbar() {
     if (closeBtn) closeBtn.addEventListener("click", closeMenu);
     backdrop.addEventListener("click", closeMenu);
 
-    const mobileLinks = menu.querySelectorAll(".mobile-nav-link, .mobile-nav-cta");
+    const mobileLinks = menu.querySelectorAll(".mobile-nav-link, .mobile-nav-sublink, .mobile-nav-cta");
     mobileLinks.forEach((link) => {
         link.addEventListener("click", () => {
             closeMenu();
+        });
+    });
+
+    // Mobile nav accordion toggle
+    const dropdownToggles = menu.querySelectorAll(".mobile-nav-dropdown-toggle");
+    dropdownToggles.forEach((btn) => {
+        btn.addEventListener("click", (e) => {
+            e.preventDefault();
+            const parent = btn.closest(".mobile-nav-item-dropdown");
+            if (parent) {
+                const isOpen = parent.classList.contains("is-open");
+                parent.classList.toggle("is-open", !isOpen);
+                btn.setAttribute("aria-expanded", !isOpen ? "true" : "false");
+            }
         });
     });
 

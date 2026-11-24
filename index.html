@@ -6,10 +6,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Firman - Fish Canning Resource Management</title>
   <script>
-    if (window.location.hash) {
-      if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
-      window.scrollTo(0, 0);
+    if ('scrollRestoration' in history) {
+      history.scrollRestoration = 'manual';
     }
+    window.scrollTo(0, 0);
   </script>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -17,20 +17,28 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
     rel="stylesheet">
-
   <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
   <nav class="main-navbar" id="navbar">
-    <a href="#hero-section" class="flex items-center text-white no-underline">
-      <img src="assets/logo.svg" alt="Firman Logo" class="h-16">
+    <a href="#hero-section" class="nav-brand" aria-label="Firman - ke Beranda">
+      <img src="assets/logo.svg" alt="Firman Logo">
     </a>
 
     <ul class="nav-items">
       <li><a href="#hero-section" class="nav-item">Beranda</a></li>
-      <li><a href="#about" class="nav-item">Tentang</a></li>
+      <li class="nav-item-dropdown dropdown">
+        <a href="#about" class="nav-item dropdown-toggle" aria-haspopup="true">
+          Tentang
+        </a>
+        <ul class="dropdown-menu">
+          <li><a class="dropdown-item" href="#about">Detail Fish Canning</a></li>
+          <li><a class="dropdown-item" href="page/produksi.html">Tahapan</a></li>
+          <li><a class="dropdown-item" href="page/alat.html">Alat-Alat</a></li>
+        </ul>
+      </li>
       <li><a href="#products" class="nav-item">Produk</a></li>
       <li><a href="#gallery" class="nav-item">Galeri</a></li>
       <li><a href="#article" class="nav-item">Artikel</a></li>
@@ -45,7 +53,7 @@
     </div>
 
     <!-- Tombol burger menu mobile -->
-    <button class="nav-toggle-btn" id="navToggleBtn" aria-label="Buka menu navigasi" aria-expanded="false">
+    <button class="nav-toggle-btn" id="navToggleBtn" aria-label="Buka menu navigasi" aria-expanded="false" aria-controls="mobileNavMenu">
       <svg class="icon-menu" viewBox="0 0 24 24" fill="none">
         <line x1="3" y1="6" x2="21" y2="6"></line>
         <line x1="3" y1="12" x2="21" y2="12"></line>
@@ -73,7 +81,17 @@
 
     <ul class="mobile-nav-links">
       <li><a href="#hero-section" class="mobile-nav-link"><span>Beranda</span><span>&gt;</span></a></li>
-      <li><a href="#about" class="mobile-nav-link"><span>Tentang</span><span>&gt;</span></a></li>
+      <li class="mobile-nav-item-dropdown">
+        <button type="button" class="mobile-nav-dropdown-toggle" aria-expanded="false">
+          <span>Tentang</span>
+          <span class="chevron">&gt;</span>
+        </button>
+        <div class="mobile-nav-sublinks">
+          <a href="#about" class="mobile-nav-sublink">Detail Fish Canning</a>
+          <a href="page/produksi.html" class="mobile-nav-sublink">Tahapan</a>
+          <a href="page/alat.html" class="mobile-nav-sublink">Alat-Alat</a>
+        </div>
+      </li>
       <li><a href="#products" class="mobile-nav-link"><span>Produk</span><span>&gt;</span></a></li>
       <li><a href="#gallery" class="mobile-nav-link"><span>Galeri</span><span>&gt;</span></a></li>
       <li><a href="#article" class="mobile-nav-link"><span>Artikel</span><span>&gt;</span></a></li>
@@ -277,12 +295,14 @@
         <div class="title-section">
           <span>Nikmati dan Rasakan Setiap</span>
           <h2>Produk <span>Unggulan Kami</span></h2>
+          <p class="products-section-desc">Pemesanan produk dilayani dalam kemasan karton/dus untuk menjaga standar mutu dan keamanan distribusi pangan.</p>
         </div>
 
         <div class="products-grid">
           <!-- Card 1 -->
           <div class="product-card">
             <div class="product-img-wrap">
+              <span class="product-badge">Per Dus</span>
               <img
                 src="assets/images/kalengsardenpolijesippengensardenpakenasitambahsambelmakanpakekerupukikanaselijemberjosjismantapbujang.png"
                 alt="Sarden SIP Saus Tomat" class="product-img">
@@ -291,7 +311,10 @@
               <h3 class="product-title">Sarden SIP Saus Tomat</h3>
               <p class="product-desc">Sehat, lezat dan bergizi, sppg mending beli sarden disini</p>
               <div class="product-bottom">
-                <span class="product-price">Rp 20.000</span>
+                <div class="product-price-wrap">
+                  <span class="product-price">Rp 20.000 <span class="product-unit">/ kaleng</span></span>
+                  <span class="product-unit-note">Min. pembelian 1 dus (24 kaleng)</span>
+                </div>
                 <a href="page/produk/detail.html?id=1" class="product-action-btn"
                   aria-label="Lihat detail Sarden SIP Saus Tomat">
                   <img src="assets/icons/arrow-up-right.svg" alt="Arrow" class="w-3.5 h-3.5 invert brightness-0">
@@ -303,6 +326,7 @@
           <!-- Card 2 -->
           <div class="product-card">
             <div class="product-img-wrap">
+              <span class="product-badge">Per Dus</span>
               <img
                 src="assets/images/kalengsardenpolijesippengensardenpakenasitambahsambelmakanpakekerupukikanaselijemberjosjismantapbujang.png"
                 alt="Sarden SIP Asin" class="product-img">
@@ -312,7 +336,10 @@
               <p class="product-desc">Olahan ikan sarden dengan cita rasa asin gurih, cocok untuk pelengkap hidangan.
               </p>
               <div class="product-bottom">
-                <span class="product-price">Rp 20.000</span>
+                <div class="product-price-wrap">
+                  <span class="product-price">Rp 20.000 <span class="product-unit">/ kaleng</span></span>
+                  <span class="product-unit-note">Min. pembelian 1 dus (24 kaleng)</span>
+                </div>
                 <a href="page/produk/detail.html?id=2" class="product-action-btn"
                   aria-label="Lihat detail Sarden SIP Asin">
                   <img src="assets/icons/arrow-up-right.svg" alt="Arrow" class="w-3.5 h-3.5 invert brightness-0">
@@ -324,6 +351,7 @@
           <!-- Card 3 -->
           <div class="product-card">
             <div class="product-img-wrap">
+              <span class="product-badge">Per Dus</span>
               <img
                 src="assets/images/kalengsardenpolijesippengensardenpakenasitambahsambelmakanpakekerupukikanaselijemberjosjismantapbujang.png"
                 alt="Sarden SIP Saus Cabai" class="product-img">
@@ -332,7 +360,10 @@
               <h3 class="product-title">Sarden SIP Saus Cabai</h3>
               <p class="product-desc">Ikan sarden dengan saus cabai bercita rasa pedas yang menggugah selera.</p>
               <div class="product-bottom">
-                <span class="product-price">Rp 20.000</span>
+                <div class="product-price-wrap">
+                  <span class="product-price">Rp 20.000 <span class="product-unit">/ kaleng</span></span>
+                  <span class="product-unit-note">Min. pembelian 1 dus (24 kaleng)</span>
+                </div>
                 <a href="page/produk/detail.html?id=3" class="product-action-btn"
                   aria-label="Lihat detail Sarden SIP Saus Cabai">
                   <img src="assets/icons/arrow-up-right.svg" alt="Arrow" class="w-3.5 h-3.5 invert brightness-0">
@@ -344,6 +375,7 @@
           <!-- Card 4 -->
           <div class="product-card">
             <div class="product-img-wrap">
+              <span class="product-badge">Per Dus</span>
               <img
                 src="assets/images/kalengsardenpolijesippengensardenpakenasitambahsambelmakanpakekerupukikanaselijemberjosjismantapbujang.png"
                 alt="Sarden SIP Saus Tartar" class="product-img">
@@ -352,7 +384,10 @@
               <h3 class="product-title">Sarden SIP Saus Tartar</h3>
               <p class="product-desc">Olahan sarden dengan saus tartar yang menghadirkan variasi rasa berbeda.</p>
               <div class="product-bottom">
-                <span class="product-price">Rp 20.000</span>
+                <div class="product-price-wrap">
+                  <span class="product-price">Rp 20.000 <span class="product-unit">/ kaleng</span></span>
+                  <span class="product-unit-note">Min. pembelian 1 dus (24 kaleng)</span>
+                </div>
                 <a href="page/produk/detail.html?id=4" class="product-action-btn"
                   aria-label="Lihat detail Sarden SIP Saus Tartar">
                   <img src="assets/icons/arrow-up-right.svg" alt="Arrow" class="w-3.5 h-3.5 invert brightness-0">
@@ -543,7 +578,7 @@
           </div>
 
           <div class="article-cta">
-            <button class="btn-slider btn-slider-action" data-target="#faq" aria-label="Artikel Lainnya">
+            <button class="btn-slider btn-slider-action" data-target="page/berita/index.html" aria-label="Artikel Lainnya">
               <div class="circle">
                 <svg class="circle-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                   stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -551,7 +586,7 @@
                   <polyline points="12 5 19 12 12 19"></polyline>
                 </svg>
               </div>
-              <span class="btn-slider-text" href="page/berita/index.html">Artikel Lainnya</span>
+              <span class="btn-slider-text">Artikel Lainnya</span>
             </button>
           </div>
         </div>
@@ -664,7 +699,7 @@
       <footer class="site-footer">
         <div class="site-footer-main">
           <section class="site-footer-brand">
-            <a href="" class="site-footer-logo">
+            <a href="#hero-section" class="site-footer-logo">
               <img src="assets/logo-footer.svg" alt="" />
               <span>
                 <strong>Firman</strong>
@@ -686,8 +721,8 @@
             <a href="#about">Tentang Kami</a>
             <a href="#products">Produk</a>
             <a href="#gallery">Galeri</a>
-            <a href="#news">Berita</a>
-            <a href="#contact">Kontak</a>
+            <a href="#article">Berita</a>
+            <a href="page/contact.html">Kontak</a>
           </nav>
           <section class="site-footer-location">
             <div class="site-footer-map">
@@ -708,7 +743,9 @@
       </footer>
 
     </div>
-    <script src="./script.js"></script>
+  </div>
+
+  <script src="./script.js"></script>
 </body>
 
 </html>
