@@ -111,12 +111,10 @@
 
 .main-navbar.nav-blur,
 .main-navbar.scrolled {
-  @apply py-[0.9rem];
-  background-color: rgba(255, 255, 255, 0.75);
-  backdrop-filter: blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  @apply py-[0.9rem] bg-white;
+  background-color: #ffffff;
   border-bottom: 1px solid rgba(0, 0, 0, 0.06);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
 }
 
 .main-navbar.nav-blur img,
@@ -137,17 +135,50 @@
   @apply text-primary opacity-70 hover:opacity-100 transition-all duration-200 font-medium no-underline;
 }
 
-/* Dropdown desktop (tanpa Bootstrap): buka lewat hover, fokus keyboard, atau class .show */
-.nav-item-dropdown {
+/* ==========================================================================
+   Bootstrap Scoped Navbar & Dropdown Support
+   Aturan Bootstrap ini diisolasi khusus untuk #navbar dan elemen navigasi,
+   sehingga tidak ada kebocoran style Bootstrap Reboot ke sisa halaman.
+   ========================================================================== */
+#navbar.navbar,
+.main-navbar.navbar {
+  @apply fixed top-0 left-0 w-full z-50 flex items-center justify-between gap-4 px-5 sm:px-8 lg:px-12 xl:px-16 py-4 lg:py-5;
+}
+
+#navbar .navbar-brand,
+#navbar .nav-brand {
+  @apply flex shrink-0 items-center no-underline;
+}
+
+#navbar .navbar-nav,
+#navbar .nav-items {
+  @apply hidden lg:flex items-center gap-5 xl:gap-8 text-sm font-medium text-primary whitespace-nowrap list-none m-0 p-0;
+}
+
+#navbar .nav-link,
+#navbar .nav-item {
+  @apply text-primary opacity-70 hover:opacity-100 transition-all duration-200 font-medium no-underline bg-transparent border-0;
+}
+
+#navbar .nav-link.active,
+#navbar .nav-item.active {
+  @apply opacity-100 font-semibold;
+}
+
+/* Dropdown desktop (Kompatibel Bootstrap 5 Dropdown JS & Hover Native) */
+.nav-item-dropdown,
+#navbar .dropdown {
   @apply relative;
 }
 
-.nav-item-dropdown .dropdown-toggle {
+.nav-item-dropdown .dropdown-toggle,
+#navbar .dropdown-toggle {
   @apply inline-flex items-center gap-1 cursor-pointer select-none bg-transparent border-0 p-0;
   text-decoration: none;
 }
 
-.nav-item-dropdown .dropdown-toggle::after {
+.nav-item-dropdown .dropdown-toggle::after,
+#navbar .dropdown-toggle::after {
   content: "";
   display: inline-block;
   margin-left: 0.35rem;
@@ -162,18 +193,23 @@
 .nav-item-dropdown:hover .dropdown-toggle::after,
 .nav-item-dropdown:focus-within .dropdown-toggle::after,
 .nav-item-dropdown.show .dropdown-toggle::after,
-.nav-item-dropdown .dropdown-toggle[aria-expanded="true"]::after {
+.nav-item-dropdown .dropdown-toggle[aria-expanded="true"]::after,
+#navbar .dropdown.show .dropdown-toggle::after,
+#navbar .dropdown-toggle[aria-expanded="true"]::after {
   transform: rotate(180deg);
 }
 
-.nav-item-dropdown .dropdown-menu {
+.nav-item-dropdown .dropdown-menu,
+#navbar .dropdown-menu {
   @apply absolute left-0 top-full mt-2 min-w-[210px] py-2 bg-white/95 backdrop-blur-md rounded-2xl shadow-xl border border-black/5 z-50;
   display: none;
   list-style: none;
+  margin-top: 0.5rem;
 }
 
-/* jembatan hover supaya menu tidak menutup saat kursor melewati jarak mt-2 */
-.nav-item-dropdown .dropdown-menu::before {
+/* Jembatan hover supaya menu tidak menutup saat kursor melewati jarak mt-2 */
+.nav-item-dropdown .dropdown-menu::before,
+#navbar .dropdown-menu::before {
   content: "";
   position: absolute;
   top: -0.6rem;
@@ -182,11 +218,22 @@
   height: 0.6rem;
 }
 
-.nav-item-dropdown:hover>.dropdown-menu,
-.nav-item-dropdown:focus-within>.dropdown-menu,
-.nav-item-dropdown>.dropdown-menu.show {
-  display: block;
+/* Dukungan tampil saat dibuka via Bootstrap JS (.show) atau via hover */
+.nav-item-dropdown:hover > .dropdown-menu,
+.nav-item-dropdown:focus-within > .dropdown-menu,
+.nav-item-dropdown > .dropdown-menu.show,
+#navbar .dropdown:hover > .dropdown-menu,
+#navbar .dropdown-menu.show,
+#navbar .dropdown.show > .dropdown-menu {
+  display: block !important;
   animation: navDropdownFade 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Penyesuaian Popper positioning dari Bootstrap Dropdown */
+#navbar .dropdown-menu[data-bs-popper] {
+  top: 100% !important;
+  left: 0 !important;
+  margin-top: 0.5rem !important;
 }
 
 @keyframes navDropdownFade {
@@ -201,20 +248,25 @@
   }
 }
 
-.nav-item-dropdown .dropdown-item {
+.nav-item-dropdown .dropdown-item,
+#navbar .dropdown-item {
   @apply block px-4 py-2.5 text-sm font-medium text-gray-700 hover:text-primary hover:bg-primary/10 transition-colors duration-150 no-underline rounded-xl mx-1;
 }
 
 .nav-item-dropdown .dropdown-item.active,
-.nav-item-dropdown .dropdown-item:active {
+.nav-item-dropdown .dropdown-item:active,
+#navbar .dropdown-item.active,
+#navbar .dropdown-item:active {
   @apply bg-primary text-white;
 }
 
-.main-navbar.nav-blur-red .nav-item-dropdown .dropdown-menu {
+.main-navbar.nav-blur-red .nav-item-dropdown .dropdown-menu,
+.main-navbar.nav-blur-red .dropdown-menu {
   @apply bg-white text-gray-800 shadow-2xl;
 }
 
-.main-navbar.nav-blur-red .nav-item-dropdown .dropdown-item {
+.main-navbar.nav-blur-red .nav-item-dropdown .dropdown-item,
+.main-navbar.nav-blur-red .dropdown-item {
   @apply text-gray-700 hover:text-primary hover:bg-primary/10;
 }
 
@@ -687,23 +739,25 @@
   }
 }
 
+/* Floating Trust Banner (Menyatu dengan Section About) */
 .about-floating-banner {
-  @apply absolute left-1/2 flex items-center justify-around bg-white z-[5];
-  top: -68px;
-  width: min(55vw, 90%);
-  min-height: 72px;
-  padding: 1rem 1.75rem;
-  border-radius: 20px 20px 0 0;
-  box-shadow: 0 -4px 18px rgba(0, 0, 0, 0.04);
+  @apply absolute left-1/2 flex items-center justify-around bg-white z-[5] select-none;
+  top: -84px;
+  width: min(65vw, 1000px);
+  min-height: 90px;
+  padding: 1.25rem 2.5rem;
+  border-radius: 28px 28px 0 0;
+  box-shadow: none;
   transform: translateX(-50%);
 }
 
 @media (max-width: 1024px) {
   .about-floating-banner {
     width: 92%;
-    top: -58px;
-    min-height: 62px;
-    padding: 0.8rem 1.25rem;
+    top: -72px;
+    min-height: 78px;
+    padding: 1rem 1.75rem;
+    border-radius: 22px 22px 0 0;
   }
 }
 
@@ -712,32 +766,51 @@
     top: auto;
     bottom: 100%;
     margin-bottom: -1px;
-    width: calc(100% - 32px);
-    max-width: 440px;
-    min-height: 48px;
-    padding: 0.5rem 0.75rem;
-    border-radius: 16px 16px 0 0;
-    gap: 6px;
-    box-shadow: 0 -3px 12px rgba(0, 0, 0, 0.04);
+    width: calc(100% - 24px);
+    max-width: 500px;
+    min-height: 58px;
+    padding: 0.65rem 0.875rem;
+    border-radius: 18px 18px 0 0;
+    gap: 8px;
+    box-shadow: none;
   }
 }
 
 .about-trust-item {
-  @apply flex items-center justify-center gap-2 whitespace-nowrap text-[#555] text-xs font-bold;
+  @apply flex items-center justify-center gap-3.5 whitespace-nowrap text-[#282828] text-[16px] sm:text-[17px] font-bold cursor-default transition-colors duration-200;
+}
+
+.about-trust-item:hover {
+  color: var(--color-primary);
 }
 
 .about-trust-item svg {
-  @apply w-5 h-5 text-primary stroke-[2] shrink-0;
+  @apply w-7 h-7 text-primary stroke-[2.2] shrink-0 transition-transform duration-200;
+}
+
+.about-trust-item:hover svg {
+  transform: scale(1.1);
+}
+
+@media (max-width: 1024px) {
+  .about-trust-item {
+    gap: 10px;
+    font-size: 15px;
+  }
+
+  .about-trust-item svg {
+    @apply w-6 h-6;
+  }
 }
 
 @media (max-width: 768px) {
   .about-trust-item {
-    gap: 4px;
-    font-size: 10px;
+    gap: 6px;
+    font-size: 12.5px;
   }
 
   .about-trust-item svg {
-    @apply w-4 h-4;
+    @apply w-5 h-5;
   }
 }
 
@@ -746,23 +819,20 @@
     top: auto;
     bottom: 100%;
     margin-bottom: -1px;
-    align-items: flex-start;
-    padding: 0.5rem;
+    align-items: center;
+    padding: 0.55rem 0.65rem;
+    min-height: 52px;
   }
 
   .about-trust-item {
     flex: 1 1 0;
     min-width: 0;
-    flex-direction: column;
-    gap: 2px;
-    font-size: 9px;
-    line-height: 1.25;
-    text-align: center;
-    white-space: normal;
+    gap: 4px;
+    font-size: 11px;
   }
 
   .about-trust-item svg {
-    @apply w-3.5 h-3.5;
+    @apply w-[18px] h-[18px];
   }
 }
 
@@ -951,7 +1021,7 @@
 }
 
 #faq {
-  @apply relative w-full pt-[90px] pb-[90px] px-[7.5%] bg-primary z-10;
+  @apply relative w-full py-20 px-[7.5%] bg-primary z-10;
   border-top-left-radius: 40px;
   border-top-right-radius: 40px;
 }
@@ -2810,11 +2880,9 @@
    FAQ & Contact Section
    ========================================================================== */
 #faq {
-  @apply bg-primary pt-20 pb-[90px] relative z-10;
+  @apply bg-primary py-20 px-[7.5%] relative z-10;
   border-top-left-radius: 40px;
   border-top-right-radius: 40px;
-  padding-left: clamp(20px, 4vw, 60px);
-  padding-right: clamp(20px, 4vw, 60px);
 }
 
 .faq-header {
@@ -2935,7 +3003,7 @@
 
 @media (max-width: 1024px) {
   #faq {
-    @apply pt-[60px] pb-[60px];
+    @apply py-16 px-[7.5%];
     border-top-left-radius: 28px;
     border-top-right-radius: 28px;
   }
@@ -2950,6 +3018,10 @@
 }
 
 @media (max-width: 640px) {
+  #faq {
+    @apply py-[50px];
+  }
+
   .faq-item {
     @apply rounded-[28px];
   }
@@ -2963,12 +3035,12 @@
    Footer Component
    ========================================================================== */
 .site-footer {
-  @apply text-white bg-[#972424];
+  @apply text-white bg-[#972424] px-[7.5%];
   font-family: var(--font-poppins);
 }
 
 .site-footer-main {
-  @apply grid max-w-[1280px] mx-auto py-9 px-[5%] gap-7;
+  @apply grid w-full max-w-[1350px] mx-auto py-20 gap-7;
   grid-template-columns: minmax(0, 1.3fr) minmax(110px, 0.45fr) minmax(240px, 1fr);
 }
 
@@ -3027,12 +3099,16 @@
 }
 
 .site-footer-bottom {
-  @apply py-3 px-4 border-t border-white/35 text-center text-xs;
+  @apply w-full max-w-[1350px] mx-auto py-5 border-t border-white/25 text-center text-xs;
 }
 
 @media (max-width: 800px) {
+  .site-footer {
+    @apply px-5;
+  }
+
   .site-footer-main {
-    @apply grid-cols-2 gap-6 py-8 px-6;
+    @apply grid-cols-2 gap-6 py-[50px];
   }
 
   .site-footer-brand {
