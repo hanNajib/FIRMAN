@@ -162,7 +162,9 @@
     updateSubtotal();
   }
 
-  if (document.readyState === "loading") {
+  if (document.getElementById("productDetailTitle")) {
+    initProductDetail();
+  } else if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", initProductDetail);
   } else {
     initProductDetail();

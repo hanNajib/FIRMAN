@@ -781,7 +781,171 @@ function initGalleryFanCarousel() {
     const total = cards.length;
     if (total === 0) return;
 
+    // Helper untuk menyesuaikan path gambar dari galeri.js (../../assets/ -> assets/)
+    function resolveGalleryImg(src) {
+        if (!src) return "assets/images/galleri/Praktik-Pengalengan.jpg";
+        return src.replace(/^(\.\.\/)+/, "");
+    }
+
+    const galeriList = window.galeri || (typeof galeri !== "undefined" ? galeri : []);
+    const hasGalleryData = Array.isArray(galeriList) && galeriList.length > 0;
+
+    // Sinkronkan gambar kartu 3D dengan data galeri.js murni
+    if (hasGalleryData) {
+        cards.forEach((card, i) => {
+            const item = galeriList[i % galeriList.length];
+            if (item) {
+                const img = card.querySelector("img");
+                if (img) {
+                    img.src = resolveGalleryImg(item.gambar);
+                    img.alt = item.alt || item.judul || "Dokumentasi Galeri TEFA";
+                    img.loading = "lazy";
+                    img.onerror = () => {
+                        img.src = "assets/images/galleri/Praktik-Pengalengan.jpg";
+                    };
+                }
+                card.setAttribute("title", item.judul);
+                card.setAttribute("role", "button");
+                card.setAttribute("tabindex", "0");
+                card.setAttribute("aria-label", `Buka galeri: ${item.judul}`);
+                card.style.cursor = "pointer";
+            }
+        });
+    }
+
     let currentIndex = 2;
+    let modalActiveIndex = 2;
+    let modalEl = null;
+
+    /**
+     * Lightbox Modal Galeri (Sinkron dengan halaman galeri)
+     */
+    function initGalleryModal() {
+        modalEl = $("#galeriModal");
+        if (!modalEl) {
+            modalEl = document.createElement("div");
+            modalEl.id = "galeriModal";
+            modalEl.className = "galeri-modal";
+            modalEl.setAttribute("role", "dialog");
+            modalEl.setAttribute("aria-modal", "true");
+            modalEl.setAttribute("aria-hidden", "true");
+
+            modalEl.innerHTML = `
+                <div class="galeri-modal-backdrop" id="galeriModalBackdrop"></div>
+                <div class="galeri-modal-dialog">
+                    <button type="button" class="galeri-modal-close" id="galeriModalClose" aria-label="Tutup gambar">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                        </svg>
+                    </button>
+                    
+                    <button type="button" class="galeri-modal-nav galeri-modal-prev" id="galeriModalPrev" aria-label="Gambar sebelumnya">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="15 18 9 12 15 6"></polyline>
+                        </svg>
+                    </button>
+
+                    <button type="button" class="galeri-modal-nav galeri-modal-next" id="galeriModalNext" aria-label="Gambar selanjutnya">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="9 18 15 12 9 6"></polyline>
+                        </svg>
+                    </button>
+
+                    <div class="galeri-modal-content">
+                        <div class="galeri-modal-img-wrap">
+                            <img id="galeriModalImg" src="" alt="" />
+                            <div class="galeri-modal-caption">
+                                <div class="galeri-modal-meta">
+                                    <span class="galeri-modal-badge" id="galeriModalCategory">Produksi</span>
+                                    <span class="galeri-modal-counter" id="galeriModalCounter">1 / 5</span>
+                                </div>
+                                <h3 id="galeriModalTitle">Judul Dokumentasi</h3>
+                                <p id="galeriModalDesc">Deskripsi dokumentasi kegiatan TEFA...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modalEl);
+
+            const closeBtn = $("#galeriModalClose");
+            const backdrop = $("#galeriModalBackdrop");
+            const prevModalBtn = $("#galeriModalPrev");
+            const nextModalBtn = $("#galeriModalNext");
+
+            if (closeBtn) closeBtn.addEventListener("click", closeGalleryModal);
+            if (backdrop) backdrop.addEventListener("click", closeGalleryModal);
+            if (prevModalBtn) prevModalBtn.addEventListener("click", prevGalleryModal);
+            if (nextModalBtn) nextModalBtn.addEventListener("click", nextGalleryModal);
+
+            document.addEventListener("keydown", (e) => {
+                if (!modalEl || !modalEl.classList.contains("is-open")) return;
+                if (e.key === "Escape") closeGalleryModal();
+                else if (e.key === "ArrowLeft") prevGalleryModal();
+                else if (e.key === "ArrowRight") nextGalleryModal();
+            });
+        }
+    }
+
+    function updateModalContent() {
+        const galeriList = window.galeri || (typeof galeri !== "undefined" ? galeri : []);
+        if (!hasGalleryData || !galeriList.length) return;
+        const totalItems = galeriList.length;
+        const item = galeriList[modalActiveIndex % totalItems];
+        if (!item) return;
+
+        const img = $("#galeriModalImg");
+        const title = $("#galeriModalTitle");
+        const desc = $("#galeriModalDesc");
+        const cat = $("#galeriModalCategory");
+        const counter = $("#galeriModalCounter");
+
+        if (img) {
+            img.src = resolveGalleryImg(item.gambar);
+            img.alt = item.alt || item.judul;
+        }
+        if (title) title.textContent = item.judul;
+        if (desc) desc.textContent = item.deskripsi || "";
+        if (cat) cat.textContent = item.kategori || "Galeri TEFA";
+        if (counter) counter.textContent = `${(modalActiveIndex % totalItems) + 1} / ${totalItems}`;
+    }
+
+    function openGalleryModal(index) {
+        initGalleryModal();
+        modalActiveIndex = index;
+        updateModalContent();
+
+        if (modalEl) {
+            modalEl.classList.add("is-open");
+            modalEl.setAttribute("aria-hidden", "false");
+            document.body.style.overflow = "hidden";
+        }
+    }
+
+    function prevGalleryModal() {
+        const galeriList = window.galeri || (typeof galeri !== "undefined" ? galeri : []);
+        if (!hasGalleryData || !galeriList.length) return;
+        const totalItems = galeriList.length;
+        modalActiveIndex = (modalActiveIndex - 1 + totalItems) % totalItems;
+        updateModalContent();
+    }
+
+    function nextGalleryModal() {
+        const galeriList = window.galeri || (typeof galeri !== "undefined" ? galeri : []);
+        if (!hasGalleryData || !galeriList.length) return;
+        const totalItems = galeriList.length;
+        modalActiveIndex = (modalActiveIndex + 1) % totalItems;
+        updateModalContent();
+    }
+
+    function closeGalleryModal() {
+        if (modalEl) {
+            modalEl.classList.remove("is-open");
+            modalEl.setAttribute("aria-hidden", "true");
+            document.body.style.overflow = "";
+        }
+    }
 
     function updateCardStates() {
         cards.forEach((card, i) => {
@@ -822,9 +986,18 @@ function initGalleryFanCarousel() {
 
     cards.forEach((card, index) => {
         card.addEventListener("click", () => {
-            if (currentIndex !== index) {
+            currentIndex = index;
+            updateCardStates();
+            // Buka popup modal dengan data yang sinkron dari galeri.js
+            openGalleryModal(index);
+        });
+
+        card.addEventListener("keydown", (e) => {
+            if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
                 currentIndex = index;
                 updateCardStates();
+                openGalleryModal(index);
             }
         });
     });
@@ -886,6 +1059,155 @@ if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", initFaqAccordion);
 } else {
     initFaqAccordion();
+}
+
+// ==========================================================================
+// Sinkronisasi Section Artikel / Berita Beranda (js/data/berita.js)
+// ==========================================================================
+function initHomeArticles() {
+    const articleSection = $("#article");
+    if (!articleSection) return;
+    const beritaData = window.berita || (typeof berita !== "undefined" ? berita : null);
+    if (!beritaData || !Array.isArray(beritaData) || beritaData.length === 0) return;
+
+    function resolveImg(src) {
+        if (!src) return "assets/images/berita/Praktik-Pengalengan.jpg";
+        return src.replace(/^(\.\.\/)+/, "");
+    }
+
+    // Urutkan berita berdasarkan tanggal terbaru (descending)
+    const sortedBerita = [...beritaData].sort((a, b) => {
+        const timeA = new Date(a.datetime || a.tanggal || 0).getTime();
+        const timeB = new Date(b.datetime || b.tanggal || 0).getTime();
+        return timeB - timeA;
+    });
+
+    // 1. Featured Article (Kiri Atas)
+    const featuredItem = sortedBerita.find((item) => item.isFeatured) || sortedBerita[0];
+    const featuredEl = articleSection.querySelector(".article-featured-card");
+    if (featuredEl && featuredItem) {
+        if (featuredEl.tagName === "A") {
+            featuredEl.href = `page/berita/detail.html?id=${encodeURIComponent(featuredItem.id)}`;
+        } else {
+            featuredEl.onclick = () => {
+                window.location.href = `page/berita/detail.html?id=${encodeURIComponent(featuredItem.id)}`;
+            };
+        }
+        featuredEl.setAttribute("aria-label", `Baca artikel unggulan: ${featuredItem.judul}`);
+
+        const img = featuredEl.querySelector(".featured-img");
+        if (img) {
+            img.src = resolveImg(featuredItem.gambar);
+            img.alt = featuredItem.alt || featuredItem.judul;
+            img.onerror = () => { img.src = "assets/images/berita/Praktik-Pengalengan.jpg"; };
+        }
+        const title = featuredEl.querySelector(".featured-title");
+        if (title) title.textContent = featuredItem.judul;
+
+        const date = featuredEl.querySelector(".featured-date");
+        if (date) date.textContent = featuredItem.tanggal || "";
+    }
+
+    // Daftar artikel lain di luar featured
+    const otherItems = sortedBerita.filter((item) => String(item.id) !== String(featuredItem.id));
+
+    // 2. Recent List (3 Artikel Terbaru di Kanan)
+    const recentContainer = articleSection.querySelector(".recent-list");
+    if (recentContainer && otherItems.length > 0) {
+        const recentItems = otherItems.slice(0, 3);
+        recentContainer.innerHTML = "";
+        recentItems.forEach((item) => {
+            const link = document.createElement("a");
+            link.href = `page/berita/detail.html?id=${encodeURIComponent(item.id)}`;
+            link.className = "recent-item";
+            link.setAttribute("aria-label", `Baca artikel: ${item.judul}`);
+
+            const thumbWrap = document.createElement("div");
+            thumbWrap.className = "recent-thumb-wrap";
+            const thumb = document.createElement("img");
+            thumb.src = resolveImg(item.gambar);
+            thumb.alt = item.alt || item.judul;
+            thumb.className = "recent-thumb";
+            thumb.loading = "lazy";
+            thumb.onerror = () => { thumb.src = "assets/images/berita/Praktik-Pengalengan.jpg"; };
+            thumbWrap.appendChild(thumb);
+
+            const info = document.createElement("div");
+            info.className = "recent-info";
+            const h4 = document.createElement("h4");
+            h4.className = "recent-item-title";
+            h4.textContent = item.judul;
+            const span = document.createElement("span");
+            span.className = "recent-item-date";
+            span.textContent = item.tanggal || "";
+            info.append(h4, span);
+
+            link.append(thumbWrap, info);
+
+            // Preload gambar artikel detail sebelum user mengklik
+            link.addEventListener("mouseenter", () => {
+                const preloader = new Image();
+                preloader.src = resolveImg(item.gambar);
+            }, { once: true, passive: true });
+
+            recentContainer.appendChild(link);
+        });
+    }
+
+    // 3. Baca Juga Grid (3 Artikel di Bagian Bawah)
+    const gridContainer = articleSection.querySelector(".article-cards-grid");
+    if (gridContainer && otherItems.length > 3) {
+        const gridItems = otherItems.slice(3, 6);
+        gridContainer.innerHTML = "";
+        gridItems.forEach((item) => {
+            const card = document.createElement("a");
+            card.href = `page/berita/detail.html?id=${encodeURIComponent(item.id)}`;
+            card.className = "article-card";
+            card.setAttribute("aria-label", `Baca artikel: ${item.judul}`);
+
+            const thumbWrap = document.createElement("div");
+            thumbWrap.className = "article-card-thumb";
+            const img = document.createElement("img");
+            img.src = resolveImg(item.gambar);
+            img.alt = item.alt || item.judul;
+            img.loading = "lazy";
+            img.onerror = () => { img.src = "assets/images/berita/Praktik-Pengalengan.jpg"; };
+            thumbWrap.appendChild(img);
+
+            const body = document.createElement("div");
+            body.className = "article-card-body";
+            const h4 = document.createElement("h4");
+            h4.className = "article-card-title";
+            h4.textContent = item.judul;
+            const p = document.createElement("p");
+            p.className = "article-card-desc";
+            p.textContent = item.ringkasan || "";
+            const span = document.createElement("span");
+            span.className = "article-card-date";
+            span.textContent = item.tanggal || "";
+            body.append(h4, p, span);
+
+            card.append(thumbWrap, body);
+
+            // Preload gambar artikel detail sebelum user mengklik
+            card.addEventListener("mouseenter", () => {
+                const preloader = new Image();
+                preloader.src = resolveImg(item.gambar);
+            }, { once: true, passive: true });
+
+            gridContainer.appendChild(card);
+        });
+    }
+
+    if (typeof setBodyHeight === "function") {
+        setBodyHeight();
+    }
+}
+
+if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initHomeArticles);
+} else {
+    initHomeArticles();
 }
 
 // ==========================================================================

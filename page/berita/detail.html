@@ -13,6 +13,8 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
         rel="stylesheet"/>
+    <!-- Muat data berita di head agar siap seketika sebelum body diparse -->
+    <script src="../../js/data/berita.js"></script>
 </head>
 <body>
     <nav class="main-navbar" id="navbar">
@@ -124,15 +126,13 @@
             <main class="detail">
                 <div class="berita-detail-container">
 
-                    <a class="cat" id="detailCategory" href="index.html">Kegiatan</a>
-                    <h1 id="detailTitle">Memuat Berita...</h1>
+                    <a class="cat" id="detailCategory" href="index.html"></a>
+                    <h1 id="detailTitle"></h1>
                     <p class="dateHeadline" id="detailDate"></p>
-                    <img class="cover" id="detailCover" src="../../assets/images/Praktik-Pengalengan.jpg" alt="Foto Berita TEFA">
+                    <img class="cover" id="detailCover" alt="Foto Berita TEFA">
                 
                     <div class="layout">
-                        <article class="article" id="detailArticle">
-                            <p>Memuat konten berita...</p>
-                        </article>
+                        <article class="article" id="detailArticle"></article>
                 
                         <aside class="sidebar" id="detailSidebar" aria-label="Berita unggulan">
                             <h2>Berita Unggulan</h2>
@@ -146,6 +146,9 @@
 
                 </div>
             </main>
+
+            <!-- Controller Detail Berita (Eksekusi Sinkron Instan Sebelum Paint) -->
+            <script src="../../js/berita-detail.js"></script>
 
             <footer class="site-footer">
                 <div class="site-footer-main">
@@ -198,9 +201,7 @@
         </div>
     </div>
 
-    <!-- Scripts: Data -> Detail Controller -> Smooth Scroll Script -->
-    <script src="../../js/data/berita.js"></script>
-    <script src="../../js/berita-detail.js"></script>
+    <!-- Smooth Scroll Script -->
     <script src="../../script.js"></script>
 </body>
 </html>

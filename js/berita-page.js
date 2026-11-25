@@ -10,7 +10,7 @@
   "use strict";
 
   const $ = (selector) => document.querySelector(selector);
-  const DEFAULT_IMAGE = "../../assets/images/Praktik-Pengalengan.jpg";
+  const DEFAULT_IMAGE = "../../assets/images/berita/Praktik-Pengalengan.jpg";
 
   // State pencarian & filter
   let searchQuery = "";
@@ -157,6 +157,14 @@
 
     body.append(title, desc, badge, time);
     cardLink.appendChild(body);
+
+    // Preload gambar detail artikel saat kartu di-hover
+    cardLink.addEventListener("mouseenter", () => {
+      if (item.gambar) {
+        const preloader = new Image();
+        preloader.src = item.gambar;
+      }
+    }, { once: true, passive: true });
 
     return cardLink;
   }

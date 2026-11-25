@@ -37,7 +37,7 @@ const berita = [
     lokasi: "Jember",
     tanggal: "26 Februari 2026",
     datetime: "2026-02-26",
-    gambar: "../../assets/images/sarden.png",
+    gambar: "../../assets/images/berita/sarden.png",
     alt: "Ikan lemuru segar bahan baku pengembangan produk olahan surimi",
     ringkasan:
       "Tim riset terapan TEFA POLIJE sukses mengembangkan diversifikasi produk surimi berkualitas tinggi memanfaatkan potensi melimpah ikan lemuru lokal dari pesisir selatan Jember.",
@@ -61,7 +61,7 @@ const berita = [
     lokasi: "Jember",
     tanggal: "22 Februari 2026",
     datetime: "2026-02-22",
-    gambar: "../../assets/images/news/inovasi2.jpg",
+    gambar: "../../assets/images/berita/inovasi2.jpg",
     alt: "Kemasan sarden kaleng ramah lingkungan TEFA POLIJE",
     ringkasan:
       "Pengembangan kemasan ramah lingkungan yang dapat didaur ulang dan mengurangi dampak terhadap lingkungan.",
@@ -105,7 +105,7 @@ const berita = [
     lokasi: "Jember",
     tanggal: "8 Februari 2026",
     datetime: "2026-02-08",
-    gambar: "../../assets/images/pemberian saus.jpg",
+    gambar: "../../assets/images/berita/pemberian saus.jpg",
     alt: "Mahasiswa menerapkan standar higienis dan sanitasi saat pengisian saus",
     ringkasan:
       "Kegiatan praktik pengalengan ikan di TEFA POLIJE menerapkan protokol sanitasi ketat berstandar global, membekali mahasiswa dengan disiplin kerja industri pangan profesional.",
@@ -127,7 +127,7 @@ const berita = [
     lokasi: "Jember",
     tanggal: "28 Januari 2026",
     datetime: "2026-01-28",
-    gambar: "../../assets/images/Proses Sterilisasi.jpg",
+    gambar: "../../assets/images/berita/Proses Sterilisasi.jpg",
     alt: "Proses sterilisasi komersial suhu tinggi mesin retort TEFA POLIJE",
     ringkasan:
       "Mahasiswa Politeknik Negeri Jember mendalami teknik operasional dan kalkulasi kecukupan panas proses sterilisasi komersial pada bejana retort pengalengan ikan.",
@@ -149,7 +149,7 @@ const berita = [
     lokasi: "Jember",
     tanggal: "24 Januari 2026",
     datetime: "2026-01-24",
-    gambar: "../../assets/images/berita2.jpg",
+    gambar: "../../assets/images/berita/berita2.jpg",
     alt: "Mahasiswa POLIJE memeriksa kemasan kaleng sarden siap edar",
     ringkasan:
       "Sarden SIP POLIJE membuktikan kapabilitas mahasiswa vokasi dalam menghasilkan produk pangan kaleng lezat, higienis, dan bernutrisi tinggi yang siap bersaing di pasar modern.",
@@ -171,7 +171,7 @@ const berita = [
     lokasi: "Jember",
     tanggal: "15 Januari 2026",
     datetime: "2026-01-15",
-    gambar: "../../assets/images/Praktik-Pengalengan.jpg",
+    gambar: "../../assets/images/berita/Praktik-Pengalengan.jpg",
     alt: "Tim auditor dan teknisi memeriksa lini pengalengan TEFA POLIJE",
     ringkasan:
       "Politeknik Negeri Jember sukses melaksanakan audit sertifikasi Standar Nasional Indonesia (SNI 3223:2022) pada fasilitas Teaching Factory Canning guna memastikan mutu pangan berstandar nasional.",
@@ -185,6 +185,7 @@ const berita = [
     ],
   },
 ];
+
 
 // Kompatibilitas jika dipanggil dari environment node/module
 if (typeof module !== "undefined" && module.exports) {
