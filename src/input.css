@@ -7122,3 +7122,131 @@ dialog[data-transition="back"][open] .modal-body {
 .rec-foot strong {
   @apply text-xs sm:text-[13.5px] font-semibold;
 }
+
+/* Compact & Clean Pre-Order Modals */
+dialog#m1,
+dialog#m2,
+dialog#m3 {
+  @apply rounded-2xl border border-[#eeeeee] p-0 overflow-hidden pointer-events-auto;
+  width: min(500px, calc(100vw - 32px));
+  height: min(520px, 85vh);
+  overscroll-behavior: contain;
+  touch-action: pan-y;
+  font-family: var(--font-poppins);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
+}
+
+dialog#m1[open],
+dialog#m2[open],
+dialog#m3[open] {
+  animation: modalFadeIn 0.18s ease-out forwards;
+}
+
+dialog#m1[data-transition][open] .modal-body,
+dialog#m2[data-transition][open] .modal-body,
+dialog#m3[data-transition][open] .modal-body {
+  animation: none;
+}
+
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+dialog#m1 .modal-body,
+dialog#m2 .modal-body,
+dialog#m3 .modal-body {
+  @apply p-5 sm:p-6 flex flex-col h-full overflow-hidden;
+}
+
+dialog .modal-body .stepper,
+dialog .modal-body h2 {
+  @apply shrink-0;
+}
+
+dialog#m3 .summary {
+  @apply flex-1 min-h-0 overflow-y-auto;
+  overscroll-behavior: contain;
+}
+
+dialog .modal-body .actions {
+  @apply mt-auto pt-4 shrink-0;
+}
+
+.btn-modal-primary {
+  @apply inline-flex items-center justify-center min-h-[44px] px-6 rounded-full bg-primary text-white text-sm font-semibold border-0 cursor-pointer transition-colors duration-200 hover:bg-primary-hover;
+}
+
+dialog .modal-body h2 {
+  @apply text-lg font-semibold text-text-main mt-3.5 mb-2;
+}
+
+dialog .stepper .dot {
+  @apply w-8 h-8 text-xs font-semibold;
+}
+
+dialog .stepper .step.active .dot {
+  @apply w-9 h-9;
+}
+
+dialog .stepper .lbl {
+  @apply text-[11px] font-medium;
+}
+
+dialog .hint {
+  @apply text-xs text-[#666666] mb-3 mt-0;
+}
+
+dialog .pay {
+  @apply grid grid-cols-1 gap-2.5 mb-5;
+}
+
+dialog .pay-option {
+  @apply relative flex flex-col gap-0.5 py-3.5 pl-4 pr-12 border-[1.5px] border-[#e5e7eb] rounded-xl bg-white cursor-pointer transition-colors duration-150 hover:border-[#d1d5db];
+}
+
+dialog .pay-option input[type="radio"] {
+  @apply absolute opacity-0 w-0 h-0 pointer-events-none;
+}
+
+dialog .pay-option strong {
+  @apply text-sm font-semibold text-text-main;
+}
+
+dialog .pay-option .desc {
+  @apply text-xs text-[#666666];
+}
+
+dialog .pay-option .mark {
+  @apply absolute top-1/2 right-4 -translate-y-1/2 w-5 h-5 rounded-full border-2 border-[#d1d5db] bg-white transition-all duration-150;
+}
+
+dialog .pay-option:has(input:checked) {
+  @apply border-primary bg-[#fef2f2];
+  box-shadow: none;
+}
+
+dialog .pay-option input:checked ~ .mark {
+  @apply border-primary bg-primary;
+  box-shadow: inset 0 0 0 4px #ffffff;
+}
+
+dialog .summary {
+  @apply p-4 rounded-xl;
+}
+
+dialog .summary h3 {
+  @apply text-sm font-semibold mb-2;
+}
+
+dialog .summary .total {
+  @apply text-sm font-semibold pt-3 mt-2;
+}
+
+dialog .summary .total b {
+  @apply text-lg font-semibold text-primary;
+}

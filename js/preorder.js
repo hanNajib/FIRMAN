@@ -524,6 +524,13 @@
         const hpError = $("#hpError");
         const emailError = $("#emailError");
 
+        // Izinkan scroll native di dalam dialog modal tanpa dicegat virtual scroll window
+        $$("dialog").forEach((d) => {
+            d.addEventListener("wheel", (e) => {
+                e.stopPropagation();
+            }, { passive: true });
+        });
+
         // Perubahan kuantitas produk di keranjang (input number & tombol +/-)
         if (cartEl) {
             cartEl.addEventListener("click", (e) => {
@@ -635,7 +642,47 @@
 
             form1.addEventListener("submit", (e) => {
                 e.preventDefault();
-                if (btnSubmitM1) btnSubmitM1.click();
+                const namaVal = $("#nama")?.value.trim();
+                const hpVal = hpInput?.value.trim();
+                const emailVal = emailInput?.value.trim();
+                const alamatVal = $("#alamat")?.value.trim();
+
+                if (!namaVal) {
+                    toast("Silakan isi nama lengkap Anda");
+                    $("#nama")?.focus();
+                    return;
+                }
+
+                const hpErr = ValidationService.validatePhone(hpVal);
+                const emailErr = ValidationService.validateEmail(emailVal);
+
+                if (hpInput) ValidationService.setFieldError(hpInput, hpError, hpErr);
+                if (emailInput) ValidationService.setFieldError(emailInput, emailError, emailErr);
+
+                if (hpErr) {
+                    hpInput?.focus();
+                    return;
+                }
+
+                if (emailErr) {
+                    emailInput?.focus();
+                    return;
+                }
+
+                if (!alamatVal) {
+                    toast("Silakan isi alamat lengkap Anda");
+                    $("#alamat")?.focus();
+                    return;
+                }
+
+                order.data = {
+                    nama: namaVal,
+                    hp: hpVal,
+                    email: emailVal,
+                    alamat: alamatVal,
+                };
+                PreorderStore.saveCustomer(order.data);
+                showModal("m2", "next");
             });
         }
 
@@ -659,58 +706,6 @@
             });
         }
 
-        // Slider 2: Tombol Modal 1 "Lanjutkan" (Data Diri)
-        if (btnSubmitM1) {
-            setupPreorderSlider(btnSubmitM1, (reset) => {
-                const namaVal = $("#nama")?.value.trim();
-                const hpVal = hpInput?.value.trim();
-                const emailVal = emailInput?.value.trim();
-                const alamatVal = $("#alamat")?.value.trim();
-
-                if (!namaVal) {
-                    toast("Silakan isi nama lengkap Anda");
-                    $("#nama")?.focus();
-                    reset();
-                    return;
-                }
-
-                const hpErr = ValidationService.validatePhone(hpVal);
-                const emailErr = ValidationService.validateEmail(emailVal);
-
-                if (hpInput) ValidationService.setFieldError(hpInput, hpError, hpErr);
-                if (emailInput) ValidationService.setFieldError(emailInput, emailError, emailErr);
-
-                if (hpErr) {
-                    hpInput?.focus();
-                    reset();
-                    return;
-                }
-
-                if (emailErr) {
-                    emailInput?.focus();
-                    reset();
-                    return;
-                }
-
-                if (!alamatVal) {
-                    toast("Silakan isi alamat lengkap Anda");
-                    $("#alamat")?.focus();
-                    reset();
-                    return;
-                }
-
-                order.data = {
-                    nama: namaVal,
-                    hp: hpVal,
-                    email: emailVal,
-                    alamat: alamatVal,
-                };
-                PreorderStore.saveCustomer(order.data);
-                showModal("m2", "next");
-                setTimeout(reset, 400);
-            });
-        }
-
         // Auto-save & submit Modal 2 (Pembayaran)
         if (form2) {
             form2.addEventListener("change", (e) => {
@@ -723,19 +718,11 @@
 
             form2.addEventListener("submit", (e) => {
                 e.preventDefault();
-                if (btnSubmitM2) btnSubmitM2.click();
-            });
-        }
-
-        // Slider 3: Tombol Modal 2 "Lanjutkan" (Pembayaran)
-        if (btnSubmitM2) {
-            setupPreorderSlider(btnSubmitM2, (reset) => {
-                const selectedPay = form2 ? new FormData(form2).get("pay") : "DP";
+                const selectedPay = new FormData(form2).get("pay");
                 order.pay = selectedPay || "DP";
                 PreorderStore.savePayment(order.pay);
                 renderSummary();
                 showModal("m3", "next");
-                setTimeout(reset, 400);
             });
         }
 

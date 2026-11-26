@@ -156,7 +156,7 @@
         </div>
     </div>
 
-    <dialog id="m1" aria-labelledby="t1">
+    <dialog id="m1" aria-labelledby="t1" data-lenis-prevent>
         <form class="modal-body" id="f1">
             <button class="x" type="button" data-close aria-label="Tutup">&times;</button>
             <div class="stepper" data-step="1"></div>
@@ -177,23 +177,13 @@
             <div class="field"><label for="alamat">Alamat</label><input id="alamat" name="alamat" type="text"
                     placeholder="Jl. Jaksel, No. 14, Jember, Jawa Timur" autocomplete="street-address" required></div>
             <div class="actions">
-                <button class="btn-slider btn-slider-modal" id="btnSubmitM1" type="submit"
-                    aria-label="Lanjutkan ke pembayaran">
-                    <div class="circle">
-                        <svg class="circle-icon" width="18" height="18" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                            <line x1="5" y1="12" x2="19" y2="12"></line>
-                            <polyline points="12 5 19 12 12 19"></polyline>
-                        </svg>
-                    </div>
-                    <span class="btn-slider-text">Lanjutkan</span>
-                </button>
+                <button class="btn-modal-primary" id="btnSubmitM1" type="submit" aria-label="Lanjutkan ke pembayaran">Lanjutkan</button>
             </div>
         </form>
     </dialog>
 
     <!-- Modal 2: Pembayaran -->
-    <dialog id="m2" aria-labelledby="t2">
+    <dialog id="m2" aria-labelledby="t2" data-lenis-prevent>
         <form class="modal-body" id="f2">
             <button class="x" type="button" data-close aria-label="Tutup">&times;</button>
             <div class="stepper" data-step="2"></div>
@@ -219,23 +209,13 @@
                     </svg>
                     <span>Kembali</span>
                 </button>
-                <button class="btn-slider btn-slider-modal" id="btnSubmitM2" type="submit"
-                    aria-label="Lanjutkan ke konfirmasi">
-                    <div class="circle">
-                        <svg class="circle-icon" width="18" height="18" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                            <line x1="5" y1="12" x2="19" y2="12"></line>
-                            <polyline points="12 5 19 12 12 19"></polyline>
-                        </svg>
-                    </div>
-                    <span class="btn-slider-text">Lanjutkan</span>
-                </button>
+                <button class="btn-modal-primary" id="btnSubmitM2" type="submit" aria-label="Lanjutkan ke konfirmasi">Lanjutkan</button>
             </div>
         </form>
     </dialog>
 
     <!-- Modal 3: Konfirmasi -->
-    <dialog id="m3" aria-labelledby="t3">
+    <dialog id="m3" aria-labelledby="t3" data-lenis-prevent>
         <div class="modal-body">
             <button class="x" type="button" data-close aria-label="Tutup">&times;</button>
             <div class="stepper" data-step="3"></div>
