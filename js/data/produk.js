@@ -5,7 +5,8 @@ const Produk = [
     gambar:
       "../assets/images/kalengsardenpolijesippengensardenpakenasitambahsambelmakanpakekerupukikanaselijemberjosjismantapbujang.png",
     alt: "Sarden SIP Saus Tomat",
-    deskripsi: "Sehat, lezat dan bergizi, sppg mending beli sarden disini",
+    deskripsi:
+      "Perpaduan ikan sarden dan saus tomat dengan cita rasa khas yang nikmat.",
     harga: "Rp 20.000",
   },
   {
@@ -15,7 +16,7 @@ const Produk = [
       "../assets/images/kalengsardenpolijesippengensardenpakenasitambahsambelmakanpakekerupukikanaselijemberjosjismantapbujang.png",
     alt: "Sarden SIP Asin",
     deskripsi:
-      "Olahan ikan sarden dengan cita rasa asin gurih, cocok untuk pelengkap hidangan.",
+      "Olahan ikan sarden dengan cita rasa asin gurih, cocok untuk pendamping hidangan.",
     harga: "Rp 20.000",
   },
   {
@@ -35,7 +36,7 @@ const Produk = [
       "../assets/images/kalengsardenpolijesippengensardenpakenasitambahsambelmakanpakekerupukikanaselijemberjosjismantapbujang.png",
     alt: "Sarden SIP Saus Tartar",
     deskripsi:
-      "Olahan sarden dengan saus tartar yang menghadirkan variasi rasa berbeda.",
+      "Olahan sarden dengan saus tartar yang menghasilkan rasa berbeda.",
     harga: "Rp 20.000",
   },
 ];

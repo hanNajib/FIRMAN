@@ -19,6 +19,11 @@ function createProductCard(product) {
   const imageWrap = document.createElement("div");
   imageWrap.className = "product-img-wrap";
 
+  const badge = document.createElement("span");
+  badge.className = "product-badge";
+  badge.textContent = "Per Dus";
+  imageWrap.append(badge);
+
   const image = document.createElement("img");
   image.className = "product-img";
   image.src = new URL(product.gambar, productRendererUrl).href;
@@ -47,7 +52,24 @@ function createProductCard(product) {
 
   const bottom = document.createElement("div");
   bottom.className = "product-bottom";
-  bottom.append(createProductText("span", "product-price", product.harga));
+
+  const priceWrap = document.createElement("div");
+  priceWrap.className = "product-price-wrap";
+
+  const priceEl = document.createElement("span");
+  priceEl.className = "product-price";
+  priceEl.append(document.createTextNode(`${product.harga} `));
+  const unitEl = document.createElement("span");
+  unitEl.className = "product-unit";
+  unitEl.textContent = "/ kaleng";
+  priceEl.append(unitEl);
+
+  const unitNote = document.createElement("span");
+  unitNote.className = "product-unit-note";
+  unitNote.textContent = "Min. pembelian 1 dus (24 kaleng)";
+
+  priceWrap.append(priceEl, unitNote);
+  bottom.append(priceWrap);
 
   const action = document.createElement("a");
   action.className = "product-action-btn";

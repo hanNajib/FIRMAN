@@ -41,19 +41,22 @@
         }
 
         if (typeof Produk !== "undefined" && Array.isArray(Produk) && Produk.length > 0) {
-            return Produk.map((p) => ({
-                id: Number(p.id) || Date.now(),
-                name: p.judul,
-                price: parseInt(String(p.harga).replace(/\D/g, ""), 10) || 20000,
-                img: fixImgPath(p.gambar),
-                desc: p.deskripsi || "",
-            }));
+            return Produk.map((p) => {
+                const unitPrice = parseInt(String(p.harga).replace(/\D/g, ""), 10) || 20000;
+                return {
+                    id: Number(p.id) || Date.now(),
+                    name: p.judul,
+                    price: unitPrice < 100000 ? unitPrice * 24 : unitPrice,
+                    img: fixImgPath(p.gambar),
+                    desc: p.deskripsi || "",
+                };
+            });
         }
         return [
-            { id: 1, name: "Sarden SIP Saus Tomat", price: 20000, img: DEFAULT_IMAGE, desc: "Sehat, lezat dan bergizi, pilihan terbaik olahan sarden TEFA POLIJE" },
-            { id: 2, name: "Sarden SIP Asin",       price: 20000, img: DEFAULT_IMAGE, desc: "Olahan ikan sarden dengan cita rasa asin gurih." },
-            { id: 3, name: "Sarden SIP Saus Cabai", price: 20000, img: DEFAULT_IMAGE, desc: "Ikan sarden bercita rasa pedas yang menggugah selera." },
-            { id: 4, name: "Sarden SIP Saus Tartar",price: 20000, img: DEFAULT_IMAGE, desc: "Saus tartar yang menghadirkan variasi rasa berbeda." },
+            { id: 1, name: "Sarden SIP Saus Tomat", price: 480000, img: DEFAULT_IMAGE, desc: "Sehat, lezat dan bergizi, pilihan terbaik olahan sarden TEFA POLIJE" },
+            { id: 2, name: "Sarden SIP Asin",       price: 480000, img: DEFAULT_IMAGE, desc: "Olahan ikan sarden dengan cita rasa asin gurih." },
+            { id: 3, name: "Sarden SIP Saus Cabai", price: 480000, img: DEFAULT_IMAGE, desc: "Ikan sarden bercita rasa pedas yang menggugah selera." },
+            { id: 4, name: "Sarden SIP Saus Tartar",price: 480000, img: DEFAULT_IMAGE, desc: "Saus tartar yang menghadirkan variasi rasa berbeda." },
         ];
     }
 
@@ -206,9 +209,31 @@
         toastTimer = setTimeout(() => t.classList.remove("show"), 3200);
     }
 
+    function updateCheckoutBar() {
+        const totalQtyEl = $("#checkoutTotalQty");
+        const totalPriceEl = $("#checkoutTotalPrice");
+        const totalQty = cart.reduce((sum, item) => sum + (Number(item.qty) || 0), 0);
+        const totalPrice = cart.reduce((sum, item) => {
+            const p = Number(item.price) || 480000;
+            const dusPrice = p < 100000 ? p * 24 : p;
+            return sum + dusPrice * (Number(item.qty) || 0);
+        }, 0);
+        if (totalQtyEl) totalQtyEl.textContent = totalQty;
+        if (totalPriceEl) totalPriceEl.textContent = formatRupiah(totalPrice);
+    }
+
     function renderCart() {
         const container = $("#cart");
         if (!container) return;
+
+        // Normalisasi harga per dus (24 kaleng)
+        cart.forEach((item) => {
+            if (Number(item.price) > 0 && Number(item.price) < 100000) {
+                item.price = Number(item.price) * 24;
+            }
+        });
+
+        updateCheckoutBar();
 
         if (!cart.length) {
             container.innerHTML = `
@@ -519,6 +544,7 @@
                         item.qty = current;
                         if (input) input.value = current;
                         PreorderStore.saveCart(cart);
+                        updateCheckoutBar();
                     }
                     return;
                 }
@@ -546,6 +572,7 @@
                         item.qty = val;
                         input.value = val;
                         PreorderStore.saveCart(cart);
+                        updateCheckoutBar();
                     }
                 }
             });
