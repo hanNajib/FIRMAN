@@ -10,7 +10,7 @@
   "use strict";
 
   const $ = (selector) => document.querySelector(selector);
-  const DEFAULT_IMAGE = "../../assets/images/Praktik-Pengalengan.jpg";
+  const DEFAULT_IMAGE = "../../assets/images/galleri/Praktik-Pengalengan.jpg";
 
   // State
   let currentPage = 1;

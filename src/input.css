@@ -2701,7 +2701,7 @@
 }
 
 .article-featured-card {
-  @apply relative rounded-[18px] overflow-hidden h-[380px] cursor-pointer bg-[#222222];
+  @apply relative rounded-[18px] overflow-hidden h-[380px] cursor-pointer bg-[#222222] block no-underline text-inherit;
   box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
 }
 
@@ -2794,7 +2794,7 @@
 }
 
 .article-card {
-  @apply flex flex-col bg-white rounded-2xl overflow-hidden cursor-pointer transition-all duration-[250ms];
+  @apply flex flex-col bg-white rounded-2xl overflow-hidden cursor-pointer transition-all duration-[250ms] no-underline text-inherit;
   box-shadow: 0 4px 18px rgba(0, 0, 0, 0.05);
 }
 
@@ -4728,6 +4728,22 @@ body:has(.app) {
   background: #ccc;
   cursor: pointer;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.gallery figure:nth-child(4n + 1) {
+  grid-column: span 7;
+}
+
+.gallery figure:nth-child(4n + 2) {
+  grid-column: span 13;
+}
+
+.gallery figure:nth-child(4n + 3) {
+  grid-column: span 12;
+}
+
+.gallery figure:nth-child(4n + 4) {
+  grid-column: span 8;
 }
 
 .gallery figure:hover {

@@ -43,6 +43,11 @@ const galeri = [
   },
 ];
 
+// Pasang ke window agar dapat diakses secara global di semua halaman
+if (typeof window !== "undefined") {
+  window.galeri = galeri;
+}
+
 // Kompatibilitas jika dipanggil dari environment node/module
 if (typeof module !== "undefined" && module.exports) {
   module.exports = galeri;

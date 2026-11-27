@@ -10,7 +10,7 @@
   "use strict";
 
   const $ = (selector) => document.querySelector(selector);
-  const DEFAULT_IMAGE = "../../assets/images/Praktik-Pengalengan.jpg";
+  const DEFAULT_IMAGE = "../../assets/images/berita/Praktik-Pengalengan.jpg";
 
   function createEl(tagName, className, textContent = "") {
     const el = document.createElement(tagName);
@@ -164,14 +164,15 @@
       });
     }
 
-    // Refresh smooth scroll virtual body height
-    window.dispatchEvent(new Event("resize"));
-    setTimeout(() => {
-      window.dispatchEvent(new Event("resize"));
-    }, 150);
+    // Hitung ulang tinggi konten jika helper tersedia tanpa memicu stutter
+    if (typeof setBodyHeight === "function") {
+      setBodyHeight();
+    }
   }
 
-  if (document.readyState === "loading") {
+  if (document.getElementById("detailTitle")) {
+    initBeritaDetail();
+  } else if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", initBeritaDetail);
   } else {
     initBeritaDetail();
