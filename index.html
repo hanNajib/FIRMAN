@@ -20,11 +20,12 @@
     href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
     rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
 </head>
 
 <body>
 
-  <nav class="main-navbar" id="navbar">
+  <nav class="main-navbar navbar navbar-expand-lg" id="navbar">
     <a href="#hero-section" class="nav-brand" aria-label="Firman - ke Beranda">
       <img src="assets/logo.svg" alt="Firman Logo">
     </a>
@@ -32,7 +33,7 @@
     <ul class="nav-items">
       <li><a href="#hero-section" class="nav-item">Beranda</a></li>
       <li class="nav-item-dropdown dropdown">
-        <a href="#about" class="nav-item dropdown-toggle" aria-haspopup="true">
+        <a href="#about" class="nav-item dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
           Tentang
         </a>
         <ul class="dropdown-menu">
@@ -167,12 +168,12 @@
 
 
       <section id="about" class="about-section">
+        <!-- Trust Banner (Menyatu dengan Section About) -->
         <div class="about-floating-banner">
           <div class="about-trust-item">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-              stroke-linejoin="round">
-              <path
-                d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z" />
+              stroke-linejoin="round" aria-hidden="true">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
               <path d="m9 12 2 2 4-4" />
             </svg>
             <span>100% Halal</span>
@@ -180,16 +181,16 @@
 
           <div class="about-trust-item">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-              stroke-linejoin="round">
-              <path d="M18 6 7 17l-5-5" />
-              <path d="m22 10-7.5 7.5L13 16" />
+              stroke-linejoin="round" aria-hidden="true">
+              <circle cx="12" cy="8" r="6" />
+              <path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11" />
             </svg>
             <span>Bahan Berkualitas</span>
           </div>
 
           <div class="about-trust-item">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-              stroke-linejoin="round">
+              stroke-linejoin="round" aria-hidden="true">
               <rect width="8" height="4" x="8" y="2" rx="1" ry="1" />
               <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" />
               <path d="m9 14 2 2 4-4" />
@@ -284,14 +285,40 @@
         </div>
       </section>
 
-      <marquee class="running-separator" behavior="scroll" direction="left" scrollamount="8" onmouseover="this.stop();"
-        onmouseout="this.start();">
-        <img src="assets/images/foto-tefa-1.jpg" alt="Tefa 1" class="running-img">
-        <img src="assets/images/foto-tefa-2.jpg" alt="Tefa 2" class="running-img">
-        <img src="assets/images/foto-tefa-3.jpg" alt="Tefa 3" class="running-img">
-        <img src="assets/images/foto-tefa-1.jpg" alt="Tefa 4" class="running-img">
-        <img src="assets/images/foto-tefa-2.jpg" alt="Tefa 5" class="running-img">
-        <img src="assets/images/foto-tefa-3.jpg" alt="Tefa 6" class="running-img">
+      <marquee class="running-separator" behavior="scroll" direction="left" scrollamount="5" onmouseover="this.stop();"
+        onmouseout="this.start();" aria-label="Motto dan Keunggulan TEFA Fish Canning Polije">
+        <div class="running-marquee-track">
+          <div class="running-marquee-group">
+            <span class="running-text-item">Smart, Innovative, Professional</span>
+            <span class="running-text-divider" aria-hidden="true">✦</span>
+            <span class="running-text-item">TEFA Fish Canning Polije</span>
+            <span class="running-text-divider" aria-hidden="true">✦</span>
+            <span class="running-text-item">Higienis &amp; Berkualitas Tinggi</span>
+            <span class="running-text-divider" aria-hidden="true">✦</span>
+            <span class="running-text-item">Standar Mutu Pangan Terpercaya</span>
+            <span class="running-text-divider" aria-hidden="true">✦</span>
+          </div>
+          <div class="running-marquee-group" aria-hidden="true">
+            <span class="running-text-item">Smart, Innovative, Professional</span>
+            <span class="running-text-divider">✦</span>
+            <span class="running-text-item">TEFA Fish Canning Polije</span>
+            <span class="running-text-divider">✦</span>
+            <span class="running-text-item">Higienis &amp; Berkualitas Tinggi</span>
+            <span class="running-text-divider">✦</span>
+            <span class="running-text-item">Standar Mutu Pangan Terpercaya</span>
+            <span class="running-text-divider">✦</span>
+          </div>
+          <div class="running-marquee-group" aria-hidden="true">
+            <span class="running-text-item">Smart, Innovative, Professional</span>
+            <span class="running-text-divider">✦</span>
+            <span class="running-text-item">TEFA Fish Canning Polije</span>
+            <span class="running-text-divider">✦</span>
+            <span class="running-text-item">Higienis &amp; Berkualitas Tinggi</span>
+            <span class="running-text-divider">✦</span>
+            <span class="running-text-item">Standar Mutu Pangan Terpercaya</span>
+            <span class="running-text-divider">✦</span>
+          </div>
+        </div>
       </marquee>
 
       <section id="products">
@@ -480,7 +507,7 @@
                   <polyline points="12 5 19 12 12 19"></polyline>
                 </svg>
               </div>
-              <span class="btn-slider-text">Lihat Foto Lainnya</span>
+              <span class="btn-slider-text" href="page/galeri/">Lihat Foto Lainnya</span>
             </button>
           </div>
         </div>
@@ -717,7 +744,13 @@
               serta keamanan pangan.
             </p>
 
-            <div class="site-footer-partners"></div>
+            <div class="site-footer-partners" aria-label="Logo Mitra dan Sertifikasi TEFA">
+              <img src="assets/images/logo/polije.png" alt="Politeknik Negeri Jember" class="footer-partner-img">
+              <img src="assets/images/logo/jti-logo.png" alt="Jurusan Teknologi Informasi POLIJE" class="footer-partner-img">
+              <img src="assets/images/logo/polije-sip.png" alt="SIP POLIJE" class="footer-partner-img">
+              <img src="assets/images/logo/blu-speed.png" alt="BLU Speed" class="footer-partner-img">
+              <img src="assets/images/logo/sarden-sip.png" alt="Sarden SIP" class="footer-partner-img">
+            </div>
           </section>
           <nav class="site-footer-nav" aria-label="Navigation footer">
             <a href="#hero-section">Beranda</a>

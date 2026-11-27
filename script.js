@@ -12,7 +12,6 @@ const viewport = $(".viewport");
 const content = $(".content");
 const navbar = $("#navbar");
 
-// Kunci scroll viewport bawaan browser pada desktop (mencegah desync dengan translate3d)
 if (viewport) {
     viewport.scrollTop = 0;
     viewport.scrollLeft = 0;

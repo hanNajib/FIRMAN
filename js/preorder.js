@@ -41,19 +41,22 @@
         }
 
         if (typeof Produk !== "undefined" && Array.isArray(Produk) && Produk.length > 0) {
-            return Produk.map((p) => ({
-                id: Number(p.id) || Date.now(),
-                name: p.judul,
-                price: parseInt(String(p.harga).replace(/\D/g, ""), 10) || 20000,
-                img: fixImgPath(p.gambar),
-                desc: p.deskripsi || "",
-            }));
+            return Produk.map((p) => {
+                const unitPrice = parseInt(String(p.harga).replace(/\D/g, ""), 10) || 20000;
+                return {
+                    id: Number(p.id) || Date.now(),
+                    name: p.judul,
+                    price: unitPrice < 100000 ? unitPrice * 24 : unitPrice,
+                    img: fixImgPath(p.gambar),
+                    desc: p.deskripsi || "",
+                };
+            });
         }
         return [
-            { id: 1, name: "Sarden SIP Saus Tomat", price: 20000, img: DEFAULT_IMAGE, desc: "Sehat, lezat dan bergizi, pilihan terbaik olahan sarden TEFA POLIJE" },
-            { id: 2, name: "Sarden SIP Asin",       price: 20000, img: DEFAULT_IMAGE, desc: "Olahan ikan sarden dengan cita rasa asin gurih." },
-            { id: 3, name: "Sarden SIP Saus Cabai", price: 20000, img: DEFAULT_IMAGE, desc: "Ikan sarden bercita rasa pedas yang menggugah selera." },
-            { id: 4, name: "Sarden SIP Saus Tartar",price: 20000, img: DEFAULT_IMAGE, desc: "Saus tartar yang menghadirkan variasi rasa berbeda." },
+            { id: 1, name: "Sarden SIP Saus Tomat", price: 480000, img: DEFAULT_IMAGE, desc: "Sehat, lezat dan bergizi, pilihan terbaik olahan sarden TEFA POLIJE" },
+            { id: 2, name: "Sarden SIP Asin",       price: 480000, img: DEFAULT_IMAGE, desc: "Olahan ikan sarden dengan cita rasa asin gurih." },
+            { id: 3, name: "Sarden SIP Saus Cabai", price: 480000, img: DEFAULT_IMAGE, desc: "Ikan sarden bercita rasa pedas yang menggugah selera." },
+            { id: 4, name: "Sarden SIP Saus Tartar",price: 480000, img: DEFAULT_IMAGE, desc: "Saus tartar yang menghadirkan variasi rasa berbeda." },
         ];
     }
 
@@ -206,9 +209,31 @@
         toastTimer = setTimeout(() => t.classList.remove("show"), 3200);
     }
 
+    function updateCheckoutBar() {
+        const totalQtyEl = $("#checkoutTotalQty");
+        const totalPriceEl = $("#checkoutTotalPrice");
+        const totalQty = cart.reduce((sum, item) => sum + (Number(item.qty) || 0), 0);
+        const totalPrice = cart.reduce((sum, item) => {
+            const p = Number(item.price) || 480000;
+            const dusPrice = p < 100000 ? p * 24 : p;
+            return sum + dusPrice * (Number(item.qty) || 0);
+        }, 0);
+        if (totalQtyEl) totalQtyEl.textContent = totalQty;
+        if (totalPriceEl) totalPriceEl.textContent = formatRupiah(totalPrice);
+    }
+
     function renderCart() {
         const container = $("#cart");
         if (!container) return;
+
+        // Normalisasi harga per dus (24 kaleng)
+        cart.forEach((item) => {
+            if (Number(item.price) > 0 && Number(item.price) < 100000) {
+                item.price = Number(item.price) * 24;
+            }
+        });
+
+        updateCheckoutBar();
 
         if (!cart.length) {
             container.innerHTML = `
@@ -499,6 +524,13 @@
         const hpError = $("#hpError");
         const emailError = $("#emailError");
 
+        // Izinkan scroll native di dalam dialog modal tanpa dicegat virtual scroll window
+        $$("dialog").forEach((d) => {
+            d.addEventListener("wheel", (e) => {
+                e.stopPropagation();
+            }, { passive: true });
+        });
+
         // Perubahan kuantitas produk di keranjang (input number & tombol +/-)
         if (cartEl) {
             cartEl.addEventListener("click", (e) => {
@@ -519,6 +551,7 @@
                         item.qty = current;
                         if (input) input.value = current;
                         PreorderStore.saveCart(cart);
+                        updateCheckoutBar();
                     }
                     return;
                 }
@@ -546,6 +579,7 @@
                         item.qty = val;
                         input.value = val;
                         PreorderStore.saveCart(cart);
+                        updateCheckoutBar();
                     }
                 }
             });
@@ -608,7 +642,47 @@
 
             form1.addEventListener("submit", (e) => {
                 e.preventDefault();
-                if (btnSubmitM1) btnSubmitM1.click();
+                const namaVal = $("#nama")?.value.trim();
+                const hpVal = hpInput?.value.trim();
+                const emailVal = emailInput?.value.trim();
+                const alamatVal = $("#alamat")?.value.trim();
+
+                if (!namaVal) {
+                    toast("Silakan isi nama lengkap Anda");
+                    $("#nama")?.focus();
+                    return;
+                }
+
+                const hpErr = ValidationService.validatePhone(hpVal);
+                const emailErr = ValidationService.validateEmail(emailVal);
+
+                if (hpInput) ValidationService.setFieldError(hpInput, hpError, hpErr);
+                if (emailInput) ValidationService.setFieldError(emailInput, emailError, emailErr);
+
+                if (hpErr) {
+                    hpInput?.focus();
+                    return;
+                }
+
+                if (emailErr) {
+                    emailInput?.focus();
+                    return;
+                }
+
+                if (!alamatVal) {
+                    toast("Silakan isi alamat lengkap Anda");
+                    $("#alamat")?.focus();
+                    return;
+                }
+
+                order.data = {
+                    nama: namaVal,
+                    hp: hpVal,
+                    email: emailVal,
+                    alamat: alamatVal,
+                };
+                PreorderStore.saveCustomer(order.data);
+                showModal("m2", "next");
             });
         }
 
@@ -632,58 +706,6 @@
             });
         }
 
-        // Slider 2: Tombol Modal 1 "Lanjutkan" (Data Diri)
-        if (btnSubmitM1) {
-            setupPreorderSlider(btnSubmitM1, (reset) => {
-                const namaVal = $("#nama")?.value.trim();
-                const hpVal = hpInput?.value.trim();
-                const emailVal = emailInput?.value.trim();
-                const alamatVal = $("#alamat")?.value.trim();
-
-                if (!namaVal) {
-                    toast("Silakan isi nama lengkap Anda");
-                    $("#nama")?.focus();
-                    reset();
-                    return;
-                }
-
-                const hpErr = ValidationService.validatePhone(hpVal);
-                const emailErr = ValidationService.validateEmail(emailVal);
-
-                if (hpInput) ValidationService.setFieldError(hpInput, hpError, hpErr);
-                if (emailInput) ValidationService.setFieldError(emailInput, emailError, emailErr);
-
-                if (hpErr) {
-                    hpInput?.focus();
-                    reset();
-                    return;
-                }
-
-                if (emailErr) {
-                    emailInput?.focus();
-                    reset();
-                    return;
-                }
-
-                if (!alamatVal) {
-                    toast("Silakan isi alamat lengkap Anda");
-                    $("#alamat")?.focus();
-                    reset();
-                    return;
-                }
-
-                order.data = {
-                    nama: namaVal,
-                    hp: hpVal,
-                    email: emailVal,
-                    alamat: alamatVal,
-                };
-                PreorderStore.saveCustomer(order.data);
-                showModal("m2", "next");
-                setTimeout(reset, 400);
-            });
-        }
-
         // Auto-save & submit Modal 2 (Pembayaran)
         if (form2) {
             form2.addEventListener("change", (e) => {
@@ -696,19 +718,11 @@
 
             form2.addEventListener("submit", (e) => {
                 e.preventDefault();
-                if (btnSubmitM2) btnSubmitM2.click();
-            });
-        }
-
-        // Slider 3: Tombol Modal 2 "Lanjutkan" (Pembayaran)
-        if (btnSubmitM2) {
-            setupPreorderSlider(btnSubmitM2, (reset) => {
-                const selectedPay = form2 ? new FormData(form2).get("pay") : "DP";
+                const selectedPay = new FormData(form2).get("pay");
                 order.pay = selectedPay || "DP";
                 PreorderStore.savePayment(order.pay);
                 renderSummary();
                 showModal("m3", "next");
-                setTimeout(reset, 400);
             });
         }
 

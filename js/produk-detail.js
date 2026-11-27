@@ -65,10 +65,16 @@
       };
     }
 
-    if (titleEl) titleEl.textContent = product.judul;
+    if (titleEl) {
+      if (String(product.id) === "1" || product.judul.includes("Saus Tomat")) {
+        titleEl.innerHTML = "Sarden Saus<br/>Saus Tomat";
+      } else {
+        titleEl.textContent = product.judul;
+      }
+    }
     if (descEl && product.deskripsi) descEl.textContent = product.deskripsi;
     if (priceEl && product.harga) {
-      priceEl.innerHTML = `${String(product.harga)} <span class="price-unit">/ kaleng</span>`;
+      priceEl.textContent = product.harga.replace("Rp ", "Rp.");
     }
 
     function updateSubtotal() {
