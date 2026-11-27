@@ -766,13 +766,15 @@
   .about-floating-banner {
     top: auto;
     bottom: 100%;
-    margin-bottom: -1px;
-    width: calc(100% - 24px);
+    margin-bottom: -22px;
+    width: calc(100% - 36px);
     max-width: 500px;
-    min-height: 58px;
-    padding: 0.65rem 0.875rem;
+    min-height: 54px;
+    padding: 0.65rem 0.75rem 1.5rem;
     border-radius: 18px 18px 0 0;
-    gap: 8px;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    gap: 6px;
     box-shadow: none;
   }
 }
@@ -806,12 +808,13 @@
 
 @media (max-width: 768px) {
   .about-trust-item {
-    gap: 6px;
-    font-size: 12.5px;
+    gap: 4px;
+    font-size: 10.5px;
+    font-weight: 600;
   }
 
   .about-trust-item svg {
-    @apply w-5 h-5;
+    @apply w-3.5 h-3.5;
   }
 }
 
@@ -819,21 +822,20 @@
   .about-floating-banner {
     top: auto;
     bottom: 100%;
-    margin-bottom: -1px;
+    margin-bottom: -22px;
     align-items: center;
-    padding: 0.55rem 0.65rem;
-    min-height: 52px;
+    padding: 0.6rem 0.65rem 1.45rem;
+    min-height: 50px;
   }
 
   .about-trust-item {
-    flex: 1 1 0;
-    min-width: 0;
-    gap: 4px;
-    font-size: 11px;
+    flex: 0 0 auto;
+    gap: 3px;
+    font-size: 9.5px;
   }
 
   .about-trust-item svg {
-    @apply w-[18px] h-[18px];
+    @apply w-3.5 h-3.5;
   }
 }
 
@@ -4670,6 +4672,14 @@ body:has(.app) {
   overflow: hidden;
   padding: 112px 24px 48px;
   background: #f7f7f7;
+  justify-content: center;
+  align-items: center;
+}
+
+.berita-hero,
+.produk-hero {
+  justify-content: center;
+  align-items: center;
 }
 
 .galeri-hero::before {
@@ -7168,6 +7178,7 @@ dialog#m3[data-transition][open] .modal-body {
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }
@@ -7246,7 +7257,7 @@ dialog .pay-option:has(input:checked) {
   box-shadow: none;
 }
 
-dialog .pay-option input:checked ~ .mark {
+dialog .pay-option input:checked~.mark {
   @apply border-primary bg-primary;
   box-shadow: inset 0 0 0 4px #ffffff;
 }
@@ -7265,4 +7276,200 @@ dialog .summary .total {
 
 dialog .summary .total b {
   @apply text-lg font-semibold text-primary;
+}
+
+/* ==========================================================================
+   Clean Editorial Polish for Berita Detail (page/berita/detail.html)
+   ========================================================================== */
+.detail .berita-detail-container {
+  @apply max-w-[1140px] mx-auto pt-6 pb-12 px-5 sm:px-6 box-border;
+  font-family: var(--font-poppins);
+}
+
+.berita-breadcrumb {
+  @apply flex items-center flex-wrap gap-1.5 text-xs font-medium text-[#666666] mb-2.5;
+}
+
+.berita-breadcrumb a {
+  @apply text-[#666666] no-underline transition-colors duration-150 hover:text-primary;
+}
+
+.berita-breadcrumb .current {
+  @apply text-text-main font-semibold;
+}
+
+.detail .cat {
+  @apply inline-block text-xs font-semibold uppercase tracking-wider text-primary no-underline transition-colors duration-150 hover:text-primary-hover;
+}
+
+.detail h1#detailTitle {
+  @apply font-semibold leading-[1.25] text-text-main mt-1.5 mb-1.5 tracking-[-0.015em];
+  font-size: clamp(22px, 3vw, 32px);
+}
+
+.detail .dateHeadline {
+  @apply text-xs sm:text-sm text-[#666666] mt-0 mb-4;
+}
+
+.detail .cover {
+  @apply w-full rounded-2xl object-cover border border-[#eeeeee] mb-6 bg-[#f8f8f8];
+  aspect-ratio: 16 / 9;
+  max-height: 460px;
+}
+
+.detail .layout {
+  @apply grid grid-cols-1 gap-8 lg:gap-10 items-start;
+}
+
+@media (min-width: 1024px) {
+  .detail .layout {
+    grid-template-columns: minmax(0, 1fr) 320px;
+  }
+}
+
+.detail .article {
+  @apply text-[14.5px] sm:text-[15px] leading-[1.75] text-[#333333] min-w-0;
+}
+
+.detail .article p {
+  @apply mb-4 last:mb-0;
+}
+
+.detail .article h2,
+.detail .article h3 {
+  @apply font-semibold text-text-main mt-6 mb-2.5;
+}
+
+.detail .sidebar {
+  @apply bg-[#fafafa] border border-[#eeeeee] rounded-2xl p-5;
+}
+
+.detail .sidebar h2 {
+  @apply text-base font-semibold text-text-main mt-0 mb-4 pb-2.5 border-b border-[#eeeeee];
+}
+
+.detail .related {
+  @apply mt-12 pt-10 border-t border-[#eeeeee];
+}
+
+.detail .related .others-header {
+  @apply flex flex-col sm:flex-row sm:items-end justify-between gap-3 sm:gap-4 mb-6;
+}
+
+.detail .related h2 {
+  @apply text-lg sm:text-xl font-semibold text-text-main m-0;
+}
+
+.detail .related .cards {
+  @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5;
+}
+
+.detail .related .card {
+  @apply bg-white border border-[#eeeeee] rounded-[14px] overflow-hidden flex flex-col transition-colors duration-200 hover:border-[#d4d4d4];
+}
+
+.detail .related .card img {
+  @apply w-full object-cover block;
+  aspect-ratio: 16 / 10;
+}
+
+.detail .related .card-body {
+  @apply p-4 flex flex-col flex-1;
+}
+
+.detail .related .card h3 {
+  @apply text-sm font-semibold text-text-main leading-snug m-0 mb-1.5;
+}
+
+.detail .related .card p {
+  @apply text-xs text-[#666666] leading-relaxed m-0 mb-3;
+}
+
+.detail .related .card time {
+  @apply text-[11px] text-[#888888] mt-auto;
+}
+
+.detail .sidebar .side-item {
+  @apply border-b border-[#eeeeee] pb-3 mb-3 last:border-b-0 last:pb-0 last:mb-0;
+}
+
+.detail .sidebar .side-item a {
+  @apply text-[13px] font-semibold text-text-main no-underline leading-snug block mb-1 transition-colors duration-150 hover:text-primary;
+}
+
+.detail .sidebar .side-item time {
+  @apply text-[11px] text-[#888888];
+}
+
+/* Center Hero Content on Berita & Produk Index */
+.berita-hero,
+.produk-hero {
+  display: flex !important;
+  flex-direction: column;
+  justify-content: center !important;
+  align-items: center !important;
+  text-align: center;
+}
+
+.berita-hero-content,
+.produk-hero-content {
+  margin-inline: auto;
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .hero,
+  .berita-hero,
+  .galeri-hero,
+  .produk-hero {
+    min-height: auto !important;
+    height: auto !important;
+  }
+
+  .berita-hero,
+  .galeri-hero,
+  .produk-hero {
+    padding: 104px 20px 84px !important;
+  }
+
+  .sheet {
+    margin-top: -40px !important;
+    padding-top: 36px !important;
+    border-radius: 32px 32px 0 0 !important;
+  }
+
+  .search {
+    margin-top: 28px !important;
+    gap: 10px !important;
+    flex-wrap: wrap;
+  }
+
+  .search input,
+  .search select {
+    height: 46px !important;
+    font-size: 14px !important;
+    padding: 0 14px !important;
+    border: 1px solid #e5e7eb !important;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06) !important;
+  }
+
+  .search input {
+    flex: 1 1 100% !important;
+  }
+
+  .search select {
+    flex: 1 1 0% !important;
+    width: auto !important;
+  }
+
+  .search button {
+    width: 48px !important;
+    height: 46px !important;
+    flex-shrink: 0;
+  }
+
+  .search button svg {
+    width: 20px;
+    height: 20px;
+  }
 }
