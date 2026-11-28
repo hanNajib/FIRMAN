@@ -123,6 +123,13 @@
         <div class="content">
             <main class="detail">
                 <div class="berita-detail-container">
+                    <nav class="berita-breadcrumb" aria-label="Breadcrumb">
+                        <a href="../../index.html#hero-section">Beranda</a>
+                        <span aria-hidden="true">/</span>
+                        <a href="index.html">Berita</a>
+                        <span aria-hidden="true">/</span>
+                        <span class="current">Detail Berita</span>
+                    </nav>
 
                     <a class="cat" id="detailCategory" href="index.html"></a>
                     <h1 id="detailTitle"></h1>
@@ -137,8 +144,14 @@
                         </aside>
                     </div>
 
-                    <section class="related">
-                        <h2>Berita Lainnya</h2>
+                    <section class="related" aria-labelledby="relatedHeading">
+                        <div class="others-header">
+                            <div class="others-title-wrap">
+                                <div class="others-accent-bar" aria-hidden="true"></div>
+                                <h2 id="relatedHeading">Berita Lainnya</h2>
+                            </div>
+                            <a href="index.html" class="btn-view-all">Lihat Semua Berita &gt;</a>
+                        </div>
                         <div class="cards" id="detailRelatedCards"></div>
                     </section>
 
@@ -151,7 +164,7 @@
             <footer class="site-footer">
                 <div class="site-footer-main">
                     <section class="site-footer-brand">
-                        <a href="#hero-section" class="site-footer-logo">
+                        <a href="../../index.html#hero-section" class="site-footer-logo">
                             <img src="../../assets/logo-footer.svg" alt="" />
                             <span>
                                 <strong>Firman</strong>
@@ -171,8 +184,8 @@
                                 class="footer-partner-img">
                             <img src="../../assets/images/logo/jti-logo.png" alt="Jurusan Teknologi Informasi POLIJE"
                                 class="footer-partner-img">
-                            <img src="../../assets//images/logo/polije-sip.png" alt="SIP POLIJE" class="footer-partner-img">
-                            <img src="../../assets//images/logo/blu-speed.png" alt="BLU Speed" class="footer-partner-img">
+                            <img src="../../assets/images/logo/polije-sip.png" alt="SIP POLIJE" class="footer-partner-img">
+                            <img src="../../assets/images/logo/blu-speed.png" alt="BLU Speed" class="footer-partner-img">
                             <img src="../../assets//images/logo/sarden-sip.png" alt="Sarden SIP" class="footer-partner-img">
                         </div>
                     </section>
